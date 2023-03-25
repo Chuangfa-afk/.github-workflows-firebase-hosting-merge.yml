@@ -1,4 +1,5 @@
 Game Name: Infinite Night
+
 Welcome to Infinite Night, a thrilling action-adventure game that will take you on a journey through a dark and mysterious world.
 
 Firebase URL:
