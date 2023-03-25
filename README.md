@@ -24,21 +24,14 @@ How to Play:
 This game will be played using a mouse and keyboard. Once started, use the following:
 
 Mouse Movement - Look around
-
 Left Mouse Button - Interact with objects
-
 Right Mouse Button - Inspect objects
-
 ESC - Pause the game and access the game menu
 
 We might think about adding the key W,A,S,D to have more interaction but have not decided yet.
-
 W - Move Forward
-
 A - Strafe Left
-
 S - Move Backward
-
 D - Strafe Right
 
 
