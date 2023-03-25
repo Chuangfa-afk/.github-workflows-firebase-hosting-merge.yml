@@ -3,7 +3,10 @@ Game Name: Infinite Night
 Welcome to Infinite Night, a thrilling action-adventure game that will take you on a journey through a dark and mysterious world.
 
 Firebase URL:
-https://infinite-night.firebaseapp.com/benchmark1
+https://infinite-night.firebaseapp.com/benchmark1 - your game design document Web page
+https://infinite-night.firebaseapp.com/benchmark2 - your first deployed build, will include core gameplay and a complete user interface
+https://infinite-night.firebaseapp.com/benchmark3 - your second build, will include refined gameplay with multiple levels and sound and music
+https://infinite-night.firebaseapp.com/benchmark4 - your completed game, with all required levels and lots of fun
 
 Game Description:
 Infinite Night" is designed to be a unique, 2D first-person point-and-click puzzle game. The game will feature interesting mechanics, challenging puzzles, and an engaging storyline that will keep players entertained and intrigued. The game will utilize a variety of techniques, such as immersive environments, interactive elements, and dynamic changes based on the player's actions.
