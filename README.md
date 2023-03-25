@@ -36,4 +36,4 @@ D - Strafe Right
 
 
 Credits:
-Infinite Night was created by CChuangfa Liang, Jack Manning, Isabella Misanes.
+Infinite Night was created by Chuangfa Liang, Jack Manning, Isabella Misanes.
