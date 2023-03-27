@@ -5,6 +5,7 @@ Welcome to Infinite Night, a thrilling action-adventure game that will take you 
 Firebase URL:
 https://infinite-night.firebaseapp.com/benchmark1
 
+
 Game Description:
 Infinite Night" is designed to be a unique, 2D first-person point-and-click puzzle game. The game will feature interesting mechanics, challenging puzzles, and an engaging storyline that will keep players entertained and intrigued. The game will utilize a variety of techniques, such as immersive environments, interactive elements, and dynamic changes based on the player's actions.
 
