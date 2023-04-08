@@ -7,6 +7,11 @@ import Idle from "./PlayerStates/Idle";
 import Jump from "./PlayerStates/Jump";
 import Run from "./PlayerStates/Run";
 
+import Facingf from "./PlayerStates/Facingf";
+import Facingl from "./PlayerStates/Facingl";
+import Facingr from "./PlayerStates/Facingr";
+import Facingb from "./PlayerStates/Facingb";
+
 import PlayerWeapon from "./PlayerWeapon";
 import Input from "../../Wolfie2D/Input/Input";
 
@@ -17,12 +22,13 @@ import { HW3Events } from "../HW3Events";
 import Dead from "./PlayerStates/Dead";
 
 /**
- * Animation keys for the player spritesheet
+ * Animation keys for the world spritesheet
  */
 export const PlayerAnimations = {
-    IDLE: "IDLE",
-    WALK: "WALK",
-    JUMP: "JUMP",
+    FACINGF: "FACINGF",
+    FACINGL: "FACINGL",
+    FACINGR: "FACINGR",
+    FACINGB: "FACINGB",
 } as const
 
 /**
@@ -37,11 +43,15 @@ export const PlayerTweens = {
  * Keys for the states the PlayerController can be in.
  */
 export const PlayerStates = {
-    IDLE: "IDLE",
+    /*IDLE: "IDLE",
     RUN: "RUN",
 	JUMP: "JUMP",
-    FALL: "FALL",
+    FALL: "FALL",*/
     DEAD: "DEAD",
+    FACINGF: "FACINGF",
+    FACINGL: "FACINGL",
+    FACINGR: "FACINGR",
+    FACINGB: "FACINGB",
 } as const
 
 /**
@@ -79,14 +89,18 @@ export default class PlayerController extends StateMachineAI {
         this.maxHealth = 10;
 
         // Add the different states the player can be in to the PlayerController 
-		this.addState(PlayerStates.IDLE, new Idle(this, this.owner));
+		/*this.addState(PlayerStates.IDLE, new Idle(this, this.owner));
 		this.addState(PlayerStates.RUN, new Run(this, this.owner));
         this.addState(PlayerStates.JUMP, new Jump(this, this.owner));
-        this.addState(PlayerStates.FALL, new Fall(this, this.owner));
+        this.addState(PlayerStates.FALL, new Fall(this, this.owner));*/
         this.addState(PlayerStates.DEAD, new Dead(this, this.owner));
+        this.addState(PlayerStates.FACINGF, new Facingf(this, this.owner));
+        this.addState(PlayerStates.FACINGL, new Facingl(this, this.owner));
+        this.addState(PlayerStates.FACINGR, new Facingr(this, this.owner));
+        this.addState(PlayerStates.FACINGB, new Facingb(this, this.owner));
         
         // Start the player in the Idle state
-        this.initialize(PlayerStates.IDLE);
+        this.initialize(PlayerStates.FACINGF);
     }
 
     /** 
