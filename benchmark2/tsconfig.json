@@ -1,9 +1,10 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "strict": true,
-    "esModuleInterop": true
-  },
-  "include": ["*.ts"]
+    "include": [
+        "src/**/*",
+        "src/*"
+    ],
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "target": "es2016"
+    }
 }
