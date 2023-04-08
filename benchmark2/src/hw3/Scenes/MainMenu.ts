@@ -5,6 +5,7 @@ import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
 import Level1 from "./HW3Level1";
+import Layer from "../../Wolfie2D/Scene/Layer";
 
 
 // Layers for the main menu scene
@@ -17,13 +18,23 @@ export default class MainMenu extends Scene {
     public static readonly MUSIC_KEY = "MAIN_MENU_MUSIC";
     public static readonly MUSIC_PATH = "hw4_assets/music/menu.mp3";
 
+    private mainMenu: Layer;
+    private splashScreen: Layer;
+
     public loadScene(): void {
         // Load the menu song
         this.load.audio(MainMenu.MUSIC_KEY, MainMenu.MUSIC_PATH);
+        this.load.image("BACKGROUND", "Level1_assets/Splash_Screen.png");
     }
 
     public startScene(): void {
-        this.addUILayer(MenuLayers.MAIN);
+        let center = this.viewport.getCenter();
+        this.splashScreen = this.addUILayer("splashScreen");
+        this.addParallaxLayer("bg", new Vec2(0.5, 1), -1);
+        let bg = this.add.sprite("BACKGROUND", "splashScreen");
+        bg.position.set(center.x, center.y);
+
+        this.mainMenu = this.addUILayer("mainMenu");
 
         // Center the viewport
         let size = this.viewport.getHalfSize();
@@ -31,7 +42,7 @@ export default class MainMenu extends Scene {
         this.viewport.setZoomLevel(1);
 
         // Create a play button
-        let playBtn = <Button>this.add.uiElement(UIElementType.BUTTON, MenuLayers.MAIN, {position: new Vec2(size.x, size.y), text: "Play Game"});
+        let playBtn = <Button>this.add.uiElement(UIElementType.BUTTON, "splashScreen", {position: new Vec2(size.x, size.y), text: "Play Game"});
         playBtn.backgroundColor = Color.TRANSPARENT;
         playBtn.borderColor = Color.WHITE;
         playBtn.borderRadius = 0;
