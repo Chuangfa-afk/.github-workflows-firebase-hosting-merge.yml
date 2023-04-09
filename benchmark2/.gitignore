@@ -13,4 +13,7 @@ dist/*
 # Include the hw4 assets
 !dist/hw4_assets/
 
+# Include Level1_assets folder
+!dist/Level1_assets/
+
 
