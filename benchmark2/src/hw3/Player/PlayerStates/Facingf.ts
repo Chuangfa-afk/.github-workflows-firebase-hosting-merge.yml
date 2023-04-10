@@ -10,6 +10,7 @@ export default class Facingf extends PlayerState {
 	protected emitter: Emitter = new Emitter();
 	//Shows if clock1 is visible
 	protected clock1: Boolean = false;
+	protected keypad: Boolean = false;
 	protected timer: Timer = new Timer(100);
 	
 	public onEnter(options: Record<string, any>): void {
@@ -38,6 +39,17 @@ export default class Facingf extends PlayerState {
 		else if(this.timer.isStopped() && this.clock1 && Input.isMouseJustPressed() && ((Input.getMousePosition().y > 165 && Input.getMousePosition().y < 650) && (Input.getMousePressPosition().x > 375 && Input.getMousePosition().x < 850))) { //Hide Clock1
 			this.clock1 = false;
 			this.emitter.fireEvent(Level1Events.CLOCK1HIDE);
+		}
+		else if(!this.keypad && !this.clock1 && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 400 && Input.getMousePressPosition().y < 480) && (Input.getMousePressPosition().x > 300 && Input.getMousePressPosition().x < 440)) {
+			this.emitter.fireEvent(Level1Events.KEYPAD);
+			if(!this.keypad) {
+				this.keypad = true;
+				this.timer.start(100);
+			}
+		}
+		else if(this.timer.isStopped() && this.keypad && Input.isMouseJustPressed()) { //Hide keypad
+			this.keypad = false;
+			this.emitter.fireEvent(Level1Events.KEYPADHIDE);
 		}
         // Otherwise, do nothing (keep idling)
 		

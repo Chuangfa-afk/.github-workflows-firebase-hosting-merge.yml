@@ -23,6 +23,8 @@ import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 export const Level1Events = {
     CLOCK1: "CLOCK1",
     CLOCK1HIDE: "CLOCK1HIDE",
+    KEYPAD: "KEYPAD",
+    KEYPADHIDE: "KEYPADHIDE",
 } as const;
 /**
  * The first level for HW4 - should be the one with the grass and the clouds.
@@ -55,7 +57,7 @@ export default class Level1 extends HW3Level {
     public line1: Label;
 
     protected emitter: Emitter;
-    private isClock1Visible: Boolean = false;
+    public hasId: Boolean = false;
 
     public static readonly LEVEL_END = new AABB(new Vec2(224, 232), new Vec2(24, 16));
 
@@ -87,6 +89,8 @@ export default class Level1 extends HW3Level {
         //Subscribe to event
         this.receiver.subscribe(Level1Events.CLOCK1);
         this.receiver.subscribe(Level1Events.CLOCK1HIDE);
+        this.receiver.subscribe(Level1Events.KEYPAD);
+        this.receiver.subscribe(Level1Events.KEYPADHIDE);
 
         this.background = this.addUILayer("background");
         this.addParallaxLayer("BACKGROUND", new Vec2(0.5, 1), -1);
@@ -113,6 +117,14 @@ export default class Level1 extends HW3Level {
             }
             case Level1Events.CLOCK1HIDE: {
                 this.handleClock1Hide(event);
+                break;
+            }
+            case Level1Events.KEYPAD: {
+                this.handleKeypadPress(event);
+                break;
+            }
+            case Level1Events.KEYPADHIDE: {
+                this.handleKeypadHide(event);
                 break;
             }
             case HW3Events.LEVEL_START: {
@@ -143,7 +155,6 @@ export default class Level1 extends HW3Level {
         this.primary.position.set(350, 380);
         this.primary.scale = new Vec2(0.25, 0.25);
         this.primary.visible = false;
-        this.isClock1Visible = false;
 
         this.dialogue = <Rect>this.add.graphic(GraphicType.RECT, HW3Layers.PRIMARY, { position: new Vec2(400, 500), size: new Vec2(1000, 100) });
         this.dialogue.scale = new Vec2(0.5, 0.5);
@@ -152,8 +163,7 @@ export default class Level1 extends HW3Level {
     }
 
     protected handleClock1Press(event: GameEvent): void {
-        if(!this.isClock1Visible) {
-            this.isClock1Visible = true;
+        if(!this.primary.visible) {
             this.primary.visible = true;
             this.dialogue.visible = true;
             
@@ -165,9 +175,26 @@ export default class Level1 extends HW3Level {
     }
 
     protected handleClock1Hide(event: GameEvent): void {
-        if(this.isClock1Visible) {
+        if(this.primary.visible) {
             this.primary.visible = false;
-            this.isClock1Visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+        }
+    }
+
+    protected handleKeypadPress(event: GameEvent): void {
+        if(!this.dialogue.visible && !this.hasId) {
+            this.dialogue.visible = true;
+
+            const text1 = "I don't have my ID on me. Maybe there's one lying around...";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+
+    protected handleKeypadHide(event: GameEvent): void {
+        if(this.dialogue.visible) {
             this.dialogue.visible = false;
             this.line1.visible = false;
         }
