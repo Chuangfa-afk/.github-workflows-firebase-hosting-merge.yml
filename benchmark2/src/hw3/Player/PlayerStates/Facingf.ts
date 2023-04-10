@@ -2,9 +2,16 @@ import { PlayerStates, PlayerAnimations } from "../PlayerController";
 import PlayerState from "./PlayerState";
 import Input from "../../../Wolfie2D/Input/Input";
 import { HW3Controls } from "../../HW3Controls";
+import Emitter from "../../../Wolfie2D/Events/Emitter";
+import { Level1Events } from "../../Scenes/HW3Level1";
+import Timer from "../../../Wolfie2D/Timing/Timer";
 
 export default class Facingf extends PlayerState {
-
+	protected emitter: Emitter = new Emitter();
+	//Shows if clock1 is visible
+	protected clock1: Boolean;
+	protected timer: Timer = new Timer(100);
+	
 	public onEnter(options: Record<string, any>): void {
         this.owner.animation.play(PlayerAnimations.FACINGF);
 	}
@@ -17,12 +24,25 @@ export default class Facingf extends PlayerState {
 			this.finished(PlayerStates.FACINGL);
 		} 
         // If the player clicks right, go to Facingr
-        else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+        else if (!this.clock1 && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
             this.finished(PlayerStates.FACINGR);
         } else if (Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 190 && Input.getMousePressPosition().y < 320) && (Input.getMousePressPosition().x > 900 && Input.getMousePressPosition().x < 1000)) { //Clock1
-            console.log("test1")
+			this.emitter.fireEvent(Level1Events.CLOCK1);
+			if(!this.clock1) {
+				this.clock1 = true;
+				this.timer.start(100);
+			}
         }
-
+		if(this.timer.isStopped() && this.clock1 && Input.isMouseJustPressed()) {
+			console.log("test");
+			console.log(Input.getMousePosition());
+			console.log(Input.getMousePosition().y > 165 && Input.getMousePosition().y < 650);
+			console.log(Input.getMousePressPosition().x > 375 && Input.getMousePosition().x < 850);
+		}
+		if(this.timer.isStopped() && this.clock1 && Input.isMouseJustPressed() && ((Input.getMousePosition().y > 165 && Input.getMousePosition().y < 650) && (Input.getMousePressPosition().x > 375 && Input.getMousePosition().x < 850))) { //Hide Clock1
+			this.clock1 = false;
+			this.emitter.fireEvent(Level1Events.CLOCK1HIDE);
+		}
         // Otherwise, do nothing (keep idling)
 		
 	}
