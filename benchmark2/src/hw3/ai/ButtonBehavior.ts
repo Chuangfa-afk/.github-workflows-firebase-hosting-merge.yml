@@ -10,7 +10,7 @@ import { HW3Controls } from "../HW3Controls";
 import { HW3Events } from "../HW3Events";
 import Emitter from "../../Wolfie2D/Events/Emitter";
 
-export const LeftAnimations = {
+export const ButtonAnimations = {
     IDLE: "IDLE",
     CLICK: "CLICK"
 } as const;
@@ -19,10 +19,11 @@ export const LeftAnimations = {
  * A class that represents a set of behavior for the mines.
  * @author PeteyLumpkins
  */
-export default class LeftButtonBehavior implements AI {
+export default class ButtonBehavior implements AI {
     private owner: AnimatedSprite;
     private receiver: Receiver;
     private emitter: Emitter;
+    private isLeft: Boolean;
 
     /**
      * @see {AI.initializeAI}
@@ -33,6 +34,10 @@ export default class LeftButtonBehavior implements AI {
 
         this.receiver = new Receiver();
         this.receiver.subscribe(HW3Events.LEFT);
+        this.receiver.subscribe(HW3Events.RIGHT)
+
+        this.isLeft = options.isLeft;
+        console.log(this.isLeft);
 
         this.activate(options);
     }
@@ -40,7 +45,8 @@ export default class LeftButtonBehavior implements AI {
      * @see {AI.activate}
      */
     activate(options: Record<string, any>): void {
-        this.owner.animation.play(LeftAnimations.IDLE, true);
+        this.owner.animation.play(ButtonAnimations.IDLE, true);
+        
         this.receiver.ignoreEvents();
     }
     /**
@@ -50,6 +56,10 @@ export default class LeftButtonBehavior implements AI {
         switch(event.type) {
             case HW3Events.LEFT: {
                 this.handleGoLeft(event);
+                break;
+            }
+            case HW3Events.RIGHT: {
+                this.handleGoRight(event);
                 break;
             }
             default: {
@@ -62,8 +72,11 @@ export default class LeftButtonBehavior implements AI {
      * @see {Updatable.update}
      */
     update(deltaT: number): void {
-        if(Input.isPressed(HW3Controls.MOVE_LEFT)) {
+        if(this.isLeft && Input.isPressed(HW3Controls.MOVE_LEFT)) {
             this.emitter.fireEvent(HW3Events.LEFT);
+        }
+        if(!this.isLeft && Input.isPressed(HW3Controls.MOVE_RIGHT)) {
+            this.emitter.fireEvent(HW3Events.RIGHT);
         }
         while (this.receiver.hasNextEvent()) {
             this.handleEvent(this.receiver.getNextEvent());
@@ -78,8 +91,14 @@ export default class LeftButtonBehavior implements AI {
     }  
 
     protected handleGoLeft(event: GameEvent): void {
-        console.log("Going Left");
-        this.owner.animation.play(LeftAnimations.CLICK, false);
+        if(this.isLeft) {
+            this.owner.animation.play(ButtonAnimations.CLICK, false);
+        }
+    }
+    protected handleGoRight(event: GameEvent): void {
+        if(!this.isLeft) {
+            this.owner.animation.play(ButtonAnimations.CLICK, false);
+        }
     }
 }
 

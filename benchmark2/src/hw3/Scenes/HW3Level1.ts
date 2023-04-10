@@ -7,7 +7,6 @@ import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
 import HW4Level2 from "./HW3Level2";
 import Layer from "../../Wolfie2D/Scene/Layer";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-import LeftButtonBehavior from "../ai/LeftButtonBehavior";
 
 /**
  * The first level for HW4 - should be the one with the grass and the clouds.
@@ -24,7 +23,10 @@ export default class Level1 extends HW3Level {
     public static readonly BACKGROUND_PATH = "Level1_assets/Level_1.png";
 
     public static LEFT_KEY: string = "LEFT";
-    public static LEFT_PATH = "Level1_assets/spritesheets/Left Button.json"
+    public static LEFT_PATH = "Level1_assets/spritesheets/Left Button.json";
+
+    public static RIGHT_KEY: string = "RIGHT";
+    public static RIGHT_PATH = "Level1_assets/spritesheets/Right Button.json";
 
     protected background: Layer;
     public ui: Layer;
@@ -42,6 +44,7 @@ export default class Level1 extends HW3Level {
     public loadScene(): void {
         this.load.image(Level1.BACKGROUND_KEY, Level1.BACKGROUND_PATH);
         this.load.spritesheet(Level1.LEFT_KEY, Level1.LEFT_PATH);
+        this.load.spritesheet(Level1.RIGHT_KEY, Level1.RIGHT_PATH);
     }
 
     /**
