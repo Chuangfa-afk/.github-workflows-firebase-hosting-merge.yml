@@ -7,10 +7,6 @@ export default class Facingf extends PlayerState {
 
 	public onEnter(options: Record<string, any>): void {
         this.owner.animation.play(PlayerAnimations.FACINGF);
-		/*this.parent.speed = this.parent.MIN_SPEED;
-
-        this.parent.velocity.x = 0;
-        this.parent.velocity.y = 0;*/
 	}
 
 	public update(deltaT: number): void {

@@ -7,6 +7,8 @@ import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
 import HW4Level2 from "./HW3Level2";
 import Layer from "../../Wolfie2D/Scene/Layer";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import HW3AnimatedSprite from "../Nodes/HW3AnimatedSprite";
+import PlayerController from "../Player/PlayerController";
 
 /**
  * The first level for HW4 - should be the one with the grass and the clouds.
@@ -20,7 +22,7 @@ export default class Level1 extends HW3Level {
     public static readonly WALLS_LAYER_KEY = "Main";
 
     public static readonly BACKGROUND_KEY = "BACKGROUND";
-    public static readonly BACKGROUND_PATH = "Level1_assets/Level_1.png";
+    public static readonly BACKGROUND_PATH = "Level1_assets/Level_1.json";
 
     public static LEFT_KEY: string = "LEFT";
     public static LEFT_PATH = "Level1_assets/spritesheets/Left Button.json";
@@ -30,6 +32,7 @@ export default class Level1 extends HW3Level {
 
     protected background: Layer;
     public ui: Layer;
+    public bg: HW3AnimatedSprite;
     
 
     public static readonly LEVEL_END = new AABB(new Vec2(224, 232), new Vec2(24, 16));
@@ -42,7 +45,7 @@ export default class Level1 extends HW3Level {
      * Load in our resources for level 1
      */
     public loadScene(): void {
-        this.load.image(Level1.BACKGROUND_KEY, Level1.BACKGROUND_PATH);
+        this.load.spritesheet(Level1.BACKGROUND_KEY, Level1.BACKGROUND_PATH);
         this.load.spritesheet(Level1.LEFT_KEY, Level1.LEFT_PATH);
         this.load.spritesheet(Level1.RIGHT_KEY, Level1.RIGHT_PATH);
     }
@@ -59,9 +62,10 @@ export default class Level1 extends HW3Level {
     public startScene(): void {
         this.background = this.addUILayer("background");
         this.addParallaxLayer("BACKGROUND", new Vec2(0.5, 1), -1);
-        let bg = this.add.sprite("BACKGROUND", "BACKGROUND");
-        bg.position.set(600, 400);
-        bg.scale = new Vec2(0.25, 0.25);
+        this.bg = this.add.animatedSprite(Level1.BACKGROUND_KEY, HW3Layers.BACKGROUND);
+        this.bg.position.set(248, 400);
+        this.bg.scale = new Vec2(0.25, 0.25);
+        this.bg.addAI(PlayerController);
         super.startScene();
         // Set the next level to be Level2
         this.nextLevel = HW4Level2;
