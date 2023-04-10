@@ -9,6 +9,7 @@ import Timer from "../../Wolfie2D/Timing/Timer";
 import { HW3Controls } from "../HW3Controls";
 import { HW3Events } from "../HW3Events";
 import Emitter from "../../Wolfie2D/Events/Emitter";
+import { Level1Events } from "../Scenes/HW3Level1";
 
 export const ButtonAnimations = {
     IDLE: "IDLE",
@@ -24,6 +25,7 @@ export default class ButtonBehavior implements AI {
     private receiver: Receiver;
     private emitter: Emitter;
     private isLeft: Boolean;
+    private isClock1Visible: Boolean = false;
 
     /**
      * @see {AI.initializeAI}
@@ -34,10 +36,11 @@ export default class ButtonBehavior implements AI {
 
         this.receiver = new Receiver();
         this.receiver.subscribe(HW3Events.LEFT);
-        this.receiver.subscribe(HW3Events.RIGHT)
+        this.receiver.subscribe(HW3Events.RIGHT);
+        this.receiver.subscribe(Level1Events.CLOCK1);
+        this.receiver.subscribe(Level1Events.CLOCK1HIDE);
 
         this.isLeft = options.isLeft;
-        console.log(this.isLeft);
 
         this.activate(options);
     }
@@ -62,6 +65,14 @@ export default class ButtonBehavior implements AI {
                 this.handleGoRight(event);
                 break;
             }
+            case Level1Events.CLOCK1: {
+                this.isClock1Visible = true;
+                break;
+            }
+            case Level1Events.CLOCK1HIDE: {
+                this.isClock1Visible = false;
+                break;
+            }
             default: {
                 throw new Error("Unhandled event in MineBehavior! Event type: " + event.type);
             }
@@ -72,10 +83,10 @@ export default class ButtonBehavior implements AI {
      * @see {Updatable.update}
      */
     update(deltaT: number): void {
-        if(this.isLeft && Input.isPressed(HW3Controls.MOVE_LEFT)) {
+        if(!this.isClock1Visible && this.isLeft && Input.isPressed(HW3Controls.MOVE_LEFT)) {
             this.emitter.fireEvent(HW3Events.LEFT);
         }
-        if(!this.isLeft && Input.isPressed(HW3Controls.MOVE_RIGHT)) {
+        if(!this.isClock1Visible && !this.isLeft && Input.isPressed(HW3Controls.MOVE_RIGHT)) {
             this.emitter.fireEvent(HW3Events.RIGHT);
         }
         while (this.receiver.hasNextEvent()) {
