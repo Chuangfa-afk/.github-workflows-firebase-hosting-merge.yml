@@ -19,8 +19,8 @@ export default class Facingf extends PlayerState {
         // If the player clicks right, go to Facingr
         else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
             this.finished(PlayerStates.FACINGR);
-        } else {
-            // Update anything necessairy 
+        } else if (Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 190 && Input.getMousePressPosition().y < 320) && (Input.getMousePressPosition().x > 900 && Input.getMousePressPosition().x < 1000)) { //Clock1
+            console.log("test1")
         }
 
         // Otherwise, do nothing (keep idling)
