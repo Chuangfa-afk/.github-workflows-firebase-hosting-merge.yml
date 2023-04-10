@@ -21,11 +21,11 @@ export default class Facingf extends PlayerState {
         // Adjust anything needed
 
         // If the player clicks left, go to Facingl
-		if (!this.clock1 && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+		if (!this.clock1 && !this.keypad && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
 			this.finished(PlayerStates.FACINGL);
 		} 
         // If the player clicks right, go to Facingr
-        else if (!this.clock1 && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+        else if (!this.clock1 && !this.keypad && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
             this.finished(PlayerStates.FACINGR);
         } 
 		
