@@ -50,11 +50,6 @@ export default abstract class HW3Level extends Scene {
     /** Overrride the factory manager */
     public add: HW3FactoryManager;
 
-    private healthLabel: Label;
-	private healthBar: Label;
-	private healthBarBg: Label;
-
-
 
     protected levelEndArea: Rect;
     protected nextLevel: new (...args: any) => Scene;
@@ -65,16 +60,6 @@ export default abstract class HW3Level extends Scene {
     protected levelTransitionTimer: Timer;
     protected levelTransitionScreen: Rect;
 
-    /** The keys to the tilemap and different tilemap layers */
-    protected tilemapKey: string;
-    protected destructibleLayerKey: string;
-    protected wallsLayerKey: string;
-    /** The scale for the tilemap */
-    protected tilemapScale: Vec2;
-    /** The destrubtable layer of the tilemap */
-    protected destructable: OrthogonalTilemap;
-    /** The wall layer of the tilemap */
-    protected walls: OrthogonalTilemap;
 
     /** Sound and music */
     protected levelMusicKey: string;
@@ -85,21 +70,7 @@ export default abstract class HW3Level extends Scene {
     private rButton: AnimatedSprite;
 
     public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
-        super(viewport, sceneManager, renderingManager, {...options, physics: {
-            groupNames: [
-                HW3PhysicsGroups.GROUND, 
-                HW3PhysicsGroups.PLAYER, 
-                HW3PhysicsGroups.PLAYER_WEAPON, 
-                HW3PhysicsGroups.DESTRUCTABLE
-            ],
-            collisions:
-            [
-                [0, 1, 1, 0],
-                [1, 0, 0, 1],
-                [1, 0, 0, 1],
-                [0, 1, 1, 0],
-            ]
-        }});
+        super(viewport, sceneManager, renderingManager, {...options, physics: {}});
         this.add = new HW3FactoryManager(this, this.tilemaps);
     }
 
@@ -165,10 +136,6 @@ export default abstract class HW3Level extends Scene {
             case HW3Events.PARTICLE_HIT_DESTRUCTIBLE: {
                 break;
             }
-            case HW3Events.HEALTH_CHANGE: {
-                this.handleHealthChange(event.data.get("curhp"), event.data.get("maxhp"));
-                break;
-            }
             case HW3Events.PLAYER_DEAD: {
                 this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.levelMusicKey});
                 this.sceneManager.changeToScene(MainMenu);
@@ -194,21 +161,6 @@ export default abstract class HW3Level extends Scene {
             this.levelEndLabel.tweens.play("slideIn");
         }
     }
-    /**
-     * This is the same healthbar I used for hw2. I've adapted it slightly to account for the zoom factor. Other than that, the
-     * code is basically the same.
-     * 
-     * @param currentHealth the current health of the player
-     * @param maxHealth the maximum health of the player
-     */
-    protected handleHealthChange(currentHealth: number, maxHealth: number): void {
-		let unit = this.healthBarBg.size.x / maxHealth;
-        
-		this.healthBar.size.set(this.healthBarBg.size.x - unit * (maxHealth - currentHealth), this.healthBarBg.size.y);
-		this.healthBar.position.set(this.healthBarBg.position.x - (unit / 2 / this.getViewScale()) * (maxHealth - currentHealth), this.healthBarBg.position.y);
-
-		this.healthBar.backgroundColor = currentHealth < maxHealth * 1/4 ? Color.RED: currentHealth < maxHealth * 3/4 ? Color.YELLOW : Color.GREEN;
-	}
 
     /* Initialization methods for everything in the scene */
 
@@ -220,31 +172,6 @@ export default abstract class HW3Level extends Scene {
         this.addUILayer(HW3Layers.UI);
         // Add a layer for players and enemies
         this.addLayer(HW3Layers.PRIMARY);
-    }
-    /**
-     * Initializes the tilemaps
-     * @param key the key for the tilemap data
-     * @param scale the scale factor for the tilemap
-     */
-    protected initializeTilemap(): void {
-        if (this.tilemapKey === undefined || this.tilemapScale === undefined) {
-            throw new Error("Cannot add the homework 4 tilemap unless the tilemap key and scale are set.");
-        }
-        // Add the tilemap to the scene
-        this.add.tilemap(this.tilemapKey, this.tilemapScale);
-
-        if (this.destructibleLayerKey === undefined || this.wallsLayerKey === undefined) {
-            throw new Error("Make sure the keys for the destuctible layer and wall layer are both set");
-        }
-
-        // Get the wall and destructible layers 
-        this.walls = this.getTilemap(this.wallsLayerKey) as OrthogonalTilemap;
-        this.destructable = this.getTilemap(this.destructibleLayerKey) as OrthogonalTilemap;
-
-        // Add physics to the destructible layer of the tilemap
-        this.destructable.addPhysics();
-        this.destructable.setGroup(HW3PhysicsGroups.DESTRUCTABLE);
-        this.destructable.setTrigger(HW3PhysicsGroups.PLAYER_WEAPON, HW3Events.PARTICLE_HIT_DESTRUCTIBLE, null);
     }
     /**
      * Handles all subscriptions to events

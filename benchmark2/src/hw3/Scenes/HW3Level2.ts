@@ -37,19 +37,12 @@ export default class Level2 extends HW3Level {
     public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, options);
 
-        // Set the keys for the different layers of the tilemap
-        this.tilemapKey = Level2.TILEMAP_KEY;
-        this.tilemapScale = Level2.TILEMAP_SCALE;
-        this.destructibleLayerKey = Level2.DESTRUCTIBLE_LAYER_KEY;
-        this.wallsLayerKey = Level2.WALLS_LAYER_KEY;
-
     }
     /**
      * Load in resources for level 2.
      */
     public loadScene(): void {
         // Load in the tilemap
-        this.load.tilemap(this.tilemapKey, Level2.TILEMAP_PATH);
     }
 
     public startScene(): void {
