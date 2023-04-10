@@ -14,6 +14,11 @@ import GameEvent from "../../Wolfie2D/Events/GameEvent";
 import { HW3Events } from "../HW3Events";
 import Input from "../../Wolfie2D/Input/Input";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
+import Rect from "../../Wolfie2D/Nodes/Graphics/Rect";
+import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
+import Color from "../../Wolfie2D/Utils/Color";
+import Label from "../../Wolfie2D/Nodes/UIElements/Label";
+import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 
 export const Level1Events = {
     CLOCK1: "CLOCK1",
@@ -46,6 +51,8 @@ export default class Level1 extends HW3Level {
     public ui: Layer;
     public bg: HW3AnimatedSprite;
     public primary: Sprite;
+    public dialogue: Rect;
+    public line1: Label;
 
     protected emitter: Emitter;
     private isClock1Visible: Boolean = false;
@@ -89,6 +96,7 @@ export default class Level1 extends HW3Level {
         this.bg.addAI(PlayerController);
 
         super.startScene();
+        this.initializeUserInterface();
         // Set the next level to be Level2
         this.nextLevel = HW4Level2;
     }
@@ -130,12 +138,29 @@ export default class Level1 extends HW3Level {
         this.viewport.setBounds(16, 16, 496, 512);
     }
 
+    protected initializeUserInterface(): void {
+        this.primary = this.add.sprite(Level1.CLOCK1_KEY, HW3Layers.PRIMARY);
+        this.primary.position.set(350, 380);
+        this.primary.scale = new Vec2(0.25, 0.25);
+        this.primary.visible = false;
+        this.isClock1Visible = false;
+
+        this.dialogue = <Rect>this.add.graphic(GraphicType.RECT, HW3Layers.PRIMARY, { position: new Vec2(400, 500), size: new Vec2(1000, 100) });
+        this.dialogue.scale = new Vec2(0.5, 0.5);
+        this.dialogue.color = new Color(0, 0, 0, 0.5);
+        this.dialogue.visible = false;        
+    }
+
     protected handleClock1Press(event: GameEvent): void {
         if(!this.isClock1Visible) {
-            this.primary = this.add.sprite(Level1.CLOCK1_KEY, HW3Layers.PRIMARY);
-            this.primary.position.set(350, 400);
-            this.primary.scale = new Vec2(0.25, 0.25);
             this.isClock1Visible = true;
+            this.primary.visible = true;
+            this.dialogue.visible = true;
+            
+            const text1 = "It's just a clock.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
         }
     }
 
@@ -143,6 +168,8 @@ export default class Level1 extends HW3Level {
         if(this.isClock1Visible) {
             this.primary.visible = false;
             this.isClock1Visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
         }
     }
 
