@@ -8,7 +8,9 @@ import Level1 from "./HW3Level1";
 import Layer from "../../Wolfie2D/Scene/Layer";
 import Receiver from "../../Wolfie2D/Events/Receiver";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
-
+import LevelSelect from "./LevelSelect";
+import Help from "./Help";
+import Control from "./Control";
 
 // Layers for the main menu scene
 export const MenuLayers = {
@@ -41,6 +43,7 @@ export default class MainMenu extends Scene {
         this.load.audio(MainMenu.MUSIC_KEY, MainMenu.MUSIC_PATH);
         this.load.image("BACKGROUND", "Level1_assets/Splash_Screen.png");
         this.load.image("MAIN_MENU", "Level1_assets/MainMenu.png");
+
     }
 
     public startScene(): void {
@@ -108,13 +111,13 @@ export default class MainMenu extends Scene {
             this.sceneManager.changeToScene(Level1);
         }
         levelBtn.onClick = () => {
-            console.log("Level Button Clicked");
+            this.sceneManager.changeToScene(LevelSelect);
         }
         ctrlBtn.onClick = () => {
-            console.log("Control Button Clicked");
+            this.sceneManager.changeToScene(Control);
         }
         helpBtn.onClick = () => {
-            console.log("Help Button Clicked");
+            this.sceneManager.changeToScene(Help);
         }
         //Change splash screen to main menu
         document.onclick = () => {
