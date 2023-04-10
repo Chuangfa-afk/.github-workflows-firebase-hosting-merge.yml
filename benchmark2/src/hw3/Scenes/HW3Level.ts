@@ -25,6 +25,8 @@ import { HW3PhysicsGroups } from "../HW3PhysicsGroups";
 import HW3FactoryManager from "../Factory/HW3FactoryManager";
 import MainMenu from "./MainMenu";
 import Particle from "../../Wolfie2D/Nodes/Graphics/Particle";
+import Level1 from "./HW3Level1";
+import LeftButtonBehavior from "../ai/LeftButtonBehavior";
 
 /**
  * A const object for the layer names
@@ -79,6 +81,8 @@ export default abstract class HW3Level extends Scene {
     protected jumpAudioKey: string;
     protected tileDestroyedAudioKey: string;
 
+    private lButton: AnimatedSprite;
+
     public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, {...options, physics: {
             groupNames: [
@@ -107,6 +111,7 @@ export default abstract class HW3Level extends Scene {
         this.initializeViewport();
         this.subscribeToEvents();
         this.initializeUI();
+        this.initializeButtons();
         
 
 
@@ -335,6 +340,13 @@ export default abstract class HW3Level extends Scene {
     protected initializeViewport(): void {
         this.viewport.setZoomLevel(4);
         this.viewport.setBounds(0, 0, 1200, 800);
+    }
+
+    public initializeButtons(): void {
+        this.lButton = this.add.animatedSprite(Level1.LEFT_KEY, HW3Layers.UI);
+        this.lButton.position.set(10, 100);
+        this.lButton.scale = new Vec2(0.25, 0.25);
+        this.lButton.addAI(LeftButtonBehavior);
     }
 
     /* Misc methods */

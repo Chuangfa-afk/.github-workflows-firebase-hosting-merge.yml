@@ -43,20 +43,6 @@ export default class Level2 extends HW3Level {
         this.destructibleLayerKey = Level2.DESTRUCTIBLE_LAYER_KEY;
         this.wallsLayerKey = Level2.WALLS_LAYER_KEY;
 
-        // Set the key for the player's sprite
-        this.playerSpriteKey = Level1.PLAYER_SPRITE_KEY;
-        // Set the player's spawn
-        this.playerSpawn = Level2.PLAYER_SPAWN;
-
-        // Music and sound
-        this.levelMusicKey = Level1.LEVEL_MUSIC_KEY
-        this.jumpAudioKey = Level1.JUMP_AUDIO_KEY;
-        this.tileDestroyedAudioKey = Level1.TILE_DESTROYED_KEY;
-
-        // Level end size and position
-        this.levelEndPosition = new Vec2(32, 216).mult(this.tilemapScale);
-        this.levelEndHalfSize = new Vec2(32, 32).mult(this.tilemapScale);
-
     }
     /**
      * Load in resources for level 2.

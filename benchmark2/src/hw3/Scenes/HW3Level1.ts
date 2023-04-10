@@ -1,11 +1,13 @@
 import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import HW3Level from "./HW3Level";
+import HW3Level, { HW3Layers } from "./HW3Level";
 import RenderingManager from "../../Wolfie2D/Rendering/RenderingManager";
 import SceneManager from "../../Wolfie2D/Scene/SceneManager";
 import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
 import HW4Level2 from "./HW3Level2";
 import Layer from "../../Wolfie2D/Scene/Layer";
+import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import LeftButtonBehavior from "../ai/LeftButtonBehavior";
 
 /**
  * The first level for HW4 - should be the one with the grass and the clouds.
@@ -21,16 +23,17 @@ export default class Level1 extends HW3Level {
     public static readonly BACKGROUND_KEY = "BACKGROUND";
     public static readonly BACKGROUND_PATH = "Level1_assets/Level_1.png";
 
-    private background: Layer;
+    public static LEFT_KEY: string = "LEFT";
+    public static LEFT_PATH = "Level1_assets/spritesheets/Left Button.json"
+
+    protected background: Layer;
+    public ui: Layer;
     
 
     public static readonly LEVEL_END = new AABB(new Vec2(224, 232), new Vec2(24, 16));
 
     public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, options);
-
-
-
     }
 
     /**
@@ -38,6 +41,7 @@ export default class Level1 extends HW3Level {
      */
     public loadScene(): void {
         this.load.image(Level1.BACKGROUND_KEY, Level1.BACKGROUND_PATH);
+        this.load.spritesheet(Level1.LEFT_KEY, Level1.LEFT_PATH);
     }
 
     /**
@@ -53,13 +57,13 @@ export default class Level1 extends HW3Level {
         this.background = this.addUILayer("background");
         this.addParallaxLayer("BACKGROUND", new Vec2(0.5, 1), -1);
         let bg = this.add.sprite("BACKGROUND", "BACKGROUND");
-        console.log(bg.position);
         bg.position.set(600, 400);
         bg.scale = new Vec2(0.25, 0.25);
         super.startScene();
         // Set the next level to be Level2
         this.nextLevel = HW4Level2;
     }
+
 
     /**
      * I had to override this method to adjust the viewport for the first level. I screwed up 
