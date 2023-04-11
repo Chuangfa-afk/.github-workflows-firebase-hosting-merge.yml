@@ -223,11 +223,11 @@ export default class Level1 extends HW3Level {
                 break;
             }
             case Level1Events.CHECKINSIGN: {
-                
+                this.handleCheckInSignPress(event);
                 break;
             }
             case Level1Events.CHECKINSIGNHIDE: {
-                
+                this.handleKeypadHide(event);
                 break;
             }
             //FR
@@ -523,7 +523,7 @@ export default class Level1 extends HW3Level {
         if(!this.dialogue.visible) {
             this.dialogue.visible = true;
 
-            const text1 = "Gary always says this sign in cheesy.";
+            const text1 = "What a cheesy sign...";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;

@@ -30,27 +30,25 @@ export default class Facingl extends PlayerState {
             this.finished(PlayerStates.FACINGF);
         } 
         
-    	if (Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 440 && Input.getMousePressPosition().y < 800) && (Input.getMousePressPosition().x > 300 && Input.getMousePressPosition().x < 900)) { //Drawer 
-			console.log("test1");
+    	if(!this.drawer && !this.checkInSign && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 440 && Input.getMousePressPosition().y < 800) && (Input.getMousePressPosition().x > 300 && Input.getMousePressPosition().x < 900)) { //Drawer 
             this.emitter.fireEvent(Level1Events.DRAWER);
 			if(!this.drawer) {
 				this.drawer = true;
 				this.timer.start(100);
 			}
         }
-		if(this.timer.isStopped() && this.drawer && Input.isMouseJustPressed()) { //Hide Drawer 
+		if(this.timer.isStopped() && this.drawer && !this.checkInSign && Input.isMouseJustPressed()) { //Hide Drawer 
 			this.drawer = false;
 			this.emitter.fireEvent(Level1Events.DRAWERHIDE);
 		}
 		if(!this.checkInSign && !this.drawer && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 180 && Input.getMousePressPosition().y < 370) && (Input.getMousePressPosition().x > 300 && Input.getMousePressPosition().x < 900)) {
-			console.log("test2");
             this.emitter.fireEvent(Level1Events.CHECKINSIGN);
 			if(!this.checkInSign) {
 				this.checkInSign = true;
 				this.timer.start(100);
 			}
 		}
-		if(this.timer.isStopped() && this.checkInSign && Input.isMouseJustPressed()) { //Hide sign
+		if(this.timer.isStopped() && this.checkInSign && !this.drawer && Input.isMouseJustPressed()) { //Hide sign
 			this.checkInSign = false;
 			this.emitter.fireEvent(Level1Events.CHECKINSIGNHIDE);
 		}
