@@ -29,18 +29,18 @@ export default class Facingf extends PlayerState {
             this.finished(PlayerStates.FACINGR);
         } 
 		
-		else if (Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 190 && Input.getMousePressPosition().y < 320) && (Input.getMousePressPosition().x > 900 && Input.getMousePressPosition().x < 1000)) { //Clock1
+		
+		if (!this.clock1 && !this.keypad && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 190 && Input.getMousePressPosition().y < 320) && (Input.getMousePressPosition().x > 900 && Input.getMousePressPosition().x < 1000)) { //Clock1
 			this.emitter.fireEvent(Level1Events.CLOCK1);
-			if(!this.clock1) {
-				this.clock1 = true;
-				this.timer.start(100);
-			}
+			this.clock1 = true;
+			this.timer.start(100);
         }
-		else if(this.timer.isStopped() && this.clock1 && Input.isMouseJustPressed() && ((Input.getMousePosition().y > 165 && Input.getMousePosition().y < 650) && (Input.getMousePressPosition().x > 375 && Input.getMousePosition().x < 850))) { //Hide Clock1
+		if(this.timer.isStopped() && this.clock1 && Input.isMouseJustPressed()) { //Hide Clock1
 			this.clock1 = false;
 			this.emitter.fireEvent(Level1Events.CLOCK1HIDE);
 		}
-		else if(!this.keypad && !this.clock1 && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 400 && Input.getMousePressPosition().y < 480) && (Input.getMousePressPosition().x > 300 && Input.getMousePressPosition().x < 440)) {
+		
+		if(!this.keypad && !this.clock1 && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 400 && Input.getMousePressPosition().y < 480) && (Input.getMousePressPosition().x > 300 && Input.getMousePressPosition().x < 440)) {
 			this.emitter.fireEvent(Level1Events.KEYPAD);
 			if(!this.keypad) {
 				this.keypad = true;

@@ -23,6 +23,8 @@ import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 export const Level1Events = {
     CLOCK1: "CLOCK1",
     CLOCK1HIDE: "CLOCK1HIDE",
+    CLOCK2: "CLOCK2",
+    CLOCK2HIDE: "CLOCK2HIDE",
     KEYPAD: "KEYPAD",
     KEYPADHIDE: "KEYPADHIDE",
 } as const;
@@ -48,11 +50,14 @@ export default class Level1 extends HW3Level {
 
     public static readonly CLOCK1_KEY = "CLOCK1";
     public static readonly CLOCK1_PATH = "Level1_assets/clock1.png";
+    public static readonly CLOCK2_KEY = "CLOCK2";
+    public static readonly CLOCK2_PATH = "Level1_assets/clock2.png";
 
     protected background: Layer;
     public ui: Layer;
     public bg: HW3AnimatedSprite;
     public primary: Sprite;
+    public clock2: Sprite;
     public dialogue: Rect;
     public line1: Label;
 
@@ -74,6 +79,7 @@ export default class Level1 extends HW3Level {
         this.load.spritesheet(Level1.LEFT_KEY, Level1.LEFT_PATH);
         this.load.spritesheet(Level1.RIGHT_KEY, Level1.RIGHT_PATH);
         this.load.image(Level1.CLOCK1_KEY, Level1.CLOCK1_PATH);
+        this.load.image(Level1.CLOCK2_KEY, Level1.CLOCK2_PATH);
     }
 
     /**
@@ -91,6 +97,8 @@ export default class Level1 extends HW3Level {
         this.receiver.subscribe(Level1Events.CLOCK1HIDE);
         this.receiver.subscribe(Level1Events.KEYPAD);
         this.receiver.subscribe(Level1Events.KEYPADHIDE);
+        this.receiver.subscribe(Level1Events.CLOCK2);
+        this.receiver.subscribe(Level1Events.CLOCK2HIDE);
 
         this.background = this.addUILayer("background");
         this.addParallaxLayer("BACKGROUND", new Vec2(0.5, 1), -1);
@@ -117,6 +125,14 @@ export default class Level1 extends HW3Level {
             }
             case Level1Events.CLOCK1HIDE: {
                 this.handleClock1Hide(event);
+                break;
+            }
+            case Level1Events.CLOCK2: {
+                this.handleClock2Press(event);
+                break;
+            }
+            case Level1Events.CLOCK2HIDE: {
+                this.handleClock2Hide(event);
                 break;
             }
             case Level1Events.KEYPAD: {
@@ -156,6 +172,11 @@ export default class Level1 extends HW3Level {
         this.primary.scale = new Vec2(0.25, 0.25);
         this.primary.visible = false;
 
+        this.clock2 = this.add.sprite(Level1.CLOCK2_KEY, HW3Layers.PRIMARY);
+        this.clock2.position.set(350, 380);
+        this.clock2.scale = new Vec2(0.25, 0.25);
+        this.clock2.visible = false;
+
         this.dialogue = <Rect>this.add.graphic(GraphicType.RECT, HW3Layers.PRIMARY, { position: new Vec2(400, 500), size: new Vec2(1000, 100) });
         this.dialogue.scale = new Vec2(0.5, 0.5);
         this.dialogue.color = new Color(0, 0, 0, 0.5);
@@ -173,10 +194,28 @@ export default class Level1 extends HW3Level {
             this.line1.visible = true;
         }
     }
-
     protected handleClock1Hide(event: GameEvent): void {
         if(this.primary.visible) {
             this.primary.visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+        }
+    }
+
+    protected handleClock2Press(event: GameEvent): void {
+        if(!this.clock2.visible) {
+            this.clock2.visible = true;
+            this.dialogue.visible = true;
+
+            const text1 = "Oh, would you look at the time- I'm going to be late!";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+    protected handleClock2Hide(event: GameEvent): void {
+        if(this.clock2.visible) {
+            this.clock2.visible = false;
             this.dialogue.visible = false;
             this.line1.visible = false;
         }
@@ -192,7 +231,6 @@ export default class Level1 extends HW3Level {
             this.line1.visible = true;
         }
     }
-
     protected handleKeypadHide(event: GameEvent): void {
         if(this.dialogue.visible) {
             this.dialogue.visible = false;
