@@ -22,15 +22,15 @@ export default class Facingl extends PlayerState {
         // Adjust anything needed
         
         // If the player clicks left, go to Facingb
-		if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+		if (!this.drawer && !this.checkInSign && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
 			this.finished(PlayerStates.FACINGB);
 		} 
         // If the player clicks right, go to Facingf
-        else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+        else if (!this.drawer && !this.checkInSign && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
             this.finished(PlayerStates.FACINGF);
         } 
         
-        else if (Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 440 && Input.getMousePressPosition().y < 800) && (Input.getMousePressPosition().x > 300 && Input.getMousePressPosition().x < 900)) { //Drawer 
+    	if (Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 440 && Input.getMousePressPosition().y < 800) && (Input.getMousePressPosition().x > 300 && Input.getMousePressPosition().x < 900)) { //Drawer 
 			console.log("test1");
             this.emitter.fireEvent(Level1Events.DRAWER);
 			if(!this.drawer) {
@@ -38,11 +38,11 @@ export default class Facingl extends PlayerState {
 				this.timer.start(100);
 			}
         }
-		else if(this.timer.isStopped() && this.drawer && Input.isMouseJustPressed() && ((Input.getMousePosition().y > 165 && Input.getMousePosition().y < 650) && (Input.getMousePressPosition().x > 375 && Input.getMousePosition().x < 850))) { //Hide Drawer 
+		if(this.timer.isStopped() && this.drawer && Input.isMouseJustPressed()) { //Hide Drawer 
 			this.drawer = false;
 			this.emitter.fireEvent(Level1Events.DRAWERHIDE);
 		}
-		else if(!this.checkInSign && !this.drawer && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 180 && Input.getMousePressPosition().y < 370) && (Input.getMousePressPosition().x > 300 && Input.getMousePressPosition().x < 900)) {
+		if(!this.checkInSign && !this.drawer && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 180 && Input.getMousePressPosition().y < 370) && (Input.getMousePressPosition().x > 300 && Input.getMousePressPosition().x < 900)) {
 			console.log("test2");
             this.emitter.fireEvent(Level1Events.CHECKINSIGN);
 			if(!this.checkInSign) {
@@ -50,7 +50,7 @@ export default class Facingl extends PlayerState {
 				this.timer.start(100);
 			}
 		}
-		else if(this.timer.isStopped() && this.checkInSign && Input.isMouseJustPressed()) { //Hide sign
+		if(this.timer.isStopped() && this.checkInSign && Input.isMouseJustPressed()) { //Hide sign
 			this.checkInSign = false;
 			this.emitter.fireEvent(Level1Events.CHECKINSIGNHIDE);
 		}

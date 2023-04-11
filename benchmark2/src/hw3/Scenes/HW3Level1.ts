@@ -73,6 +73,11 @@ export default class Level1 extends HW3Level {
     public static readonly KEY_KEY = "KEY";
     public static readonly KEY_PATH = "Level1_assets/Key_icon.png";
 
+    public static readonly DRAWER1_KEY = "DRAWER1";
+    public static readonly DRAWER1_PATH = "Level1_assets/drawer1.png";
+    public static readonly DRAWER2_KEY = "DRAWER2";
+    public static readonly DRAWER2_PATH = "Level1_assets/Drawer2.png";
+
     protected background: Layer;
     public ui: Layer;
     public bg: HW3AnimatedSprite;
@@ -81,6 +86,9 @@ export default class Level1 extends HW3Level {
     public key: Sprite;
     public dialogue: Rect;
     public line1: Label;
+    public line2: Label;
+    public drawer1: Sprite;
+    public drawer2: Sprite;
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
@@ -103,15 +111,19 @@ export default class Level1 extends HW3Level {
         this.load.image(Level1.CLOCK1_KEY, Level1.CLOCK1_PATH);
         this.load.image(Level1.CLOCK2_KEY, Level1.CLOCK2_PATH);
         this.load.image(Level1.KEY_KEY, Level1.KEY_PATH);
+        this.load.image(Level1.DRAWER1_KEY, Level1.DRAWER1_PATH);
+        this.load.image(Level1.DRAWER2_KEY, Level1.DRAWER2_PATH);
     }
 
     /**
      * Unload resources for level 1 - decide what to keep
      */
     public unloadScene(): void {
+        /*
         this.load.keepAudio(this.levelMusicKey);
         this.load.keepAudio(this.jumpAudioKey);
         this.load.keepAudio(this.tileDestroyedAudioKey);
+        */
     }
 
     public startScene(): void {
@@ -176,11 +188,11 @@ export default class Level1 extends HW3Level {
             }
             //FL
             case Level1Events.DRAWER: {
-                
+                this.handleDrawerPress(event);
                 break;
             }
             case Level1Events.DRAWERHIDE: {
-                
+                this.handleDrawerHide(event);
                 break;
             }
             case Level1Events.CHECKINSIGN: {
@@ -262,6 +274,7 @@ export default class Level1 extends HW3Level {
     }
 
     protected initializeUserInterface(): void {
+        //Put all images here
         this.primary = this.add.sprite(Level1.CLOCK1_KEY, HW3Layers.PRIMARY);
         this.primary.position.set(350, 380);
         this.primary.scale = new Vec2(0.25, 0.25);
@@ -281,6 +294,16 @@ export default class Level1 extends HW3Level {
         this.key.position.set(350, 380);
         this.key.scale = new Vec2(0.1, 0.1);
         this.key.visible = false;
+        
+        this.drawer1 = this.add.sprite(Level1.DRAWER1_KEY, HW3Layers.PRIMARY);
+        this.drawer1.position.set(350, 380);
+        this.drawer1.scale = new Vec2(0.25, 0.25);
+        this.drawer1.visible = false;
+
+        this.drawer2 = this.add.sprite(Level1.DRAWER2_KEY, HW3Layers.PRIMARY);
+        this.drawer2.position.set(350, 380);
+        this.drawer2.scale = new Vec2(0.25, 0.25);
+        this.drawer2.visible = false;
     }
 
     //Show dialogue with sprites
@@ -343,29 +366,41 @@ export default class Level1 extends HW3Level {
     }
 
     protected handleDrawerPress(event: GameEvent): void {
-        if(!this.primary.visible && !this.hasKey) {
-            this.primary.visible = true;
+        if(!this.drawer1.visible && !this.hasKey) {
+            this.drawer1.visible = true;
             this.dialogue.visible = true;
             
-            const text1 = "It's Drawer 1";
+            const text1 = "There's just a To-Do list that goes on and on about the plants.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
-        } else if(!this.primary.visible && this.hasKey) {
-            this.primary.visible = true;
+        } else if(!this.drawer2.visible && this.hasKey) {
+            this.drawer2.visible = true;
             this.dialogue.visible = true;
             
-            const text1 = "It's Drawer 2";
-            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            const text1 = "The key I found opens this drawer!";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
+            const text2 = "And look! Someone's ID! I can use this to access the elevator.";
+            this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
+            this.line2.textColor = Color.WHITE;
+            this.line2.visible = true;
+
+            this.hasId = true;
         }
     }
     protected handleDrawerHide(event: GameEvent): void {
-        if(this.primary.visible) {
-            this.primary.visible = false;
+        if(this.drawer1.visible) {
+            this.drawer1.visible = false;
             this.dialogue.visible = false;
             this.line1.visible = false;
+        }
+        else if(this.drawer2.visible) {
+            this.drawer2.visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+            this.line2.visible = false;
         }
     }
 
