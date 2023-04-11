@@ -27,8 +27,6 @@ const MainMenuEvent = {
 
 export default class MainMenu extends Scene {
 
-    public static readonly MUSIC_KEY = "MAIN_MENU_MUSIC";
-    public static readonly MUSIC_PATH = "hw4_assets/music/menu.mp3";
 
     private mainMenu: Layer;
     private splashScreen: Layer;
@@ -40,7 +38,6 @@ export default class MainMenu extends Scene {
 
     public loadScene(): void {
         // Load the menu song
-        this.load.audio(MainMenu.MUSIC_KEY, MainMenu.MUSIC_PATH);
         this.load.image("BACKGROUND", "Level1_assets/Splash_Screen.png");
         this.load.image("MAIN_MENU", "Level1_assets/MainMenu.png");
 
@@ -128,7 +125,6 @@ export default class MainMenu extends Scene {
         }
 
         // Scene has started, so start playing music
-        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.MUSIC_KEY, loop: true, holdReference: true});
     }
 
     protected handleEvent(event: GameEvent): void {
@@ -145,7 +141,6 @@ export default class MainMenu extends Scene {
     }
     public unloadScene(): void {
         // The scene is being destroyed, so we can stop playing the song
-        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: MainMenu.MUSIC_KEY});
     }
 }
 

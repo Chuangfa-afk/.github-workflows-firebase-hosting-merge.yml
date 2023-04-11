@@ -19,6 +19,8 @@ import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
 import Color from "../../Wolfie2D/Utils/Color";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
+import MainMenu from "./MainMenu";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export const Level1Events = {
     //Facing F
@@ -146,7 +148,7 @@ export default class Level1 extends HW3Level {
         super.startScene();
         this.initializeUserInterface();
         // Set the next level to be Level2
-        this.nextLevel = HW4Level2;
+        this.nextLevel = MainMenu;
     }
 
     /**
@@ -230,6 +232,14 @@ export default class Level1 extends HW3Level {
             }
             case HW3Events.LEVEL_START: {
                 Input.enableInput();
+                break;
+            }
+            case HW3Events.PLAYER_ENTERED_LEVEL_END: {
+                super.handleEnteredLevelEnd();
+                break;
+            }
+            case HW3Events.LEVEL_END: {
+                this.sceneManager.changeToScene(this.nextLevel);
                 break;
             }
             // Default: Throw an error! No unhandled events allowed.
@@ -361,13 +371,23 @@ export default class Level1 extends HW3Level {
 
     //General dialogue boxes --> no images required
     protected handleKeypadPress(event: GameEvent): void {
-        if(!this.dialogue.visible && !this.hasId) {
-            this.dialogue.visible = true;
+        if(!this.dialogue.visible) {
+            if(!this.hasId) {
+                this.dialogue.visible = true;
 
-            const text1 = "I don't have my ID on me. Maybe there's one lying around...";
-            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
-            this.line1.textColor = Color.WHITE;
-            this.line1.visible = true;
+                const text1 = "I don't have my ID on me. Maybe there's one lying around...";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.visible = true;
+            }
+            else {
+                this.dialogue.visible = true;
+                const text1 = "It worked! Now I can finally get to work.";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.visible = true;
+                this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END);
+            }
         }
     }
     protected handlePhonePress(event: GameEvent): void {

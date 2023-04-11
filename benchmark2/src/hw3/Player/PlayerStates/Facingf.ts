@@ -5,6 +5,7 @@ import { HW3Controls } from "../../HW3Controls";
 import Emitter from "../../../Wolfie2D/Events/Emitter";
 import { Level1Events } from "../../Scenes/HW3Level1";
 import Timer from "../../../Wolfie2D/Timing/Timer";
+import Level1 from "../../Scenes/HW3Level1";
 
 export default class Facingf extends PlayerState {
 	protected emitter: Emitter = new Emitter();
