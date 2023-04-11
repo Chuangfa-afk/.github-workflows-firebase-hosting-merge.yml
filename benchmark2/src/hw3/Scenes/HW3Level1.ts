@@ -332,6 +332,33 @@ export default class Level1 extends HW3Level {
         }
     }
 
+    protected handleDrawerPress(event: GameEvent): void {
+        if(!this.primary.visible && !this.hasKey) {
+            this.primary.visible = true;
+            this.dialogue.visible = true;
+            
+            const text1 = "It's Drawer 1";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if(!this.primary.visible && this.hasKey) {
+            this.primary.visible = true;
+            this.dialogue.visible = true;
+            
+            const text1 = "It's Drawer 2";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+    protected handleDrawerHide(event: GameEvent): void {
+        if(this.primary.visible) {
+            this.primary.visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+        }
+    }
+
     //General dialogue boxes --> no images required
     protected handleKeypadPress(event: GameEvent): void {
         if(!this.dialogue.visible && !this.hasId) {
@@ -347,6 +374,16 @@ export default class Level1 extends HW3Level {
         if(!this.dialogue.visible) {
             this.dialogue.visible = true;
             const text1 = "The phone's dead...";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+    protected handleCheckInSignPress(event: GameEvent): void {
+        if(!this.dialogue.visible) {
+            this.dialogue.visible = true;
+
+            const text1 = "Gary always says this sign in cheesy.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;

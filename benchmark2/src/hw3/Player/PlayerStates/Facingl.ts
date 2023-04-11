@@ -2,8 +2,17 @@ import { PlayerStates, PlayerAnimations } from "../PlayerController";
 import PlayerState from "./PlayerState";
 import Input from "../../../Wolfie2D/Input/Input";
 import { HW3Controls } from "../../HW3Controls";
+import Emitter from "../../../Wolfie2D/Events/Emitter";
+import { Level1Events } from "../../Scenes/HW3Level1";
+import Timer from "../../../Wolfie2D/Timing/Timer";
 
 export default class Facingl extends PlayerState {
+    protected emitter: Emitter = new Emitter();
+	//Shows if drawers is visible 
+	protected drawer: Boolean = false;
+    //protected drawer2: Boolean = false;
+	protected checkInSign: Boolean = false;
+	protected timer: Timer = new Timer(100);
 
 	public onEnter(options: Record<string, any>): void {
         this.owner.animation.play(PlayerAnimations.FACINGL);
@@ -19,10 +28,32 @@ export default class Facingl extends PlayerState {
         // If the player clicks right, go to Facingf
         else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
             this.finished(PlayerStates.FACINGF);
-        } else {
-            // Update anything necessairy 
+        } 
+        
+        else if (Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 440 && Input.getMousePressPosition().y < 800) && (Input.getMousePressPosition().x > 300 && Input.getMousePressPosition().x < 900)) { //Drawer 
+			console.log("test1");
+            this.emitter.fireEvent(Level1Events.DRAWER);
+			if(!this.drawer) {
+				this.drawer = true;
+				this.timer.start(100);
+			}
         }
-
+		else if(this.timer.isStopped() && this.drawer && Input.isMouseJustPressed() && ((Input.getMousePosition().y > 165 && Input.getMousePosition().y < 650) && (Input.getMousePressPosition().x > 375 && Input.getMousePosition().x < 850))) { //Hide Drawer 
+			this.drawer = false;
+			this.emitter.fireEvent(Level1Events.DRAWERHIDE);
+		}
+		else if(!this.checkInSign && !this.drawer && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 180 && Input.getMousePressPosition().y < 370) && (Input.getMousePressPosition().x > 300 && Input.getMousePressPosition().x < 900)) {
+			console.log("test2");
+            this.emitter.fireEvent(Level1Events.CHECKINSIGN);
+			if(!this.checkInSign) {
+				this.checkInSign = true;
+				this.timer.start(100);
+			}
+		}
+		else if(this.timer.isStopped() && this.checkInSign && Input.isMouseJustPressed()) { //Hide sign
+			this.checkInSign = false;
+			this.emitter.fireEvent(Level1Events.CHECKINSIGNHIDE);
+		}
         // Otherwise, do nothing (keep idling)
 		
 	}
