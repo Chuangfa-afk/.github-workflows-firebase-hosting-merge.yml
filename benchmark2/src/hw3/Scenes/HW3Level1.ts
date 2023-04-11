@@ -76,11 +76,13 @@ export default class Level1 extends HW3Level {
     public bg: HW3AnimatedSprite;
     public primary: Sprite;
     public clock2: Sprite;
+    public key: Sprite;
     public dialogue: Rect;
     public line1: Label;
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
+    public hasKey: Boolean = false;
 
     public static readonly LEVEL_END = new AABB(new Vec2(224, 232), new Vec2(24, 16));
 
@@ -98,6 +100,7 @@ export default class Level1 extends HW3Level {
         this.load.spritesheet(Level1.RIGHT_KEY, Level1.RIGHT_PATH);
         this.load.image(Level1.CLOCK1_KEY, Level1.CLOCK1_PATH);
         this.load.image(Level1.CLOCK2_KEY, Level1.CLOCK2_PATH);
+        this.load.image(Level1.KEY_KEY, Level1.KEY_PATH);
     }
 
     /**
@@ -205,11 +208,11 @@ export default class Level1 extends HW3Level {
                 break;
             }
             case Level1Events.KEY: {
-
+                this.handlePlantPress(event);
                 break;
             }
             case Level1Events.KEYHIDE: {
-                
+                this.handleKeyHide(event);
                 break;
             }
             //FB
@@ -262,9 +265,15 @@ export default class Level1 extends HW3Level {
         this.dialogue = <Rect>this.add.graphic(GraphicType.RECT, HW3Layers.PRIMARY, { position: new Vec2(400, 500), size: new Vec2(1000, 100) });
         this.dialogue.scale = new Vec2(0.5, 0.5);
         this.dialogue.color = new Color(0, 0, 0, 0.5);
-        this.dialogue.visible = false;        
+        this.dialogue.visible = false;    
+        
+        this.key = this.add.sprite(Level1.KEY_KEY, HW3Layers.PRIMARY);
+        this.key.position.set(350, 380);
+        this.key.scale = new Vec2(0.1, 0.1);
+        this.key.visible = false;
     }
 
+    //Show dialogue with sprites
     protected handleClock1Press(event: GameEvent): void {
         if(!this.primary.visible) {
             this.primary.visible = true;
@@ -302,7 +311,28 @@ export default class Level1 extends HW3Level {
             this.line1.visible = false;
         }
     }
+    protected handlePlantPress(event: GameEvent): void {
+        if(!this.key.visible) {
+            this.key.visible = true;
+            this.dialogue.visible = true;
 
+            const text1 = "A key? Maybe there's something it can open around here...";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+
+            this.hasKey = true;
+        }
+    }
+    protected handleKeyHide(event: GameEvent): void {
+        if(this.key.visible) {
+            this.key.visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+        }
+    }
+
+    //General dialogue boxes --> no images required
     protected handleKeypadPress(event: GameEvent): void {
         if(!this.dialogue.visible && !this.hasId) {
             this.dialogue.visible = true;
@@ -316,7 +346,6 @@ export default class Level1 extends HW3Level {
     protected handlePhonePress(event: GameEvent): void {
         if(!this.dialogue.visible) {
             this.dialogue.visible = true;
-            console.log("inside handlephonepress");
             const text1 = "The phone's dead...";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;

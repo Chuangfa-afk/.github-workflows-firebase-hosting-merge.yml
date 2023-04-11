@@ -45,6 +45,8 @@ export default class ButtonBehavior implements AI {
         this.receiver.subscribe(Level1Events.KEYPADHIDE);
         this.receiver.subscribe(Level1Events.PHONE);
         this.receiver.subscribe(Level1Events.PHONEHIDE);
+        this.receiver.subscribe(Level1Events.KEY);
+        this.receiver.subscribe(Level1Events.KEYHIDE);
 
         this.isLeft = options.isLeft;
 
@@ -100,6 +102,14 @@ export default class ButtonBehavior implements AI {
                 break;
             }
             case Level1Events.PHONEHIDE: {
+                this.isDialogueVisible = false;
+                break;
+            }
+            case Level1Events.KEY: {
+                this.isDialogueVisible = true;
+                break;
+            }
+            case Level1Events.KEYHIDE: {
                 this.isDialogueVisible = false;
                 break;
             }
