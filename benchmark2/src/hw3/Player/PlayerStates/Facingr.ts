@@ -21,15 +21,15 @@ export default class Facingr extends PlayerState {
         // Adjust anything needed
         
         // If the player clicks left, go to Facingb
-		if (!this.clock2 && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+		if (!this.clock2 && !this.phone && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
 			this.finished(PlayerStates.FACINGF);
 		} 
         // If the player clicks right, go to Facingb
-        else if (!this.clock2 && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+        else if (!this.clock2 && !this.phone && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
             this.finished(PlayerStates.FACINGB);
         } 
 		
-		if (!this.clock2 && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 200 && Input.getMousePressPosition().y < 320) && (Input.getMousePressPosition().x > 925 && Input.getMousePressPosition().x < 1050)) { //Clock1
+		if (!this.clock2 && !this.phone && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 200 && Input.getMousePressPosition().y < 320) && (Input.getMousePressPosition().x > 925 && Input.getMousePressPosition().x < 1050)) {
 			this.emitter.fireEvent(Level1Events.CLOCK2);
 			this.clock2 = true;
 			this.timer.start(100);
@@ -38,9 +38,15 @@ export default class Facingr extends PlayerState {
 			this.clock2 = false;
 			this.emitter.fireEvent(Level1Events.CLOCK2HIDE);
 		}
-		
-
-        // Otherwise, do nothing (keep idling)
+		if (!this.phone && !this.clock2 && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 329 && Input.getMousePressPosition().y < 447) && (Input.getMousePressPosition().x > 170 && Input.getMousePressPosition().x < 267)) {
+			this.emitter.fireEvent(Level1Events.PHONE);
+			this.phone = true;
+			this.timer.start(100);
+		}
+		if(this.timer.isStopped() && this.phone && !this.clock2 && Input.isMouseJustPressed()) {
+			this.phone = false;
+			this.emitter.fireEvent(Level1Events.PHONEHIDE);
+		}
 		
 	}
 

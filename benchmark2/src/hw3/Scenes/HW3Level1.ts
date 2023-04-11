@@ -27,6 +27,8 @@ export const Level1Events = {
     CLOCK2HIDE: "CLOCK2HIDE",
     KEYPAD: "KEYPAD",
     KEYPADHIDE: "KEYPADHIDE",
+    PHONE: "PHONE",
+    PHONEHIDE: "PHONEHIDE",
 } as const;
 /**
  * The first level for HW4 - should be the one with the grass and the clouds.
@@ -99,6 +101,8 @@ export default class Level1 extends HW3Level {
         this.receiver.subscribe(Level1Events.KEYPADHIDE);
         this.receiver.subscribe(Level1Events.CLOCK2);
         this.receiver.subscribe(Level1Events.CLOCK2HIDE);
+        this.receiver.subscribe(Level1Events.PHONE)
+        this.receiver.subscribe(Level1Events.PHONEHIDE);
 
         this.background = this.addUILayer("background");
         this.addParallaxLayer("BACKGROUND", new Vec2(0.5, 1), -1);
@@ -140,6 +144,14 @@ export default class Level1 extends HW3Level {
                 break;
             }
             case Level1Events.KEYPADHIDE: {
+                this.handleKeypadHide(event);
+                break;
+            }
+            case Level1Events.PHONE: {
+                this.handlePhonePress(event);
+                break;
+            }
+            case Level1Events.PHONEHIDE: {
                 this.handleKeypadHide(event);
                 break;
             }
@@ -226,6 +238,16 @@ export default class Level1 extends HW3Level {
             this.dialogue.visible = true;
 
             const text1 = "I don't have my ID on me. Maybe there's one lying around...";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+    protected handlePhonePress(event: GameEvent): void {
+        if(!this.dialogue.visible) {
+            this.dialogue.visible = true;
+            console.log("inside handlephonepress");
+            const text1 = "The phone's dead...";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
