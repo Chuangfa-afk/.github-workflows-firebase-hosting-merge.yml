@@ -49,6 +49,12 @@ export default class ButtonBehavior implements AI {
         this.receiver.subscribe(Level1Events.KEYHIDE);
         this.receiver.subscribe(Level1Events.DRAWER);
         this.receiver.subscribe(Level1Events.DRAWERHIDE);
+        this.receiver.subscribe(Level1Events.ELEVATOR);
+        this.receiver.subscribe(Level1Events.ELEVATORHIDE);
+        this.receiver.subscribe(Level1Events.SIGN1);
+        this.receiver.subscribe(Level1Events.SIGN1HIDE);
+        this.receiver.subscribe(Level1Events.SIGN2);
+        this.receiver.subscribe(Level1Events.SIGN2HIDE);
 
         this.isLeft = options.isLeft;
 
@@ -120,6 +126,30 @@ export default class ButtonBehavior implements AI {
                 break;
             }
             case Level1Events.DRAWERHIDE: {
+                this.isDialogueVisible = false;
+                break;
+            }
+            case Level1Events.ELEVATOR: {
+                this.isDialogueVisible = true;
+                break;
+            }
+            case Level1Events.ELEVATORHIDE: {
+                this.isDialogueVisible = false;
+                break;
+            }
+            case Level1Events.SIGN1: {
+                this.isDialogueVisible = true;
+                break;
+            }
+            case Level1Events.SIGN1HIDE: {
+                this.isDialogueVisible = false;
+                break;
+            }
+            case Level1Events.SIGN2: {
+                this.isDialogueVisible = true;
+                break;
+            }
+            case Level1Events.SIGN2HIDE: {
                 this.isDialogueVisible = false;
                 break;
             }

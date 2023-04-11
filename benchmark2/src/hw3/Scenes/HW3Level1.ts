@@ -28,6 +28,8 @@ export const Level1Events = {
     CLOCK1HIDE: "CLOCK1HIDE",
     KEYPAD: "KEYPAD",
     KEYPADHIDE: "KEYPADHIDE",
+    ELEVATOR: "ELEVATOR",
+    ELEVATORHIDE: "ELEVATORHIDE",
     //Facing L
     DRAWER: "DRAWER",
     DRAWERHIDE: "DRAWERHIDE",
@@ -145,6 +147,8 @@ export default class Level1 extends HW3Level {
         this.receiver.subscribe(Level1Events.CLOCK1HIDE);
         this.receiver.subscribe(Level1Events.KEYPAD);
         this.receiver.subscribe(Level1Events.KEYPADHIDE);
+        this.receiver.subscribe(Level1Events.ELEVATOR);
+        this.receiver.subscribe(Level1Events.ELEVATORHIDE);
         //FL
         this.receiver.subscribe(Level1Events.DRAWER);
         this.receiver.subscribe(Level1Events.DRAWERHIDE);
@@ -198,6 +202,14 @@ export default class Level1 extends HW3Level {
                 break;
             }
             case Level1Events.KEYPADHIDE: {
+                this.handleKeypadHide(event);
+                break;
+            }
+            case Level1Events.ELEVATOR: {
+                this.handleElevatorPress(event);
+                break;
+            }
+            case Level1Events.ELEVATORHIDE: {
                 this.handleKeypadHide(event);
                 break;
             }
@@ -531,6 +543,17 @@ export default class Level1 extends HW3Level {
         if(this.dialogue.visible) {
             this.dialogue.visible = false;
             this.line1.visible = false;
+        }
+    }
+
+    protected handleElevatorPress(event: GameEvent): void {
+        if(!this.dialogue.visible) {
+            this.dialogue.visible = true;
+
+            const text1 = "If I want to enter the elevator, I need to access the keypad.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
         }
     }
 
