@@ -42,8 +42,11 @@ export const Level1Events = {
     KEYHIDE: "KEYHIDE",
     //Facing B
     SIGN1: "SIGN1",
+    SIGN1HIDE: "SIGN1HIDE",
     SIGN2: "SIGN2",
+    SIGN2HIDE: "SIGN2HIDE",
     DOOR: "DOOR",
+    DOORHIDE: "DOORHIDE", 
     
 } as const;
 /**
@@ -78,6 +81,11 @@ export default class Level1 extends HW3Level {
     public static readonly DRAWER2_KEY = "DRAWER2";
     public static readonly DRAWER2_PATH = "Level1_assets/Drawer2.png";
 
+    public static readonly SIGN1_KEY = "SIGN1";
+    public static readonly SIGN1_PATH = "Level1_assets/sign1.png";
+    public static readonly SIGN2_KEY = "SIGN2";
+    public static readonly SIGN2_PATH = "Level1_assets/Sign2.png";
+
     protected background: Layer;
     public ui: Layer;
     public bg: HW3AnimatedSprite;
@@ -89,6 +97,8 @@ export default class Level1 extends HW3Level {
     public line2: Label;
     public drawer1: Sprite;
     public drawer2: Sprite;
+    public sign1: Sprite;
+    public sign2: Sprite;
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
@@ -113,6 +123,8 @@ export default class Level1 extends HW3Level {
         this.load.image(Level1.KEY_KEY, Level1.KEY_PATH);
         this.load.image(Level1.DRAWER1_KEY, Level1.DRAWER1_PATH);
         this.load.image(Level1.DRAWER2_KEY, Level1.DRAWER2_PATH);
+        this.load.image(Level1.SIGN1_KEY, Level1.SIGN1_PATH);
+        this.load.image(Level1.SIGN2_KEY, Level1.SIGN2_PATH);
     }
 
     /**
@@ -147,8 +159,11 @@ export default class Level1 extends HW3Level {
         this.receiver.subscribe(Level1Events.KEYHIDE);
         //FB
         this.receiver.subscribe(Level1Events.SIGN1);
+        this.receiver.subscribe(Level1Events.SIGN1HIDE);
         this.receiver.subscribe(Level1Events.SIGN2);
+        this.receiver.subscribe(Level1Events.SIGN2HIDE);
         this.receiver.subscribe(Level1Events.DOOR);
+        this.receiver.subscribe(Level1Events.DOORHIDE);
 
         this.background = this.addUILayer("background");
         this.addParallaxLayer("BACKGROUND", new Vec2(0.5, 1), -1);
@@ -231,15 +246,27 @@ export default class Level1 extends HW3Level {
             }
             //FB
             case Level1Events.SIGN1: {
-                
+                this.handleSign1Press(event);
+                break;
+            }
+            case Level1Events.SIGN1HIDE: {
+                this.handleSign1Hide(event);
                 break;
             }
             case Level1Events.SIGN2: {
-                
+                this.handleSign2Press(event);
+                break;
+            }
+            case Level1Events.SIGN2HIDE: {
+                this.handleSign2Hide(event);
                 break;
             }
             case Level1Events.DOOR: {
-                
+                this.handleDoorPress(event);
+                break;
+            }
+            case Level1Events.DOORHIDE: {
+                this.handleKeypadHide(event);
                 break;
             }
             case HW3Events.LEVEL_START: {
@@ -304,6 +331,16 @@ export default class Level1 extends HW3Level {
         this.drawer2.position.set(350, 380);
         this.drawer2.scale = new Vec2(0.25, 0.25);
         this.drawer2.visible = false;
+
+        this.sign1 = this.add.sprite(Level1.SIGN1_KEY, HW3Layers.PRIMARY);
+        this.sign1.position.set(350, 380);
+        this.sign1.scale = new Vec2(0.25, 0.25);
+        this.sign1.visible = false;
+
+        this.sign2 = this.add.sprite(Level1.SIGN2_KEY, HW3Layers.PRIMARY);
+        this.sign2.position.set(350, 380);
+        this.sign2.scale = new Vec2(0.25, 0.25);
+        this.sign2.visible = false;
     }
 
     //Show dialogue with sprites
@@ -403,6 +440,42 @@ export default class Level1 extends HW3Level {
             this.line2.visible = false;
         }
     }
+    protected handleSign1Press(event: GameEvent): void {
+        if(!this.sign1.visible) {
+            this.sign1.visible = true;
+            this.dialogue.visible = true;
+
+            const text1 = "Huh, the check-in desk is closed already. If only they were here to help.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+    protected handleSign1Hide(event: GameEvent): void {
+        if(this.sign1.visible) {
+            this.sign1.visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+        }
+    }
+    protected handleSign2Press(event: GameEvent): void {
+        if(!this.sign2.visible) {
+            this.sign2.visible = true;
+            this.dialogue.visible = true;
+
+            const text1 = "So many rooms to clean.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+    protected handleSign2Hide(event: GameEvent): void {
+        if(this.sign2.visible) {
+            this.sign2.visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+        }
+    }
 
     //General dialogue boxes --> no images required
     protected handleKeypadPress(event: GameEvent): void {
@@ -439,6 +512,16 @@ export default class Level1 extends HW3Level {
             this.dialogue.visible = true;
 
             const text1 = "Gary always says this sign in cheesy.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+    protected handleDoorPress(event: GameEvent): void {
+        if(!this.dialogue.visible) {
+            this.dialogue.visible = true;
+
+            const text1 = "I can't leave!";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
