@@ -9,6 +9,10 @@ import Layer from "../../Wolfie2D/Scene/Layer";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import HW3AnimatedSprite from "../Nodes/HW3AnimatedSprite";
 import PlayerController from "../Player/PlayerController";
+import Button from "../../Wolfie2D/Nodes/UIElements/Button";
+import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
+import Color from "../../Wolfie2D/Utils/Color";
+import MainMenu from "./MainMenu";
 
 /**
  * The first level for HW4 - should be the one with the grass and the clouds.
@@ -84,7 +88,18 @@ export default class LevelSelect extends HW3Level {
     }
 
     public initializeButtons(): void {
-        
+        let size = this.viewport.getHalfSize();
+        let backBtn = <Button>this.add.uiElement(UIElementType.BUTTON, "UI", {position: new Vec2(size.x-111, size.y-77), text: "Back"});
+        backBtn.backgroundColor = Color.TRANSPARENT;
+        backBtn.borderColor = Color.WHITE;
+        backBtn.borderRadius = 0;
+        backBtn.setPadding(new Vec2(50, 10));
+        backBtn.font = "PixelSimple";
+
+
+        backBtn.onClick = () => {
+            this.sceneManager.changeToScene(MainMenu);
+        }
     }
 
 }
