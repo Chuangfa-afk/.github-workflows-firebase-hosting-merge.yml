@@ -22,7 +22,7 @@ export default class Facingr extends PlayerState {
 	public update(deltaT: number): void {
         // Adjust anything needed
         
-        // If the player clicks left, go to Facingb
+        // If the player clicks left, go to Facingf
 		if (!this.keyShow && !this.clock2 && !this.phone && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
 			this.finished(PlayerStates.FACINGF);
 		} 
