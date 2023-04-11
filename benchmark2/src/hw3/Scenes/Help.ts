@@ -9,6 +9,11 @@ import Layer from "../../Wolfie2D/Scene/Layer";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import HW3AnimatedSprite from "../Nodes/HW3AnimatedSprite";
 import PlayerController from "../Player/PlayerController";
+import Button from "../../Wolfie2D/Nodes/UIElements/Button";
+import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
+import Color from "../../Wolfie2D/Utils/Color";
+import MainMenu from "./MainMenu";
+
 
 /**
  * The first level for HW4 - should be the one with the grass and the clouds.
@@ -33,6 +38,7 @@ export default class LevelSelect extends HW3Level {
     protected background: Layer;
     public ui: Layer;
     public bg: HW3AnimatedSprite;
+    public mainMenu: Layer;
     
 
     public static readonly LEVEL_END = new AABB(new Vec2(224, 232), new Vec2(24, 16));
@@ -69,22 +75,28 @@ export default class LevelSelect extends HW3Level {
         super.startScene();
         // Set the next level to be Level2
         this.nextLevel = HW4Level2;
+
+
     }
-
-
-    /**
-     * I had to override this method to adjust the viewport for the first level. I screwed up 
-     * when I was making the tilemap for the first level is what it boils down to.
-     * 
-     * - Peter
-     */
     protected initializeViewport(): void {
         super.initializeViewport();
         this.viewport.setBounds(16, 16, 496, 512);
     }
 
     public initializeButtons(): void {
-        
+
+        let size = this.viewport.getHalfSize();
+        let backBtn = <Button>this.add.uiElement(UIElementType.BUTTON, "UI", {position: new Vec2(size.x+120, size.y+83), text: "Back"});
+        backBtn.backgroundColor = Color.TRANSPARENT;
+        backBtn.borderColor = Color.WHITE;
+        backBtn.borderRadius = 0;
+        backBtn.setPadding(new Vec2(50, 10));
+        backBtn.font = "PixelSimple";
+
+
+        backBtn.onClick = () => {
+            this.sceneManager.changeToScene(MainMenu);
+        }
     }
 
 }
