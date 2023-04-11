@@ -21,14 +21,28 @@ import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 
 export const Level1Events = {
+    //Facing F
     CLOCK1: "CLOCK1",
     CLOCK1HIDE: "CLOCK1HIDE",
-    CLOCK2: "CLOCK2",
-    CLOCK2HIDE: "CLOCK2HIDE",
     KEYPAD: "KEYPAD",
     KEYPADHIDE: "KEYPADHIDE",
+    //Facing L
+    DRAWER: "DRAWER",
+    DRAWERHIDE: "DRAWERHIDE",
+    CHECKINSIGN: "CHECKINSIGN",
+    CHECKINSIGNHIDE: "CHECKINSIGNHIDE",
+    //Facing R
+    CLOCK2: "CLOCK2",
+    CLOCK2HIDE: "CLOCK2HIDE",
     PHONE: "PHONE",
     PHONEHIDE: "PHONEHIDE",
+    KEY: "KEY",
+    KEYHIDE: "KEYHIDE",
+    //Facing B
+    SIGN1: "SIGN1",
+    SIGN2: "SIGN2",
+    DOOR: "DOOR",
+    
 } as const;
 /**
  * The first level for HW4 - should be the one with the grass and the clouds.
@@ -54,6 +68,8 @@ export default class Level1 extends HW3Level {
     public static readonly CLOCK1_PATH = "Level1_assets/clock1.png";
     public static readonly CLOCK2_KEY = "CLOCK2";
     public static readonly CLOCK2_PATH = "Level1_assets/clock2.png";
+    public static readonly KEY_KEY = "KEY";
+    public static readonly KEY_PATH = "Level1_assets/Key_icon.png";
 
     protected background: Layer;
     public ui: Layer;
@@ -95,14 +111,27 @@ export default class Level1 extends HW3Level {
 
     public startScene(): void {
         //Subscribe to event
+        //FF
         this.receiver.subscribe(Level1Events.CLOCK1);
         this.receiver.subscribe(Level1Events.CLOCK1HIDE);
         this.receiver.subscribe(Level1Events.KEYPAD);
         this.receiver.subscribe(Level1Events.KEYPADHIDE);
+        //FL
+        this.receiver.subscribe(Level1Events.DRAWER);
+        this.receiver.subscribe(Level1Events.DRAWERHIDE);
+        this.receiver.subscribe(Level1Events.CHECKINSIGN);
+        this.receiver.subscribe(Level1Events.CHECKINSIGNHIDE);
+        //FR
         this.receiver.subscribe(Level1Events.CLOCK2);
         this.receiver.subscribe(Level1Events.CLOCK2HIDE);
         this.receiver.subscribe(Level1Events.PHONE)
         this.receiver.subscribe(Level1Events.PHONEHIDE);
+        this.receiver.subscribe(Level1Events.KEY);
+        this.receiver.subscribe(Level1Events.KEYHIDE);
+        //FB
+        this.receiver.subscribe(Level1Events.SIGN1);
+        this.receiver.subscribe(Level1Events.SIGN2);
+        this.receiver.subscribe(Level1Events.DOOR);
 
         this.background = this.addUILayer("background");
         this.addParallaxLayer("BACKGROUND", new Vec2(0.5, 1), -1);
@@ -123,20 +152,13 @@ export default class Level1 extends HW3Level {
      */
     protected handleEvent(event: GameEvent): void {
         switch (event.type) {
+            //FF
             case Level1Events.CLOCK1: {
                 this.handleClock1Press(event);
                 break;
             }
             case Level1Events.CLOCK1HIDE: {
                 this.handleClock1Hide(event);
-                break;
-            }
-            case Level1Events.CLOCK2: {
-                this.handleClock2Press(event);
-                break;
-            }
-            case Level1Events.CLOCK2HIDE: {
-                this.handleClock2Hide(event);
                 break;
             }
             case Level1Events.KEYPAD: {
@@ -147,12 +169,60 @@ export default class Level1 extends HW3Level {
                 this.handleKeypadHide(event);
                 break;
             }
+            //FL
+            case Level1Events.DRAWER: {
+                
+                break;
+            }
+            case Level1Events.DRAWERHIDE: {
+                
+                break;
+            }
+            case Level1Events.CHECKINSIGN: {
+                
+                break;
+            }
+            case Level1Events.CHECKINSIGNHIDE: {
+                
+                break;
+            }
+            //FR
+            case Level1Events.CLOCK2: {
+                this.handleClock2Press(event);
+                break;
+            }
+            case Level1Events.CLOCK2HIDE: {
+                this.handleClock2Hide(event);
+                break;
+            }
+            
             case Level1Events.PHONE: {
                 this.handlePhonePress(event);
                 break;
             }
             case Level1Events.PHONEHIDE: {
                 this.handleKeypadHide(event);
+                break;
+            }
+            case Level1Events.KEY: {
+
+                break;
+            }
+            case Level1Events.KEYHIDE: {
+                
+                break;
+            }
+            //FB
+            case Level1Events.SIGN1: {
+                
+                break;
+            }
+            case Level1Events.SIGN2: {
+                
+                break;
+            }
+            case Level1Events.DOOR: {
+                
                 break;
             }
             case HW3Events.LEVEL_START: {
