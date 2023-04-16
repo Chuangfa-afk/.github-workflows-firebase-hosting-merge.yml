@@ -9,8 +9,6 @@ import Layer from "../../Wolfie2D/Scene/Layer";
 import Receiver from "../../Wolfie2D/Events/Receiver";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
 import LevelSelect from "./LevelSelect";
-import Help from "./Help";
-import Control from "./Control";
 
 // Layers for the main menu scene
 export const MenuLayers = {
@@ -40,6 +38,10 @@ export default class MainMenu extends Scene {
         // Load the menu song
         this.load.image("BACKGROUND", "Level1_assets/Splash_Screen.png");
         this.load.image("MAIN_MENU", "Level1_assets/MainMenu.png");
+        this.load.image("CONTROLS", "Level1_assets/Controls.png");
+        this.load.image("HELP", "Level1_assets/Help_Screen.png");
+        this.load.image("LEVEL_SELECT", "Level1_assets/Level_Selection.png");
+
 
     }
 
@@ -58,12 +60,18 @@ export default class MainMenu extends Scene {
         this.mainMenu.setHidden(true);
         //Level Select
         this.levelSelect = this.addUILayer("levelSelect");
+        let l = this.add.sprite("LEVEL_SELECT", "levelSelect");
+        l.position.set(center.x, center.y);
         this.levelSelect.setHidden(true);
         //Controls
         this.controls = this.addUILayer("controls");
+        let c = this.add.sprite("CONTROLS", "controls");
+        c.position.set(center.x, center.y);
         this.controls.setHidden(true);
         //Help
         this.help = this.addUILayer("help");
+        let h = this.add.sprite("HELP", "help");
+        h.position.set(center.x, center.y);
         this.help.setHidden(true);
 
         // Center the viewport
@@ -103,19 +111,57 @@ export default class MainMenu extends Scene {
         helpBtn.setPadding(new Vec2(50, 10));
         helpBtn.font = "PixelSimple";
 
+        let backBtn = <Button>this.add.uiElement(UIElementType.BUTTON, "controls", {position: new Vec2(size.x+400, size.y+279), text: "Back"});
+        backBtn.backgroundColor = Color.TRANSPARENT;
+        backBtn.borderColor = Color.WHITE;
+        backBtn.borderRadius = 0;
+        backBtn.setPadding(new Vec2(50, 10));
+        backBtn.font = "PixelSimple";
+        
+        let backBtn2 = <Button>this.add.uiElement(UIElementType.BUTTON, "help", {position: new Vec2(size.x+400, size.y+279), text: "Back"});
+        backBtn2.backgroundColor = Color.TRANSPARENT;
+        backBtn2.borderColor = Color.WHITE;
+        backBtn2.borderRadius = 0;
+        backBtn2.setPadding(new Vec2(50, 10));
+        backBtn2.font = "PixelSimple";
+
+        let backBtn3 = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(size.x+400, size.y+279), text: "Back"});
+        backBtn3.backgroundColor = Color.TRANSPARENT;
+        backBtn3.borderColor = Color.WHITE;
+        backBtn3.borderRadius = 0;
+        backBtn3.setPadding(new Vec2(50, 10));
+        backBtn3.font = "PixelSimple";
+
+
         // When the play button is clicked, go to the next scene
         playBtn.onClick = () => {
             this.sceneManager.changeToScene(Level1);
         }
         levelBtn.onClick = () => {
-            this.sceneManager.changeToScene(LevelSelect);
+            this.mainMenu.setHidden(true);
+            this.levelSelect.setHidden(false);
         }
         ctrlBtn.onClick = () => {
-            this.sceneManager.changeToScene(Control);
+            this.mainMenu.setHidden(true);
+            this.controls.setHidden(false);
         }
         helpBtn.onClick = () => {
-            this.sceneManager.changeToScene(Help);
+            this.mainMenu.setHidden(true);
+            this.help.setHidden(false);
         }
+        backBtn.onClick = () => {
+            this.mainMenu.setHidden(false);
+            this.controls.setHidden(true);
+        }
+        backBtn2.onClick = () => {
+            this.mainMenu.setHidden(false);
+            this.help.setHidden(true);
+        }
+        backBtn3.onClick = () => {
+            this.mainMenu.setHidden(false);
+            this.levelSelect.setHidden(true);
+        }
+        
         //Change splash screen to main menu
         document.onclick = () => {
             if(!this.splashScreen.isHidden()) {

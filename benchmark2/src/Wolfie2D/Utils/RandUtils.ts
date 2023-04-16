@@ -23,6 +23,10 @@ export default class RandUtils {
         return Math.floor(Math.random()*(max - min) + min);
     }
 
+    static randomSeed(): string {
+        return Math.random().toString();
+    }
+
     /**
      * Generates a random float in the specified range
      * @param min The min of the range (inclusive)
