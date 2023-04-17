@@ -180,6 +180,8 @@ export default class Level1 extends HW3Level {
         this.initializeUserInterface();
         // Set the next level to be Level2
         this.nextLevel = MainMenu;
+
+        
     }
 
     /**
