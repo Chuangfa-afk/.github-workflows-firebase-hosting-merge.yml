@@ -4,9 +4,7 @@ import HW3Level, { HW3Layers } from "./Level";
 import RenderingManager from "../../Wolfie2D/Rendering/RenderingManager";
 import SceneManager from "../../Wolfie2D/Scene/SceneManager";
 import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
-import HW4Level2 from "./Level2";
 import Layer from "../../Wolfie2D/Scene/Layer";
-import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import HW3AnimatedSprite from "../Nodes/HW3AnimatedSprite";
 import PlayerController from "../Player/PlayerController";
 import Emitter from "../../Wolfie2D/Events/Emitter";
@@ -19,8 +17,6 @@ import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
 import Color from "../../Wolfie2D/Utils/Color";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
-import MainMenu from "./MainMenu";
-import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import Level2 from "./Level2";
 
 export const Level1Events = {
@@ -101,8 +97,6 @@ export default class Level1 extends HW3Level {
     public hasId: Boolean = false;
     public hasKey: Boolean = false;
 
-    public static readonly LEVEL_END = new AABB(new Vec2(224, 232), new Vec2(24, 16));
-
     public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, options);
         this.emitter = new Emitter();
@@ -135,7 +129,6 @@ export default class Level1 extends HW3Level {
         */
        this.load.keepSpritesheet(Level1.LEFT_KEY);
        this.load.keepSpritesheet(Level1.RIGHT_KEY);
-       this.unloadScene();
     }
 
     public startScene(): void {

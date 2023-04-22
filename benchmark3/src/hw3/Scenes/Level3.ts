@@ -17,10 +17,11 @@ import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
 import Color from "../../Wolfie2D/Utils/Color";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
+import MainMenu from "./MainMenu";
 import Level1 from "./Level1";
-import Level3 from "./Level3";
+import Level4 from "./Level4";
 
-export const Level2Events = {
+export const Level3Events = {
     //Facing F
 
     //Facing L
@@ -33,12 +34,10 @@ export const Level2Events = {
 /**
  * The first level for HW4 - should be the one with the grass and the clouds.
  */
-export default class Level2 extends HW3Level {
+export default class Level3 extends HW3Level {
 
     public static readonly BACKGROUND_KEY = "BACKGROUND";
-    public static readonly BACKGROUND_PATH = "Level2_assets/Level_2.json";
-
-
+    public static readonly BACKGROUND_PATH = "Level3_assets/Level_3.json";
 
     protected background: Layer;
     public ui: Layer;
@@ -67,7 +66,7 @@ export default class Level2 extends HW3Level {
      * Load in our resources for level 1
      */
     public loadScene(): void {
-        this.load.spritesheet(Level2.BACKGROUND_KEY, Level2.BACKGROUND_PATH);
+        this.load.spritesheet(Level3.BACKGROUND_KEY, Level3.BACKGROUND_PATH);
     }
 
     /**
@@ -95,15 +94,14 @@ export default class Level2 extends HW3Level {
 
         this.background = this.addUILayer("background");
         this.addParallaxLayer("BACKGROUND", new Vec2(0.5, 1), -1);
-        this.bg = this.add.animatedSprite(Level2.BACKGROUND_KEY, HW3Layers.BACKGROUND);
+        this.bg = this.add.animatedSprite(Level3.BACKGROUND_KEY, HW3Layers.BACKGROUND);
         this.bg.position.set(248, 400);
         this.bg.scale = new Vec2(0.25, 0.25);
         this.bg.addAI(PlayerController);
 
         super.startScene();
         this.initializeUserInterface();
-        this.nextLevel = Level3;
-
+        this.nextLevel = Level4;
         //this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END);
     }
 

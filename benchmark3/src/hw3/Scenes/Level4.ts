@@ -17,10 +17,9 @@ import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
 import Color from "../../Wolfie2D/Utils/Color";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
-import Level1 from "./Level1";
-import Level3 from "./Level3";
+import MainMenu from "./MainMenu";
 
-export const Level2Events = {
+export const Level4Events = {
     //Facing F
 
     //Facing L
@@ -33,12 +32,10 @@ export const Level2Events = {
 /**
  * The first level for HW4 - should be the one with the grass and the clouds.
  */
-export default class Level2 extends HW3Level {
+export default class Level4 extends HW3Level {
 
     public static readonly BACKGROUND_KEY = "BACKGROUND";
-    public static readonly BACKGROUND_PATH = "Level2_assets/Level_2.json";
-
-
+    public static readonly BACKGROUND_PATH = "Level4_assets/Level_4.json";
 
     protected background: Layer;
     public ui: Layer;
@@ -67,7 +64,7 @@ export default class Level2 extends HW3Level {
      * Load in our resources for level 1
      */
     public loadScene(): void {
-        this.load.spritesheet(Level2.BACKGROUND_KEY, Level2.BACKGROUND_PATH);
+        this.load.spritesheet(Level4.BACKGROUND_KEY, Level4.BACKGROUND_PATH);
     }
 
     /**
@@ -79,8 +76,6 @@ export default class Level2 extends HW3Level {
         this.load.keepAudio(this.jumpAudioKey);
         this.load.keepAudio(this.tileDestroyedAudioKey);
         */
-        this.load.keepSpritesheet(Level1.LEFT_KEY);
-        this.load.keepSpritesheet(Level1.RIGHT_KEY);
     }
 
     public startScene(): void {
@@ -95,15 +90,14 @@ export default class Level2 extends HW3Level {
 
         this.background = this.addUILayer("background");
         this.addParallaxLayer("BACKGROUND", new Vec2(0.5, 1), -1);
-        this.bg = this.add.animatedSprite(Level2.BACKGROUND_KEY, HW3Layers.BACKGROUND);
+        this.bg = this.add.animatedSprite(Level4.BACKGROUND_KEY, HW3Layers.BACKGROUND);
         this.bg.position.set(248, 400);
         this.bg.scale = new Vec2(0.25, 0.25);
         this.bg.addAI(PlayerController);
 
         super.startScene();
         this.initializeUserInterface();
-        this.nextLevel = Level3;
-
+        this.nextLevel = MainMenu;
         //this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END);
     }
 

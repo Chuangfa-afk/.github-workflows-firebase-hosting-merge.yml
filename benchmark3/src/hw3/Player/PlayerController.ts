@@ -2,11 +2,6 @@ import StateMachineAI from "../../Wolfie2D/AI/StateMachineAI";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import OrthogonalTilemap from "../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 
-import Fall from "./PlayerStates/Fall";
-import Idle from "./PlayerStates/Idle";
-import Jump from "./PlayerStates/Jump";
-import Run from "./PlayerStates/Run";
-
 import Facingf from "./PlayerStates/Facingf";
 import Facingl from "./PlayerStates/Facingl";
 import Facingr from "./PlayerStates/Facingr";
@@ -65,12 +60,7 @@ export default class PlayerController extends StateMachineAI {
     public initializeAI(owner: HW3AnimatedSprite, options: Record<string, any>){
         this.owner = owner;
 
-
         // Add the different states the player can be in to the PlayerController 
-		/*this.addState(PlayerStates.IDLE, new Idle(this, this.owner));
-		this.addState(PlayerStates.RUN, new Run(this, this.owner));
-        this.addState(PlayerStates.JUMP, new Jump(this, this.owner));
-        this.addState(PlayerStates.FALL, new Fall(this, this.owner));*/
         this.addState(PlayerStates.DEAD, new Dead(this, this.owner));
         this.addState(PlayerStates.FACINGF, new Facingf(this, this.owner));
         this.addState(PlayerStates.FACINGL, new Facingl(this, this.owner));
