@@ -1,10 +1,10 @@
 import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import HW3Level, { HW3Layers } from "./HW3Level";
+import HW3Level, { HW3Layers } from "./Level";
 import RenderingManager from "../../Wolfie2D/Rendering/RenderingManager";
 import SceneManager from "../../Wolfie2D/Scene/SceneManager";
 import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
-import HW4Level2 from "./HW3Level2";
+import HW4Level2 from "./Level2";
 import Layer from "../../Wolfie2D/Scene/Layer";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import HW3AnimatedSprite from "../Nodes/HW3AnimatedSprite";

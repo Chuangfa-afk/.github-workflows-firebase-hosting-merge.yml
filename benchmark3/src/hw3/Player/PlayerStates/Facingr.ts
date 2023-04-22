@@ -4,7 +4,7 @@ import Input from "../../../Wolfie2D/Input/Input";
 import { HW3Controls } from "../../HW3Controls";
 import Emitter from "../../../Wolfie2D/Events/Emitter";
 import Timer from "../../../Wolfie2D/Timing/Timer";
-import { Level1Events } from "../../Scenes/HW3Level1";
+import { Level1Events } from "../../Scenes/Level1";
 
 export default class Facingr extends PlayerState {
 	protected emitter: Emitter = new Emitter();

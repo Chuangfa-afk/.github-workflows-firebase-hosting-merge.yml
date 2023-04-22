@@ -4,7 +4,7 @@ import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
-import Level1 from "./HW3Level1";
+import Level1 from "./Level1";
 import Layer from "../../Wolfie2D/Scene/Layer";
 import Receiver from "../../Wolfie2D/Events/Receiver";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";

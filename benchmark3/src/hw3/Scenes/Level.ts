@@ -25,7 +25,7 @@ import { HW3PhysicsGroups } from "../HW3PhysicsGroups";
 import HW3FactoryManager from "../Factory/HW3FactoryManager";
 import MainMenu from "./MainMenu";
 import Particle from "../../Wolfie2D/Nodes/Graphics/Particle";
-import Level1 from "./HW3Level1";
+import Level1 from "./Level1";
 import ButtonBehavior from "../ai/ButtonBehavior";
 
 /**

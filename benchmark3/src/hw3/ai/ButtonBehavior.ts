@@ -9,7 +9,7 @@ import Timer from "../../Wolfie2D/Timing/Timer";
 import { HW3Controls } from "../HW3Controls";
 import { HW3Events } from "../HW3Events";
 import Emitter from "../../Wolfie2D/Events/Emitter";
-import { Level1Events } from "../Scenes/HW3Level1";
+import { Level1Events } from "../Scenes/Level1";
 
 export const ButtonAnimations = {
     IDLE: "IDLE",
