@@ -20,20 +20,8 @@ import MainMenu from "./MainMenu";
  */
 export default class LevelSelect extends HW3Level {
 
-    public static readonly TILEMAP_KEY = "LEVEL1";
-    public static readonly TILEMAP_PATH = "hw4_assets/tilemaps/HW4Level1.json";
-    public static readonly TILEMAP_SCALE = new Vec2(2, 2);
-    public static readonly DESTRUCTIBLE_LAYER_KEY = "Destructable";
-    public static readonly WALLS_LAYER_KEY = "Main";
-
     public static readonly BACKGROUND_KEY = "BACKGROUND";
-    public static readonly BACKGROUND_PATH = "./Level1_assets/Help_Screen.json";
-
-    public static LEFT_KEY: string = "LEFT";
-    public static LEFT_PATH = "Level1_assets/spritesheets/Left Button.json";
-
-    public static RIGHT_KEY: string = "RIGHT";
-    public static RIGHT_PATH = "Level1_assets/spritesheets/Right Button.json";
+    public static readonly BACKGROUND_PATH = "MainMenu_assets/Help_Screen.json";
 
     protected background: Layer;
     public ui: Layer;
@@ -52,8 +40,6 @@ export default class LevelSelect extends HW3Level {
      */
     public loadScene(): void {
         this.load.spritesheet(LevelSelect.BACKGROUND_KEY, LevelSelect.BACKGROUND_PATH);
-        this.load.spritesheet(LevelSelect.LEFT_KEY, LevelSelect.LEFT_PATH);
-        this.load.spritesheet(LevelSelect.RIGHT_KEY, LevelSelect.RIGHT_PATH);
     }
 
     /**

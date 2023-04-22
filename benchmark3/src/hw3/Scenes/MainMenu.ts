@@ -36,11 +36,11 @@ export default class MainMenu extends Scene {
 
     public loadScene(): void {
         // Load the menu song
-        this.load.image("BACKGROUND", "Level1_assets/Splash_Screen.png");
-        this.load.image("MAIN_MENU", "Level1_assets/MainMenu.png");
-        this.load.image("CONTROLS", "Level1_assets/Controls.png");
-        this.load.image("HELP", "Level1_assets/Help_Screen.png");
-        this.load.image("LEVEL_SELECT", "Level1_assets/Level_Selection.png");
+        this.load.image("BACKGROUND", "MainMenu_assets/Splash_Screen.png");
+        this.load.image("MAIN_MENU", "MainMenu_assets/MainMenu.png");
+        this.load.image("CONTROLS", "MainMenu_assets/Controls.png");
+        this.load.image("HELP", "MainMenu_assets/Help_Screen.png");
+        this.load.image("LEVEL_SELECT", "MainMenu_assets/Level_Selection.png");
 
 
     }

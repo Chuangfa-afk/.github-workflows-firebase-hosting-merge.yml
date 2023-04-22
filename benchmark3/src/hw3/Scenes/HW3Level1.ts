@@ -21,6 +21,7 @@ import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import MainMenu from "./MainMenu";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
+import Level2 from "./HW3Level2";
 
 export const Level1Events = {
     //Facing F
@@ -56,20 +57,14 @@ export const Level1Events = {
  */
 export default class Level1 extends HW3Level {
 
-    public static readonly TILEMAP_KEY = "LEVEL1";
-    public static readonly TILEMAP_PATH = "hw4_assets/tilemaps/HW4Level1.json";
-    public static readonly TILEMAP_SCALE = new Vec2(2, 2);
-    public static readonly DESTRUCTIBLE_LAYER_KEY = "Destructable";
-    public static readonly WALLS_LAYER_KEY = "Main";
-
     public static readonly BACKGROUND_KEY = "BACKGROUND";
     public static readonly BACKGROUND_PATH = "Level1_assets/Level_1.json";
 
     public static LEFT_KEY: string = "LEFT";
-    public static LEFT_PATH = "Level1_assets/spritesheets/Left Button.json";
+    public static LEFT_PATH = "Level_assets/spritesheets/Left Button.json";
 
     public static RIGHT_KEY: string = "RIGHT";
-    public static RIGHT_PATH = "Level1_assets/spritesheets/Right Button.json";
+    public static RIGHT_PATH = "Level_assets/spritesheets/Right Button.json";
 
     public static readonly CLOCK1_KEY = "CLOCK1";
     public static readonly CLOCK1_PATH = "Level1_assets/clock1.png";
@@ -138,6 +133,9 @@ export default class Level1 extends HW3Level {
         this.load.keepAudio(this.jumpAudioKey);
         this.load.keepAudio(this.tileDestroyedAudioKey);
         */
+       this.load.keepSpritesheet(Level1.LEFT_KEY);
+       this.load.keepSpritesheet(Level1.RIGHT_KEY);
+       this.unloadScene();
     }
 
     public startScene(): void {
@@ -179,7 +177,7 @@ export default class Level1 extends HW3Level {
         super.startScene();
         this.initializeUserInterface();
         // Set the next level to be Level2
-        this.nextLevel = MainMenu;
+        this.nextLevel = Level2;
 
         
     }
