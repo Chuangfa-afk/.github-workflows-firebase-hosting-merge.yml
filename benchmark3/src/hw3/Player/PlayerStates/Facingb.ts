@@ -74,11 +74,46 @@ export default class Facingb extends PlayerState {
 				this.emitter.fireEvent(Level1Events.DOORHIDE);
 			}
 		}
+
+		//Level 2
+		else if(this.whatLevel == 2) {
+			if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+				this.finished(PlayerStates.FACINGR);
+			} 
+			// If the player clicks right, go to Facingr
+			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.finished(PlayerStates.FACINGL);
+			} 
+		}
 		
+		//Level 3
+		else if(this.whatLevel == 3) {
+			if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+				this.finished(PlayerStates.FACINGR);
+			} 
+			// If the player clicks right, go to Facingr
+			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.finished(PlayerStates.FACINGL);
+			} 
+		}
+
+		//Level 4
+		else if(this.whatLevel == 4) {
+			if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+				this.finished(PlayerStates.FACINGR);
+			} 
+			// If the player clicks right, go to Facingr
+			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.finished(PlayerStates.FACINGL);
+			} 
+			if(Input.isJustPressed(HW3Controls.MOVE_UP)) {
+				this.finished(PlayerStates.FACINGU);
+			}
+		}
 	}
 
 	public onExit(): Record<string, any> {
 		this.owner.animation.stop();
-		return {whatLevel: this.whatLevel};
+		return {whatLevel: this.whatLevel, currState: "FACINGB"};
 	}
 }

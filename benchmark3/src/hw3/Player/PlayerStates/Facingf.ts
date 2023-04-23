@@ -79,13 +79,39 @@ export default class Facingf extends PlayerState {
 			}
 		}
 
+		//Level 2
+		else if(this.whatLevel == 2) {
+			if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+				this.finished(PlayerStates.FACINGL);
+			} 
+			// If the player clicks right, go to Facingr
+			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.finished(PlayerStates.FACINGR);
+			} 
+		}
+
+		//Level 3
+		else if(this.whatLevel == 3) {
+			if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+				this.finished(PlayerStates.FACINGL);
+			} 
+			// If the player clicks right, go to Facingr
+			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.finished(PlayerStates.FACINGR);
+			} 
+		}
+
+		//Level 4
 		else if(this.whatLevel == 4) {
+			if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+				this.finished(PlayerStates.FACINGL);
+			} 
+			// If the player clicks right, go to Facingr
+			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.finished(PlayerStates.FACINGR);
+			} 
 			if(Input.isJustPressed(HW3Controls.MOVE_UP)) {
-				this.isFacingUp = true;
-			}
-			if(Input.isJustPressed(HW3Controls.MOVE_DOWN)) {
-				this.finished(PlayerStates.FACINGF);
-				this.isFacingUp = false;
+				this.finished(PlayerStates.FACINGU);
 			}
 		}
 
@@ -126,6 +152,6 @@ export default class Facingf extends PlayerState {
 
 	public onExit(): Record<string, any> {
 		this.owner.animation.stop();
-		return {whatLevel: this.whatLevel};
+		return {whatLevel: this.whatLevel, currState: "FACINGF"};
 	}
 }

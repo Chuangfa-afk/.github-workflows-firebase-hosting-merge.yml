@@ -105,7 +105,7 @@ export default class Level2 extends HW3Level {
         this.initializeUserInterface();
         this.nextLevel = Level3;
 
-        //this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END);
+        this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END);
     }
 
     /**

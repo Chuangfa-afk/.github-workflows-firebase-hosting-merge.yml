@@ -71,6 +71,42 @@ export default class Facingr extends PlayerState {
 				this.emitter.fireEvent(Level1Events.KEYHIDE);
 			}
 		}
+
+		//Level 2
+		else if(this.whatLevel == 2) {
+			if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+				this.finished(PlayerStates.FACINGF);
+			} 
+			// If the player clicks right, go to Facingr
+			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.finished(PlayerStates.FACINGB);
+			} 
+		}
+
+		//Level 3
+		else if(this.whatLevel == 3) {
+			if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+				this.finished(PlayerStates.FACINGF);
+			} 
+			// If the player clicks right, go to Facingr
+			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.finished(PlayerStates.FACINGB);
+			} 
+		}
+
+		//Level 4
+		else if(this.whatLevel == 4) {
+			if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+				this.finished(PlayerStates.FACINGF);
+			} 
+			// If the player clicks right, go to Facingr
+			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.finished(PlayerStates.FACINGB);
+			} 
+			if(Input.isJustPressed(HW3Controls.MOVE_UP)) {
+				this.finished(PlayerStates.FACINGU);
+			}
+		}
 		/*
 		if(!this.clock2 && !this.phone && Input.isMouseJustPressed()) {
 			console.log(Input.getMousePressPosition());
@@ -81,6 +117,6 @@ export default class Facingr extends PlayerState {
 
 	public onExit(): Record<string, any> {
 		this.owner.animation.stop();
-		return {whatLevel: this.whatLevel};
+		return {whatLevel: this.whatLevel, currState: "FACINGR"};
 	}
 }
