@@ -20,7 +20,12 @@ export default class Facingf extends PlayerState {
 	}
 
 	public update(deltaT: number): void {
-        // Adjust anything needed
+        if(Input.isJustPressed(HW3Controls.MOVE_UP)) {
+			console.log("pressed up");
+		}
+		if(Input.isJustPressed(HW3Controls.MOVE_DOWN)) {
+			console.log("pressed down");
+		}
 
         // If the player clicks left, go to Facingl
 		if (!this.clock1 && !this.keypad && !this.elevator && Input.isJustPressed(HW3Controls.MOVE_LEFT)){

@@ -114,6 +114,8 @@ export default class Level4 extends HW3Level {
             //FR
 
             //FB
+
+            //Facing Up (FU)
             case HW3Events.LEVEL_START: {
                 Input.enableInput();
                 break;

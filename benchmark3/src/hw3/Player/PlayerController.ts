@@ -24,6 +24,7 @@ export const PlayerAnimations = {
     FACINGL: "FACINGL",
     FACINGR: "FACINGR",
     FACINGB: "FACINGB",
+    FACINGU: "FACINGU"
 } as const
 
 /**
@@ -47,6 +48,7 @@ export const PlayerStates = {
     FACINGL: "FACINGL",
     FACINGR: "FACINGR",
     FACINGB: "FACINGB",
+    FACINGU: "FACINGU"
 } as const
 
 /**
