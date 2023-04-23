@@ -8,7 +8,6 @@ import Level1 from "./Level1";
 import Layer from "../../Wolfie2D/Scene/Layer";
 import Receiver from "../../Wolfie2D/Events/Receiver";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
-import LevelSelect from "./LevelSelect";
 
 // Layers for the main menu scene
 export const MenuLayers = {
