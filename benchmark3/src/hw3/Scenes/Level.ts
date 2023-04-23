@@ -42,6 +42,11 @@ export const HW3Layers = {
 // The layers as a type
 export type HW3Layer = typeof HW3Layers[keyof typeof HW3Layers]
 
+export const LevelEvents = {
+    NOT_LEVEL_4: "NOT_LEVEL_4",
+    LEVEL_4: "LEVEL_4"
+} as const;
+
 /**
  * An abstract HW4 scene class.
  */

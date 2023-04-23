@@ -6,6 +6,7 @@ import Facingf from "./PlayerStates/Facingf";
 import Facingl from "./PlayerStates/Facingl";
 import Facingr from "./PlayerStates/Facingr";
 import Facingb from "./PlayerStates/Facingb";
+import Facingu from "./PlayerStates/Facingu";
 
 import PlayerWeapon from "./PlayerWeapon";
 import Input from "../../Wolfie2D/Input/Input";
@@ -68,6 +69,7 @@ export default class PlayerController extends StateMachineAI {
         this.addState(PlayerStates.FACINGL, new Facingl(this, this.owner));
         this.addState(PlayerStates.FACINGR, new Facingr(this, this.owner));
         this.addState(PlayerStates.FACINGB, new Facingb(this, this.owner));
+        this.addState(PlayerStates.FACINGU, new Facingu(this, this.owner));
         
         this.owner.animation.play(PlayerAnimations.FACINGF, true);
         // Start the player in the Idle state

@@ -1,6 +1,6 @@
 import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import HW3Level, { HW3Layers } from "./Level";
+import HW3Level, { HW3Layers, LevelEvents } from "./Level";
 import RenderingManager from "../../Wolfie2D/Rendering/RenderingManager";
 import SceneManager from "../../Wolfie2D/Scene/SceneManager";
 import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
@@ -29,9 +29,7 @@ export const Level4Events = {
     //Facing B
     
 } as const;
-/**
- * The first level for HW4 - should be the one with the grass and the clouds.
- */
+
 export default class Level4 extends HW3Level {
 
     public static readonly BACKGROUND_KEY = "BACKGROUND";
@@ -79,6 +77,7 @@ export default class Level4 extends HW3Level {
     }
 
     public startScene(): void {
+        this.emitter.fireEvent(LevelEvents.LEVEL_4);
         //Subscribe to event
         //FF
         

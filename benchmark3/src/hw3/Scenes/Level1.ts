@@ -18,6 +18,7 @@ import Color from "../../Wolfie2D/Utils/Color";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Level2 from "./Level2";
+import { LevelEvents } from "./Level";
 
 export const Level1Events = {
     //Facing F
@@ -132,6 +133,7 @@ export default class Level1 extends HW3Level {
     }
 
     public startScene(): void {
+        this.emitter.fireEvent(LevelEvents.NOT_LEVEL_4);
         //Subscribe to event
         //FF
         this.receiver.subscribe(Level1Events.CLOCK1);
