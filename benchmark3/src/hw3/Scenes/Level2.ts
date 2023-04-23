@@ -84,7 +84,7 @@ export default class Level2 extends HW3Level {
     }
 
     public startScene(): void {
-        this.emitter.fireEvent(LevelEvents.NOT_LEVEL_4);
+        this.emitter.fireEvent(LevelEvents.LEVEL_2);
         //Subscribe to event
         //FF
         

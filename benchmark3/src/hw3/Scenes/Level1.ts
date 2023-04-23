@@ -133,7 +133,7 @@ export default class Level1 extends HW3Level {
     }
 
     public startScene(): void {
-        this.emitter.fireEvent(LevelEvents.NOT_LEVEL_4);
+        this.emitter.fireEvent(LevelEvents.LEVEL_1);
         //Subscribe to event
         //FF
         this.receiver.subscribe(Level1Events.CLOCK1);

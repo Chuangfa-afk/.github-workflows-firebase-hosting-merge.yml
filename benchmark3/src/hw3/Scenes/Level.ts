@@ -43,7 +43,9 @@ export const HW3Layers = {
 export type HW3Layer = typeof HW3Layers[keyof typeof HW3Layers]
 
 export const LevelEvents = {
-    NOT_LEVEL_4: "NOT_LEVEL_4",
+    LEVEL_1: "LEVEL_1",
+    LEVEL_2: "LEVEL_2",
+    LEVEL_3: "LEVEL_3",
     LEVEL_4: "LEVEL_4"
 } as const;
 
