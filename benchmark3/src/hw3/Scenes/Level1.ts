@@ -19,6 +19,9 @@ import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Level2 from "./Level2";
 import { LevelEvents } from "./Level";
+import { HW3Controls } from "../HW3Controls";
+import Level3 from "./Level3";
+import Level4 from "./Level4";
 
 export const Level1Events = {
     //Facing F
@@ -294,7 +297,22 @@ export default class Level1 extends HW3Level {
             }
         }
     }
-
+    
+    public updateScene(deltaT: number): void {
+        super.updateScene(deltaT);
+        if(Input.isJustPressed(HW3Controls.LEVEL_1,)) {
+            this.sceneManager.changeToScene(Level1);
+        }
+        else if(Input.isJustPressed(HW3Controls.LEVEL_2,)) {
+            this.sceneManager.changeToScene(Level2);
+        }
+        else if(Input.isJustPressed(HW3Controls.LEVEL_3,)) {
+            this.sceneManager.changeToScene(Level3);
+        }
+        else if(Input.isJustPressed(HW3Controls.LEVEL_4,)) {
+            this.sceneManager.changeToScene(Level4);
+        }
+    }
 
     /**
      * I had to override this method to adjust the viewport for the first level. I screwed up 

@@ -21,6 +21,8 @@ import Level1 from "./Level1";
 import Level3 from "./Level3";
 import Game from "../../Wolfie2D/Loop/Game";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
+import { HW3Controls } from "../HW3Controls";
+import Level4 from "./Level4";
 
 export const Level2Events = {
     //Facing F
@@ -251,6 +253,23 @@ export default class Level2 extends HW3Level {
             }
         }
     }
+
+    public updateScene(deltaT: number): void {
+        super.updateScene(deltaT);
+        if(Input.isJustPressed(HW3Controls.LEVEL_1,)) {
+            this.sceneManager.changeToScene(Level1);
+        }
+        else if(Input.isJustPressed(HW3Controls.LEVEL_2,)) {
+            this.sceneManager.changeToScene(Level2);
+        }
+        else if(Input.isJustPressed(HW3Controls.LEVEL_3,)) {
+            this.sceneManager.changeToScene(Level3);
+        }
+        else if(Input.isJustPressed(HW3Controls.LEVEL_4,)) {
+            this.sceneManager.changeToScene(Level4);
+        }
+    }
+
 
     protected initializeViewport(): void {
         super.initializeViewport();

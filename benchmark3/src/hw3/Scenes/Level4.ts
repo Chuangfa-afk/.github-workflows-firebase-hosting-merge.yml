@@ -18,6 +18,10 @@ import Color from "../../Wolfie2D/Utils/Color";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import MainMenu from "./MainMenu";
+import { HW3Controls } from "../HW3Controls";
+import Level1 from "./Level1";
+import Level2 from "./Level2";
+import Level3 from "./Level3";
 
 export const Level4Events = {
     //Facing F
@@ -131,6 +135,22 @@ export default class Level4 extends HW3Level {
             default: {
                 throw new Error(`Unhandled event caught in scene with type ${event.type}`)
             }
+        }
+    }
+
+    public updateScene(deltaT: number): void {
+        super.updateScene(deltaT);
+        if(Input.isJustPressed(HW3Controls.LEVEL_1,)) {
+            this.sceneManager.changeToScene(Level1);
+        }
+        else if(Input.isJustPressed(HW3Controls.LEVEL_2,)) {
+            this.sceneManager.changeToScene(Level2);
+        }
+        else if(Input.isJustPressed(HW3Controls.LEVEL_3,)) {
+            this.sceneManager.changeToScene(Level3);
+        }
+        else if(Input.isJustPressed(HW3Controls.LEVEL_4,)) {
+            this.sceneManager.changeToScene(Level4);
         }
     }
 

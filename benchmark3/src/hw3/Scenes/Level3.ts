@@ -18,7 +18,9 @@ import Color from "../../Wolfie2D/Utils/Color";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import MainMenu from "./MainMenu";
+import { HW3Controls } from "../HW3Controls";
 import Level1 from "./Level1";
+import Level2 from "./Level2";
 import Level4 from "./Level4";
 
 export const Level3Events = {
@@ -35,7 +37,6 @@ export const Level3Events = {
  * The first level for HW4 - should be the one with the grass and the clouds.
  */
 export default class Level3 extends HW3Level {
-
     public static readonly BACKGROUND_KEY = "BACKGROUND";
     public static readonly BACKGROUND_PATH = "Level3_assets/Level_3.json";
 
@@ -136,6 +137,22 @@ export default class Level3 extends HW3Level {
             default: {
                 throw new Error(`Unhandled event caught in scene with type ${event.type}`)
             }
+        }
+    }
+
+    public updateScene(deltaT: number): void {
+        super.updateScene(deltaT);
+        if(Input.isJustPressed(HW3Controls.LEVEL_1,)) {
+            this.sceneManager.changeToScene(Level1);
+        }
+        else if(Input.isJustPressed(HW3Controls.LEVEL_2,)) {
+            this.sceneManager.changeToScene(Level2);
+        }
+        else if(Input.isJustPressed(HW3Controls.LEVEL_3,)) {
+            this.sceneManager.changeToScene(Level3);
+        }
+        else if(Input.isJustPressed(HW3Controls.LEVEL_4,)) {
+            this.sceneManager.changeToScene(Level4);
         }
     }
 
