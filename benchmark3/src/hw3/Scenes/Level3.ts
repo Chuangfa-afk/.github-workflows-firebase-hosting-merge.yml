@@ -165,8 +165,8 @@ export default class Level3 extends HW3Level {
         this.receiver.subscribe(Level3Events.DIPLOMAHIDE);
         this.receiver.subscribe(Level3Events.TRASH);
         this.receiver.subscribe(Level3Events.TRASHHIDE);
-        this.receiver.subscribe(Level3Events.COMPUTER);
-        this.receiver.subscribe(Level3Events.COMPUTERHIDE);
+        this.receiver.subscribe(Level3Events.COMPUTERL);
+        this.receiver.subscribe(Level3Events.COMPUTERLHIDE);
         this.receiver.subscribe(Level3Events.FLOWER);
         this.receiver.subscribe(Level3Events.FLOWERHIDE);
 
@@ -255,24 +255,24 @@ export default class Level3 extends HW3Level {
                 this.handleTrash(event);
                 break;
             }
-            case Level3Events.WATERMACHINEHIDE: {
-                this.handleWaterMachineHide(event);
+            case Level3Events.TRASHHIDE: {
+                this.handleTrashHide(event);
                 break;
             }
-            case Level3Events.WATERMACHINE: {
-                this.handleWaterMachine(event);
+            case Level3Events.COMPUTERL: {
+                this.handleComputerl(event);
                 break;
             }
-            case Level3Events.WATERMACHINEHIDE: {
-                this.handleWaterMachineHide(event);
+            case Level3Events.COMPUTERLHIDE: {
+                this.handleComputerlHide(event);
                 break;
             }
-            case Level3Events.WATERMACHINE: {
-                this.handleWaterMachine(event);
+            case Level3Events.FLOWER: {
+                this.handleFlower(event);
                 break;
             }
-            case Level3Events.WATERMACHINEHIDE: {
-                this.handleWaterMachineHide(event);
+            case Level3Events.FLOWERHIDE: {
+                this.handleFlowerHide(event);
                 break;
             }
             //FR
@@ -607,6 +607,88 @@ export default class Level3 extends HW3Level {
 
     }
     protected handleClockHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+
+    //------------------------------------------------------------------------------
+    protected handleLight(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "Just a cup";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handleLightHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+    protected handleDiploma(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "Just a cup";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handleDiplomaHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+    protected handleTrash(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "Just a cup";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handleTrashHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+    protected handleComputerl(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "Just a cup";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handleComputerlHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+    protected handleFlower(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "Just a cup";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handleFlowerHide(event: GameEvent): void {
         if (this.dialogue.visible) {
             this.line1.visible = false;
             this.dialogue.visible = false;
