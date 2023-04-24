@@ -19,6 +19,8 @@ import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Level1 from "./Level1";
 import Level3 from "./Level3";
+import Game from "../../Wolfie2D/Loop/Game";
+import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 
 export const Level2Events = {
     //Facing F
@@ -33,6 +35,14 @@ export const Level2Events = {
     //Facing B
     CLOCK: "CLOCK",
     CLOCKHIDE: "CLOCKHIDE",
+    BOILER: "BOILER",
+    BOILERHIDE: "BOILERHIDE",
+    REFRIGERATOR: "REFRIGERATOR",
+    REFRIGERATORHIDE: "REFRIGERATORHIDE",
+    PLANT: "PLANT",
+    PLANTHIDE: "PLANTHIDE",
+    WATER_PLANT: "WATER_PLANT",
+    IGNORE_PLANT: "IGNORE_PLANT",
 } as const;
 /**
  * The first level for HW4 - should be the one with the grass and the clouds.
@@ -47,6 +57,8 @@ export default class Level2 extends HW3Level {
 
     public static readonly CLOCK_KEY = "CLOCK";
     public static readonly CLOCK_PATH = "Level2_assets/Clock.png"
+
+    
 
 
 
@@ -70,7 +82,8 @@ export default class Level2 extends HW3Level {
 
     //facingB
     public clock: Sprite;
-
+    public waterButton: Button;
+    public ignoreButton: Button;
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
@@ -111,6 +124,7 @@ export default class Level2 extends HW3Level {
         this.receiver.subscribe(Level2Events.MICROWAVEHIDE);
         this.receiver.subscribe(Level2Events.DOORHAND);
         this.receiver.subscribe(Level2Events.DOORHANDHIDE);
+        
         //FL
         
         //FR
@@ -118,6 +132,17 @@ export default class Level2 extends HW3Level {
         //FB
         this.receiver.subscribe(Level2Events.CLOCK);
         this.receiver.subscribe(Level2Events.CLOCKHIDE);
+        this.receiver.subscribe(Level2Events.BOILER);
+        this.receiver.subscribe(Level2Events.BOILERHIDE);
+        this.receiver.subscribe(Level2Events.PLANT);
+        this.receiver.subscribe(Level2Events.PLANTHIDE);
+        this.receiver.subscribe(Level2Events.REFRIGERATOR);
+        this.receiver.subscribe(Level2Events.REFRIGERATORHIDE);
+        this.receiver.subscribe(Level2Events.WATER_PLANT);
+        this.receiver.subscribe(Level2Events.IGNORE_PLANT);
+
+
+
 
 
         this.background = this.addUILayer("background");
@@ -157,6 +182,12 @@ export default class Level2 extends HW3Level {
                 this.handleDoorHandHide(event);
                 break;
             }
+
+            //FL
+
+            //FR
+
+            //FB
             case Level2Events.CLOCK: {
                 this.handleClock(event);
                 break;
@@ -165,11 +196,43 @@ export default class Level2 extends HW3Level {
                 this.handleClockHide(event);
                 break;
             }
-            //FL
+            case Level2Events.BOILER: {
+                this.handleBoiler(event);
+                break;
+            }
+            case Level2Events.BOILERHIDE: {
+                this.handleBoilerHide(event);
+                break;
+            }
+            case Level2Events.PLANT: {
+                this.handlePlant(event);
+                break;
+            }
+            case Level2Events.PLANTHIDE: {
+                this.handlePlantHide(event);
+                break;
+            }
+            // case Level2Events.REFRIGERATOR: {
+            //     this.handleRefrigerator(event);
+            //     break;
+            // }
+            // case Level2Events.REFRIGERATORHIDE: {
+            //     this.handleRefrigeratorHide(event);
+            //     break;
+            // }
 
-            //FR
+            case Level2Events.WATER_PLANT: {
+                this.handleWaterPlant(event);
+                break;
+            }
+            case Level2Events.IGNORE_PLANT: {
+                this.handleIgnorePlant(event);
+                break;
+            }
+            
 
-            //FB
+
+
             case HW3Events.LEVEL_START: {
                 Input.enableInput();
                 break;
@@ -212,6 +275,11 @@ export default class Level2 extends HW3Level {
         this.clock.position.set(350, 380);
         this.clock.scale = new Vec2(0.1, 0.1);
         this.clock.visible = false;
+
+        
+
+        
+
         
         
     }
@@ -287,6 +355,47 @@ export default class Level2 extends HW3Level {
         }
     }
 
+    protected handleBoiler(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "The water is still warm...";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+
+    protected handleBoilerHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+
+    protected handlePlant(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "The plant seems to be healthy";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+    protected handlePlantHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+
+    protected handleWaterPlant(event: GameEvent): void {
+        alert("Water!!!");
+    }
+    
+    protected handleIgnorePlant(event: GameEvent): void {
+        alert("Ignored...");
+    }
+    
     
     
     

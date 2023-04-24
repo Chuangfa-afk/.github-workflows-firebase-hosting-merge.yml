@@ -19,6 +19,9 @@ export default class Facingb extends PlayerState {
 
 	//Level2
 	protected clock: Boolean = false;
+	protected boiler: Boolean = false;
+	protected plant: Boolean = false;
+	protected refrigerator: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
 		if(options) {
@@ -97,6 +100,25 @@ export default class Facingb extends PlayerState {
 				this.emitter.fireEvent(Level2Events.CLOCKHIDE);
 				this.clock = false;
 			}
+			if (!this.boiler && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 509 && Input.getMousePressPosition().y < 599) && (Input.getMousePressPosition().x > 607 && Input.getMousePressPosition().x < 691)) { //boiler
+				this.emitter.fireEvent(Level2Events.BOILER);
+				this.boiler = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.boiler && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level2Events.BOILERHIDE);
+				this.boiler = false;
+			}
+			if (!this.plant && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 416 && Input.getMousePressPosition().y < 502) && (Input.getMousePressPosition().x > 364 && Input.getMousePressPosition().x < 446)) { //plant
+				this.emitter.fireEvent(Level2Events.PLANT);
+				this.plant = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.plant && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level2Events.PLANTHIDE);
+				this.plant = false;
+			}
+			
 
 			if (Input.isMouseJustPressed()) {
 				let mousePosition = Input.getMousePressPosition();
