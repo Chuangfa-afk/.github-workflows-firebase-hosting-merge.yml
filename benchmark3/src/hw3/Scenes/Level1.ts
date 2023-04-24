@@ -90,6 +90,7 @@ export default class Level1 extends HW3Level {
     public clock2: Sprite;
     public key: Sprite;
     public dialogue: Rect;
+    public narration: Rect;
     public line1: Label;
     public line2: Label;
     public drawer1: Sprite;
@@ -279,6 +280,7 @@ export default class Level1 extends HW3Level {
             }
             case HW3Events.LEVEL_START: {
                 Input.enableInput();
+                this.handleLevelStart(event);
                 break;
             }
             case HW3Events.PLAYER_ENTERED_LEVEL_END: {
@@ -310,6 +312,13 @@ export default class Level1 extends HW3Level {
         else if(Input.isJustPressed(HW3Controls.LEVEL_4,)) {
             this.sceneManager.changeToScene(Level4);
         }
+        if(Input.isMouseJustPressed(0)) {
+            if(this.narration.visible) {
+                this.narration.visible = false;
+                this.line1.visible = false;
+                this.line2.visible = false;
+            }
+        }
     }
 
     /**
@@ -339,6 +348,11 @@ export default class Level1 extends HW3Level {
         this.dialogue.scale = new Vec2(0.5, 0.5);
         this.dialogue.color = new Color(0, 0, 0, 0.5);
         this.dialogue.visible = false;    
+
+        this.narration = <Rect>this.add.graphic(GraphicType.RECT, HW3Layers.PRIMARY, { position: new Vec2(400, 500), size: new Vec2(1000, 100) });
+        this.narration.scale = new Vec2(0.5, 0.5);
+        this.narration.color = new Color(0, 0, 0, 0.5);
+        this.narration.visible = false;    
         
         this.key = this.add.sprite(Level1.KEY_KEY, HW3Layers.PRIMARY);
         this.key.position.set(350, 380);
@@ -364,6 +378,19 @@ export default class Level1 extends HW3Level {
         this.sign2.position.set(350, 380);
         this.sign2.scale = new Vec2(0.25, 0.25);
         this.sign2.visible = false;
+    }
+
+    protected handleLevelStart(event: GameEvent): void {
+        this.narration.visible = true;
+
+        const text1 = "It's just another day at work.";
+        const text2 = "Shoot--I forgot my ID at home! It's too late to go back home now...";
+        this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
+        this.line1.textColor = Color.WHITE;
+        this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
+        this.line2.textColor = Color.WHITE;
+        this.line1.visible = true;
+        this.line2.visible = true;
     }
 
     //Show dialogue with sprites
