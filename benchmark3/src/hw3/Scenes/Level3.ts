@@ -25,7 +25,12 @@ import Level4 from "./Level4";
 
 export const Level3Events = {
     //Facing F
-
+    PLANT: "PLANT",
+    PLANTHIDE: "PLANTHIDE",
+    ELEVATOR: "ELEVATOR",
+    ELEVATORHIDE: "ELEVATORHIDE",
+    WATERMACHINE: "WATERMACHINE",
+    WATERMACHINEHIDE: "WATERMACHINEHIDE",
     //Facing L
 
     //Facing R
@@ -53,6 +58,11 @@ export default class Level3 extends HW3Level {
     public drawer2: Sprite;
     public sign1: Sprite;
     public sign2: Sprite;
+
+    //facingF
+    public waterMachine: Sprite;
+    public elevator: Sprite;
+    public plant: Sprite;
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
@@ -87,7 +97,12 @@ export default class Level3 extends HW3Level {
         this.emitter.fireEvent(LevelEvents.LEVEL_3);
         //Subscribe to event
         //FF
-        
+        this.receiver.subscribe(Level3Events.ELEVATOR);
+        this.receiver.subscribe(Level3Events.ELEVATORHIDE);
+        this.receiver.subscribe(Level3Events.PLANT);
+        this.receiver.subscribe(Level3Events.PLANTHIDE);
+        this.receiver.subscribe(Level3Events.WATERMACHINE);
+        this.receiver.subscribe(Level3Events.WATERMACHINEHIDE);
         //FL
         
         //FR
@@ -115,7 +130,30 @@ export default class Level3 extends HW3Level {
     protected handleEvent(event: GameEvent): void {
         switch (event.type) {
             //FF
-            
+            case Level3Events.PLANT: {
+                this.handlePlant(event);
+                break;
+            }
+            case Level3Events.PLANTHIDE: {
+                this.handlePlantHide(event);
+                break;
+            }
+            case Level3Events.ELEVATOR: {
+                this.handleElevator(event);
+                break;
+            }
+            case Level3Events.ELEVATORHIDE: {
+                this.handleElevatorHide(event);
+                break;
+            }
+            case Level3Events.WATERMACHINE: {
+                this.handleWaterMachine(event);
+                break;
+            }
+            case Level3Events.WATERMACHINEHIDE: {
+                this.handleWaterMachineHide(event);
+                break;
+            }
             //FL
 
             //FR
@@ -175,6 +213,53 @@ export default class Level3 extends HW3Level {
     
 
     //Handle show general dialogue boxes --> no images required
-    
+    protected handlePlant(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "So cute";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handlePlantHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+    protected handleWaterMachine(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "It's empty! Seems like need to be fill with the faucet in the Break room";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handleWaterMachineHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+    protected handleElevator(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "<Out of Service>";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handleElevatorHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
 
 }

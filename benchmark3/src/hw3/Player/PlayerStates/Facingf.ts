@@ -11,7 +11,7 @@ import Receiver from "../../../Wolfie2D/Events/Receiver";
 import { HW3Events } from "../../HW3Events";
 import { Level2Events } from "../../Scenes/Level2";
 import Viewport from "../../../Wolfie2D/SceneGraph/Viewport";
-
+import { Level3Events } from "../../Scenes/Level3";
 
 
 
@@ -28,6 +28,11 @@ export default class Facingf extends PlayerState {
 	//Level2
 	protected microwave: Boolean = false;
 	protected doorHand: Boolean = false;
+	
+	//Level3
+	protected plant: Boolean = false;
+	protected elevator2: Boolean = false;
+	protected waterMachine: Boolean = false;
 
 	protected whatLevel: number = -1;
 	//Check if Level 4
@@ -143,6 +148,44 @@ export default class Facingf extends PlayerState {
 			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.finished(PlayerStates.FACINGR);
 			} 
+			if(!this.elevator2 && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 287 && Input.getMousePressPosition().y < 667) && (Input.getMousePressPosition().x > 400 && Input.getMousePressPosition().x < 806)) {
+				this.emitter.fireEvent(Level3Events.ELEVATOR);
+				this.elevator2 = true;
+				this.timer.start(100);
+			}
+
+			if(this.timer.isStopped() && this.elevator2 && Input.isMouseJustPressed()) { //Hide elevator2
+				this.elevator2 = false;
+				this.emitter.fireEvent(Level3Events.ELEVATORHIDE);
+			}
+
+			if(!this.waterMachine && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 352 && Input.getMousePressPosition().y < 693) && (Input.getMousePressPosition().x > 234 && Input.getMousePressPosition().x < 363)) {
+				this.emitter.fireEvent(Level3Events.WATERMACHINE);
+				this.waterMachine = true;
+				this.timer.start(100);
+			}
+
+			if(this.timer.isStopped() && this.waterMachine && Input.isMouseJustPressed()) { //Hide watermachine
+				this.waterMachine = false;
+				this.emitter.fireEvent(Level3Events.WATERMACHINEHIDE);
+			}
+			if(!this.plant && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 472 && Input.getMousePressPosition().y < 691) && (Input.getMousePressPosition().x > 837 && Input.getMousePressPosition().x < 940)) {
+				this.emitter.fireEvent(Level3Events.PLANT);
+				this.plant = true;
+				this.timer.start(100);
+			}
+
+			if(this.timer.isStopped() && this.plant && Input.isMouseJustPressed()) { //Hide plant
+				this.plant = false;
+				this.emitter.fireEvent(Level3Events.PLANTHIDE);
+			}
+
+			if (Input.isMouseJustPressed()) {
+				let mousePosition = Input.getMousePressPosition();
+				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
+			}
+
+
 		}
 
 		//Level 4

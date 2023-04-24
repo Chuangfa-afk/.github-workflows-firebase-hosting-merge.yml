@@ -96,10 +96,10 @@ export default class Facingl extends PlayerState {
 				this.picture = false;
 			}
 
-			if (Input.isMouseJustPressed()) {
-				let mousePosition = Input.getMousePressPosition();
-				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
-			}
+			// if (Input.isMouseJustPressed()) {
+			// 	let mousePosition = Input.getMousePressPosition();
+			// 	console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
+			// }
 		}
 
 		//Level 3
