@@ -9,6 +9,12 @@ import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import { LevelEvents } from "../../Scenes/Level";
 import Receiver from "../../../Wolfie2D/Events/Receiver";
 import { HW3Events } from "../../HW3Events";
+import { Level2Events } from "../../Scenes/Level2";
+import Viewport from "../../../Wolfie2D/SceneGraph/Viewport";
+
+
+
+
 
 export default class Facingf extends PlayerState {
 	protected emitter: Emitter = new Emitter();
@@ -18,6 +24,9 @@ export default class Facingf extends PlayerState {
 	protected timer: Timer = new Timer(100);
 	protected elevator: Boolean = false;
 	private receiver: Receiver;
+
+	//Level2
+	protected microwave: Boolean = false;
 
 	protected whatLevel: number = -1;
 	//Check if Level 4
@@ -33,6 +42,7 @@ export default class Facingf extends PlayerState {
 			this.receiver.subscribe(LevelEvents.LEVEL_4);
 		}
         this.owner.animation.play(PlayerAnimations.FACINGF);
+
 	}
 
 	public update(deltaT: number): void {
@@ -73,7 +83,7 @@ export default class Facingf extends PlayerState {
 				this.elevator = true;
 				this.timer.start(100);
 			}
-			if(this.timer.isStopped() && this.elevator && Input.isMouseJustPressed()) { //Hide Elevator
+			if(this.timer.isStopped() && this.elevator && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 319 && Input.getMousePressPosition().y < 610) && (Input.getMousePressPosition().x > 397 && Input.getMousePressPosition().x < 807)) { //Hide Elevator
 				this.elevator = false;
 				this.emitter.fireEvent(Level1Events.ELEVATORHIDE);
 			}
@@ -88,6 +98,26 @@ export default class Facingf extends PlayerState {
 			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.finished(PlayerStates.FACINGR);
 			} 
+
+			if(!this.microwave && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 369 && Input.getMousePressPosition().y < 477) && (Input.getMousePressPosition().x > 634 && Input.getMousePressPosition().x < 732)) {
+				this.emitter.fireEvent(Level2Events.MICROWAVE);
+				this.microwave = true;
+				this.timer.start(100);
+			}
+
+			if(this.timer.isStopped() && this.microwave && Input.isMouseJustPressed()) { //Hide Microwave
+				this.microwave = false;
+				this.emitter.fireEvent(Level2Events.MICROWAVEHIDE);
+			}
+
+			
+
+
+			if (Input.isMouseJustPressed()) {
+				let mousePosition = Input.getMousePressPosition();
+				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
+			}
+			
 		}
 
 		//Level 3

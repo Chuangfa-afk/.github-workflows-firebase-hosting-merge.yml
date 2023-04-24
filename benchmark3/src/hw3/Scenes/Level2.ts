@@ -22,7 +22,8 @@ import Level3 from "./Level3";
 
 export const Level2Events = {
     //Facing F
-
+    MICROWAVE: "MICROWAVE",
+    MICROWAVEHIDE: "MICROWAVEHIDE",
     //Facing L
 
     //Facing R
@@ -37,6 +38,9 @@ export default class Level2 extends HW3Level {
 
     public static readonly BACKGROUND_KEY = "BACKGROUND";
     public static readonly BACKGROUND_PATH = "Level2_assets/Level_2.json";
+
+    public static readonly MICROWAVE_KEY = "MICROWAVE";
+    public static readonly MICROWAVE_PATH = "Level2_assets/F_microwave.png";
 
 
 
@@ -54,6 +58,9 @@ export default class Level2 extends HW3Level {
     public sign1: Sprite;
     public sign2: Sprite;
 
+    public microwave: Sprite;
+
+
     protected emitter: Emitter;
     public hasId: Boolean = false;
     public hasKey: Boolean = false;
@@ -68,6 +75,7 @@ export default class Level2 extends HW3Level {
      */
     public loadScene(): void {
         this.load.spritesheet(Level2.BACKGROUND_KEY, Level2.BACKGROUND_PATH);
+        this.load.image(Level2.MICROWAVE_KEY, Level2.MICROWAVE_PATH);
     }
 
     /**
@@ -87,7 +95,8 @@ export default class Level2 extends HW3Level {
         this.emitter.fireEvent(LevelEvents.LEVEL_2);
         //Subscribe to event
         //FF
-        
+        this.receiver.subscribe(Level2Events.MICROWAVE);
+        this.receiver.subscribe(Level2Events.MICROWAVEHIDE);
         //FL
         
         //FR
@@ -115,7 +124,14 @@ export default class Level2 extends HW3Level {
     protected handleEvent(event: GameEvent): void {
         switch (event.type) {
             //FF
-            
+            case Level2Events.MICROWAVE: {
+                this.handleMicrowavePress(event);
+                break;
+            }
+            case Level2Events.MICROWAVEHIDE: {
+                this.handleMicrowaveHide(event);
+                break;
+            }
             //FL
 
             //FR
@@ -151,14 +167,41 @@ export default class Level2 extends HW3Level {
         this.dialogue.scale = new Vec2(0.5, 0.5);
         this.dialogue.color = new Color(0, 0, 0, 0.5);
         this.dialogue.visible = false;    
+
+        this.microwave = this.add.sprite(Level2.MICROWAVE_KEY, HW3Layers.PRIMARY);
+        // this.microwave.position.set(350, 380);
+        this.microwave.position.set(600, 800);
+
+        this.microwave.scale = new Vec2(0.1, 0.1);
+        this.microwave.visible = false;
         
         
     }
 
     //Handle show dialogue with sprites
-    
+
+
 
     //Handle show general dialogue boxes --> no images required
+    protected handleMicrowavePress(event: GameEvent): void {
+        if(!this.microwave.visible) {
+            this.microwave.visible = true;
+            this.dialogue.visible = true;
+            
+            const text1 = "It is locked... and smell something bad";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
     
+    }
+    protected handleMicrowaveHide(event: GameEvent): void {
+        if(this.microwave.visible) {
+            this.microwave.visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+        }
+        console.log("yes");
+    }
 
 }
