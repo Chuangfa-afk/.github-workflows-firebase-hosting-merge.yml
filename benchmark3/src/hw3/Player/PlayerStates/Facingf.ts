@@ -27,6 +27,7 @@ export default class Facingf extends PlayerState {
 
 	//Level2
 	protected microwave: Boolean = false;
+	protected doorHand: Boolean = false;
 
 	protected whatLevel: number = -1;
 	//Check if Level 4
@@ -110,7 +111,20 @@ export default class Facingf extends PlayerState {
 				this.emitter.fireEvent(Level2Events.MICROWAVEHIDE);
 			}
 
+			if(!this.doorHand && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 407 && Input.getMousePressPosition().y < 443) && (Input.getMousePressPosition().x > 216 && Input.getMousePressPosition().x < 252)) {
+				this.emitter.fireEvent(Level2Events.DOORHAND);
+				this.doorHand = true;
+				this.timer.start(100);
+			}
+
+			if(this.timer.isStopped() && this.doorHand && Input.isMouseJustPressed()) { //Hide Doorhand
+				this.doorHand = false;
+				this.emitter.fireEvent(Level2Events.DOORHANDHIDE);
+			}
+
 			
+
+
 
 
 			if (Input.isMouseJustPressed()) {

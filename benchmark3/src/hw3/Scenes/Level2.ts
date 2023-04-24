@@ -24,6 +24,8 @@ export const Level2Events = {
     //Facing F
     MICROWAVE: "MICROWAVE",
     MICROWAVEHIDE: "MICROWAVEHIDE",
+    DOORHAND: "DOORHAND",
+    DOORHANDHIDE: "DOORHANDHIDE",
     //Facing L
 
     //Facing R
@@ -59,6 +61,7 @@ export default class Level2 extends HW3Level {
     public sign2: Sprite;
 
     public microwave: Sprite;
+    public doorhand: Sprite;
 
 
     protected emitter: Emitter;
@@ -97,6 +100,8 @@ export default class Level2 extends HW3Level {
         //FF
         this.receiver.subscribe(Level2Events.MICROWAVE);
         this.receiver.subscribe(Level2Events.MICROWAVEHIDE);
+        this.receiver.subscribe(Level2Events.DOORHAND);
+        this.receiver.subscribe(Level2Events.DOORHANDHIDE);
         //FL
         
         //FR
@@ -130,6 +135,14 @@ export default class Level2 extends HW3Level {
             }
             case Level2Events.MICROWAVEHIDE: {
                 this.handleMicrowaveHide(event);
+                break;
+            }
+            case Level2Events.DOORHAND: {
+                this.handleDoorHand(event);
+                break;
+            }
+            case Level2Events.DOORHANDHIDE: {
+                this.handleDoorHandHide(event);
                 break;
             }
             //FL
@@ -174,6 +187,7 @@ export default class Level2 extends HW3Level {
 
         this.microwave.scale = new Vec2(0.1, 0.1);
         this.microwave.visible = false;
+
         
         
     }
@@ -201,7 +215,26 @@ export default class Level2 extends HW3Level {
             this.dialogue.visible = false;
             this.line1.visible = false;
         }
-        console.log("yes");
+        
     }
+
+    protected handleDoorHand(event: GameEvent): void {
+        if(!this.dialogue.visible) {
+            this.dialogue.visible = true;
+            const text1 = "Enter the 4 magic digits to get out of here.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+
+    protected handleDoorHandHide(event: GameEvent): void {
+        if(this.dialogue.visible){
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+
+    
 
 }
