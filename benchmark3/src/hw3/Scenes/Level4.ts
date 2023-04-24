@@ -72,6 +72,7 @@ export default class Level4 extends HW3Level {
     public clock2: Sprite;
     public key: Sprite;
     public dialogue: Rect;
+    public narration: Rect;
     public line1: Label;
     public line2: Label;
     public drawer1: Sprite;
@@ -235,6 +236,7 @@ export default class Level4 extends HW3Level {
 
             case HW3Events.LEVEL_START: {
                 Input.enableInput();
+                this.handleLevelStart(event);
                 break;
             }
             case HW3Events.PLAYER_ENTERED_LEVEL_END: {
@@ -266,6 +268,11 @@ export default class Level4 extends HW3Level {
         else if(Input.isJustPressed(HW3Controls.LEVEL_4,)) {
             this.sceneManager.changeToScene(Level4);
         }
+        if(Input.isMouseJustPressed(0)) {
+            this.narration.visible = false;
+            this.line1.visible = false;
+            this.line2.visible = false;
+        }
     }
 
     protected initializeViewport(): void {
@@ -279,6 +286,11 @@ export default class Level4 extends HW3Level {
         this.dialogue.scale = new Vec2(0.5, 0.5);
         this.dialogue.color = new Color(0, 0, 0, 0.5);
         this.dialogue.visible = false;    
+
+        this.narration = <Rect>this.add.graphic(GraphicType.RECT, HW3Layers.PRIMARY, { position: new Vec2(400, 500), size: new Vec2(1000, 100) });
+        this.narration.scale = new Vec2(0.5, 0.5);
+        this.narration.color = new Color(0, 0, 0, 0.5);
+        this.narration.visible = false;   
 
         this.sign = this.add.sprite(Level4.SIGN_KEY, HW3Layers.PRIMARY);
         this.sign.position.set(350, 380);
@@ -298,9 +310,20 @@ export default class Level4 extends HW3Level {
         
     }
 
-    //Handle show dialogue with sprites
-    
+    protected handleLevelStart(event: GameEvent): void {
+        this.narration.visible = true;
 
+        const text1 = "The elevator just stopped! Tsk. Just my luck.";
+        const text2 = "Maybe there's something around here that can help me get out...";
+        this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
+        this.line1.textColor = Color.WHITE;
+        this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
+        this.line2.textColor = Color.WHITE;
+        this.line1.visible = true;
+        this.line2.visible = true;
+    }
+
+    //Handle show dialogue with sprites
     //Handle show general dialogue boxes --> no images required
     protected handleSign(event: GameEvent): void {
         if(!this.sign.visible) {
@@ -326,7 +349,7 @@ export default class Level4 extends HW3Level {
     protected handleElevator(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "You came from Here. And it's suddenly down :(";
+            const text1 = "It doesn't look like the elevator's gonna open any time soon.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -342,7 +365,7 @@ export default class Level4 extends HW3Level {
     protected handleButtons(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "It seems to be broken, not working";
+            const text1 = "None of the buttons are working--yeah, the elevator's shot.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -363,7 +386,7 @@ export default class Level4 extends HW3Level {
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
 
-            const text2 = "Hint: The possible directions to look at are not just left and right :)"
+            const text2 = "Hint: The possible directions to look at are not just left and right! :)"
             this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 485), text: text2});
             this.line2.textColor = Color.WHITE;
             this.line2.visible = true;
@@ -383,11 +406,15 @@ export default class Level4 extends HW3Level {
             this.hammer.visible = true;
             this.dialogue.visible = true;
             
-            const text1 = "There is a hammer. Maybe could be break something";
-            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            const text1 = "Someone stuffed a hammer in the cracks here!";
+            const text2 = "Maybe it could break something open?";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.fontSize = 30;
+            this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
+            this.line2.textColor = Color.WHITE;
             this.line1.visible = true;
+            this.line2.visible = true;
             this.hasHammer = true;
         }
     }
@@ -404,7 +431,7 @@ export default class Level4 extends HW3Level {
     protected handleStock(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "Just a Stock Brokerage Agent's Commercial post";
+            const text1 = "Yeah, this graphic is old. Company stocks haven't been lower.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -422,7 +449,7 @@ export default class Level4 extends HW3Level {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
             if (this.hasHammer) {
-                const text1 = "Congratulations! You DID IT!";
+                const text1 = "I'm out! I hope management doesn't sue me for property damage...";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.visible = true;
@@ -430,7 +457,7 @@ export default class Level4 extends HW3Level {
                 this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END);
                 // You can add any additional logic here for what happens when the correct passcode is entered
             } else {
-                const text1 = "It seems fragile. Maybe find something to break it";
+                const text1 = "It won't budge. Maybe there's something that can push it open?";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.visible = true;
