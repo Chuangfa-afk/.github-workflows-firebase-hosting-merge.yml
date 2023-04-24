@@ -58,7 +58,7 @@ export const Level1Events = {
  */
 export default class Level1 extends HW3Level {
 
-    public static readonly MUSIC_KEY = "MAIN_MENU_MUSIC";
+    public static readonly MUSIC_KEY = "LEVEL_1_MUSIC";
     public static readonly MUSIC_PATH = "Level1_assets/music/Level_1.wav";
 
     public static readonly BACKGROUND_KEY = "BACKGROUND";
