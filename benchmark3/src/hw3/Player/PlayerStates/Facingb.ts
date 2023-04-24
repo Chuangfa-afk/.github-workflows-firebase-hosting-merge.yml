@@ -8,6 +8,7 @@ import Timer from "../../../Wolfie2D/Timing/Timer";
 import Facingf from "./Facingf";
 import { Level2Events } from "../../Scenes/Level2";
 import { Level3Events } from "../../Scenes/Level3";
+import { Level4Events } from "../../Scenes/Level4";
 
 export default class Facingb extends PlayerState {
     protected emitter: Emitter = new Emitter();
@@ -27,6 +28,9 @@ export default class Facingb extends PlayerState {
 	//Level3
 	protected clock2: Boolean = false;
 	protected lockers: Boolean = false;
+
+	//Level4
+	protected hole: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
 		if(options) {
@@ -134,10 +138,10 @@ export default class Facingb extends PlayerState {
 			}
 			
 
-			if (Input.isMouseJustPressed()) {
-				let mousePosition = Input.getMousePressPosition();
-				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
-			}
+			// if (Input.isMouseJustPressed()) {
+			// 	let mousePosition = Input.getMousePressPosition();
+			// 	console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
+			// }
 
 		}
 		
@@ -171,10 +175,10 @@ export default class Facingb extends PlayerState {
 				this.lockers = false;
 			}
 
-			if (Input.isMouseJustPressed()) {
-				let mousePosition = Input.getMousePressPosition();
-				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
-			}
+			// if (Input.isMouseJustPressed()) {
+			// 	let mousePosition = Input.getMousePressPosition();
+			// 	console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
+			// }
 		}
 
 		//Level 4
@@ -188,6 +192,22 @@ export default class Facingb extends PlayerState {
 			} 
 			if(Input.isJustPressed(HW3Controls.MOVE_UP)) {
 				this.finished(PlayerStates.FACINGU);
+			}
+
+			if (!this.hole && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 586 && Input.getMousePressPosition().y < 728) && (Input.getMousePressPosition().x > 955 && Input.getMousePressPosition().x < 1111)) { //Hole
+				this.emitter.fireEvent(Level4Events.HOLE);
+				this.hole = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.hole && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level4Events.HOLEHIDE);
+				this.hole = false;
+			}
+
+
+			if (Input.isMouseJustPressed()) {
+				let mousePosition = Input.getMousePressPosition();
+				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
 			}
 		}
 	}

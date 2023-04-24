@@ -38,6 +38,8 @@ export const Level4Events = {
     HELPSIGN: "HELPSIGN",
     HELPSIGNHIDE: "HELPSIGNHIDE",
     //Facing B
+    HOLE: "HOLE",
+    HOLEHIDE: "HOLEHIDE",
     
 } as const;
 
@@ -51,6 +53,9 @@ export default class Level4 extends HW3Level {
 
     public static readonly SIGN_KEY = "SIGN";
     public static readonly SIGN_PATH = "Level4_assets/sign.png";
+
+    public static readonly HAMMER_KEY = "HAMMER";
+    public static readonly HAMMER_PATH = "Level4_assets/hammer.png";
 
     protected background: Layer;
     public ui: Layer;
@@ -68,6 +73,7 @@ export default class Level4 extends HW3Level {
 
     //FacingF
     public sign: Sprite;
+    public hammer: Sprite;
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
@@ -85,6 +91,7 @@ export default class Level4 extends HW3Level {
         this.load.spritesheet(Level4.BACKGROUND_KEY, Level4.BACKGROUND_PATH);
         this.load.audio(Level4.MUSIC_KEY, Level4.MUSIC_PATH);
         this.load.image(Level4.SIGN_KEY, Level4.SIGN_PATH);
+        this.load.image(Level4.HAMMER_KEY, Level4.HAMMER_PATH);
     }
 
     /**
@@ -116,6 +123,8 @@ export default class Level4 extends HW3Level {
         this.receiver.subscribe(Level4Events.HELPSIGN);
         this.receiver.subscribe(Level4Events.HELPSIGNHIDE);
         //FB
+        this.receiver.subscribe(Level4Events.HOLE);
+        this.receiver.subscribe(Level4Events.HOLEHIDE);
 
         this.background = this.addUILayer("background");
         this.addParallaxLayer("BACKGROUND", new Vec2(0.5, 1), -1);
@@ -175,6 +184,15 @@ export default class Level4 extends HW3Level {
                 break;
             }
             //FB
+            case Level4Events.HOLE: {
+                this.handleHole(event);
+                break;
+            }
+            case Level4Events.HOLEHIDE: {
+                this.handleHoleHide(event);
+                break;
+            }
+
 
             //Facing Up (FU)
             case HW3Events.LEVEL_START: {
@@ -228,6 +246,11 @@ export default class Level4 extends HW3Level {
         this.sign.position.set(350, 380);
         this.sign.scale = new Vec2(0.2, 0.2);
         this.sign.visible = false;
+
+        this.hammer = this.add.sprite(Level4.HAMMER_KEY, HW3Layers.PRIMARY);
+        this.hammer.position.set(350, 380);
+        this.hammer.scale = new Vec2(0.2, 0.2);
+        this.hammer.visible = false;
         
         
     }
@@ -311,6 +334,29 @@ export default class Level4 extends HW3Level {
             this.line2.visible = false;
         }
     }
+
+    protected handleHole(event: GameEvent): void {
+        if(!this.hammer.visible) {
+            this.hammer.visible = true;
+            this.dialogue.visible = true;
+            
+            const text1 = "There is a hammer. Maybe could be break something";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.fontSize = 30;
+            this.line1.visible = true;
+        }
+    }
+
+    protected handleHoleHide(event: GameEvent): void {
+        if(this.hammer.visible) {
+            this.hammer.visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+        }
+    }
+
+    
 
 
 }
