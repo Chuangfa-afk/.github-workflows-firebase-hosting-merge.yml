@@ -198,7 +198,7 @@ export default class MainMenu extends Scene {
         backBtn.setPadding(new Vec2(50, 10));
         backBtn.font = "PixelSimple";
         
-        let backBtn2 = <Button>this.add.uiElement(UIElementType.BUTTON, "help", {position: new Vec2(size.x+400, size.y+279), text: "Back"});
+        let backBtn2 = <Button>this.add.uiElement(UIElementType.BUTTON, "help", {position: new Vec2(size.x+340, size.y+279), text: "Back"});
         backBtn2.backgroundColor = Color.TRANSPARENT;
         backBtn2.borderColor = Color.WHITE;
         backBtn2.borderRadius = 0;
