@@ -34,7 +34,16 @@ export const Level3Events = {
     //Facing L
 
     //Facing R
-
+    KEYBOARD: "KEYBAORD",
+    KEYBOARDHIDE: "KEYBOARDHIDE",
+    SAFE: "SAFE",
+    SAFEHIDE: "SAFEHIDE",
+    COMPUTER: "COMPUTER",
+    COMPUTERHIDE: "COMPUTERHIDE",
+    CUP: "CUP",
+    CUPHIDE: "CUPHIDE",
+    PAPER: "PAPER",
+    PAPERHIDE: "PAPERHIDE",
     //Facing B
     
 } as const;
@@ -44,6 +53,9 @@ export const Level3Events = {
 export default class Level3 extends HW3Level {
     public static readonly BACKGROUND_KEY = "BACKGROUND";
     public static readonly BACKGROUND_PATH = "Level3_assets/Level_3.json";
+
+    public static readonly KEYBOARD_KEY = "KEYBOARD";
+    public static readonly KEYBOARD_PATH = "Level3_assets/keyboard.png";
 
     protected background: Layer;
     public ui: Layer;
@@ -64,6 +76,9 @@ export default class Level3 extends HW3Level {
     public elevator: Sprite;
     public plant: Sprite;
 
+    //facingR
+    public keyboard: Sprite;
+
     protected emitter: Emitter;
     public hasId: Boolean = false;
     public hasKey: Boolean = false;
@@ -78,6 +93,7 @@ export default class Level3 extends HW3Level {
      */
     public loadScene(): void {
         this.load.spritesheet(Level3.BACKGROUND_KEY, Level3.BACKGROUND_PATH);
+        this.load.image(Level3.KEYBOARD_KEY, Level3.KEYBOARD_PATH);
     }
 
     /**
@@ -106,7 +122,16 @@ export default class Level3 extends HW3Level {
         //FL
         
         //FR
-        
+        this.receiver.subscribe(Level3Events.PAPER);
+        this.receiver.subscribe(Level3Events.PAPERHIDE);
+        this.receiver.subscribe(Level3Events.COMPUTER);
+        this.receiver.subscribe(Level3Events.COMPUTERHIDE);
+        this.receiver.subscribe(Level3Events.CUP);
+        this.receiver.subscribe(Level3Events.CUPHIDE);
+        this.receiver.subscribe(Level3Events.SAFE);
+        this.receiver.subscribe(Level3Events.SAFEHIDE);
+        this.receiver.subscribe(Level3Events.KEYBOARD);
+        this.receiver.subscribe(Level3Events.KEYBOARDHIDE);
         //FB
 
         this.background = this.addUILayer("background");
@@ -157,6 +182,14 @@ export default class Level3 extends HW3Level {
             //FL
 
             //FR
+            case Level3Events.KEYBOARD: {
+                this.handleKeyboard(event);
+                break;
+            }
+            case Level3Events.KEYBOARDHIDE: {
+                this.handleKeyboardHide(event);
+                break;
+            }
 
             //FB
             case HW3Events.LEVEL_START: {
@@ -205,6 +238,11 @@ export default class Level3 extends HW3Level {
         this.dialogue.scale = new Vec2(0.5, 0.5);
         this.dialogue.color = new Color(0, 0, 0, 0.5);
         this.dialogue.visible = false;    
+
+        this.keyboard = this.add.sprite(Level3.KEYBOARD_KEY, HW3Layers.PRIMARY);
+        this.keyboard.position.set(350, 400);
+        this.keyboard.scale = new Vec2(0.15, 0.1);
+        this.keyboard.visible = false;
         
         
     }
@@ -259,6 +297,27 @@ export default class Level3 extends HW3Level {
         if (this.dialogue.visible) {
             this.line1.visible = false;
             this.dialogue.visible = false;
+        }
+    }
+
+    protected handleKeyboard(event: GameEvent): void {
+        if(!this.keyboard.visible) {
+            this.keyboard.visible = true;
+            this.dialogue.visible = true;
+            
+            const text1 = "There are some keys selected";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.fontSize = 50;
+            this.line1.visible = true;
+        }
+    }
+
+    protected handleKeyboardHide(event: GameEvent): void {
+        if(this.keyboard.visible) {
+            this.keyboard.visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
         }
     }
 
