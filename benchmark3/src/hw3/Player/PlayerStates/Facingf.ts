@@ -12,6 +12,7 @@ import { HW3Events } from "../../HW3Events";
 import { Level2Events } from "../../Scenes/Level2";
 import Viewport from "../../../Wolfie2D/SceneGraph/Viewport";
 import { Level3Events } from "../../Scenes/Level3";
+import { Level4Events } from "../../Scenes/Level4";
 
 
 
@@ -33,6 +34,11 @@ export default class Facingf extends PlayerState {
 	protected plant: Boolean = false;
 	protected elevator2: Boolean = false;
 	protected waterMachine: Boolean = false;
+
+	//Level4
+	protected elevator3: Boolean = false;
+	protected sign: Boolean = false;
+	protected buttons: Boolean = false;
 
 	protected whatLevel: number = -1;
 	//Check if Level 4
@@ -180,10 +186,10 @@ export default class Facingf extends PlayerState {
 				this.emitter.fireEvent(Level3Events.PLANTHIDE);
 			}
 
-			if (Input.isMouseJustPressed()) {
-				let mousePosition = Input.getMousePressPosition();
-				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
-			}
+			// if (Input.isMouseJustPressed()) {
+			// 	let mousePosition = Input.getMousePressPosition();
+			// 	console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
+			// }
 
 
 		}
@@ -199,6 +205,43 @@ export default class Facingf extends PlayerState {
 			} 
 			if(Input.isJustPressed(HW3Controls.MOVE_UP)) {
 				this.finished(PlayerStates.FACINGU);
+			}
+
+			if(!this.sign && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 321 && Input.getMousePressPosition().y < 562) && (Input.getMousePressPosition().x > 184 && Input.getMousePressPosition().x < 304)) {
+				this.emitter.fireEvent(Level4Events.SIGN);
+				this.sign = true;
+				this.timer.start(100);
+			}
+
+			if(this.timer.isStopped() && this.sign && Input.isMouseJustPressed()) { 
+				this.sign = false;
+				this.emitter.fireEvent(Level4Events.SIGNHIDE);
+			}
+			if(!this.elevator3 && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 173 && Input.getMousePressPosition().y < 722) && (Input.getMousePressPosition().x > 364 && Input.getMousePressPosition().x < 844)) {
+				this.emitter.fireEvent(Level4Events.ELEVATOR);
+				this.elevator3 = true;
+				this.timer.start(100);
+			}
+
+			if(this.timer.isStopped() && this.elevator3 && Input.isMouseJustPressed()) { 
+				this.elevator3 = false;
+				this.emitter.fireEvent(Level4Events.ELEVATORHIDE);
+			}
+			if(!this.buttons && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 325 && Input.getMousePressPosition().y < 560) && (Input.getMousePressPosition().x > 896 && Input.getMousePressPosition().x < 1014)) {
+				this.emitter.fireEvent(Level4Events.BUTTONS);
+				this.buttons = true;
+				this.timer.start(100);
+			}
+
+			if(this.timer.isStopped() && this.buttons && Input.isMouseJustPressed()) { 
+				this.buttons = false;
+				this.emitter.fireEvent(Level4Events.BUTTONSHIDE);
+			}
+
+
+			if (Input.isMouseJustPressed()) {
+				let mousePosition = Input.getMousePressPosition();
+				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
 			}
 		}
 

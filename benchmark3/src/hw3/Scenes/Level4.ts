@@ -26,11 +26,17 @@ import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export const Level4Events = {
     //Facing F
-
+    ELEVATOR: "ELEVATOR",
+    ELEVATORHIDE: "ELEVATORHIDE",
+    SIGN: "SIGN",
+    SIGNHIDE: "SIGNHIDE",
+    BUTTONS: "BUTTONS",
+    BUTTONSHIDE: "BUTTONSHIDE",
     //Facing L
 
     //Facing R
-
+    HELPSIGN: "HELPSIGN",
+    HELPSIGNHIDE: "HELPSIGNHIDE",
     //Facing B
     
 } as const;
@@ -42,6 +48,9 @@ export default class Level4 extends HW3Level {
 
     public static readonly BACKGROUND_KEY = "BACKGROUND";
     public static readonly BACKGROUND_PATH = "Level4_assets/Level_4.json";
+
+    public static readonly SIGN_KEY = "SIGN";
+    public static readonly SIGN_PATH = "Level4_assets/sign.png";
 
     protected background: Layer;
     public ui: Layer;
@@ -56,6 +65,9 @@ export default class Level4 extends HW3Level {
     public drawer2: Sprite;
     public sign1: Sprite;
     public sign2: Sprite;
+
+    //FacingF
+    public sign: Sprite;
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
@@ -72,7 +84,7 @@ export default class Level4 extends HW3Level {
     public loadScene(): void {
         this.load.spritesheet(Level4.BACKGROUND_KEY, Level4.BACKGROUND_PATH);
         this.load.audio(Level4.MUSIC_KEY, Level4.MUSIC_PATH);
-
+        this.load.image(Level4.SIGN_KEY, Level4.SIGN_PATH);
     }
 
     /**
@@ -92,11 +104,17 @@ export default class Level4 extends HW3Level {
         this.emitter.fireEvent(LevelEvents.LEVEL_4);
         //Subscribe to event
         //FF
-        
+        this.receiver.subscribe(Level4Events.BUTTONS);
+        this.receiver.subscribe(Level4Events.BUTTONSHIDE);
+        this.receiver.subscribe(Level4Events.SIGN);
+        this.receiver.subscribe(Level4Events.SIGNHIDE);
+        this.receiver.subscribe(Level4Events.ELEVATOR);
+        this.receiver.subscribe(Level4Events.ELEVATORHIDE);
         //FL
         
         //FR
-        
+        this.receiver.subscribe(Level4Events.HELPSIGN);
+        this.receiver.subscribe(Level4Events.HELPSIGNHIDE);
         //FB
 
         this.background = this.addUILayer("background");
@@ -120,11 +138,42 @@ export default class Level4 extends HW3Level {
     protected handleEvent(event: GameEvent): void {
         switch (event.type) {
             //FF
+            case Level4Events.BUTTONS: {
+                this.handleButtons(event);
+                break;
+            }
+            case Level4Events.BUTTONSHIDE: {
+                this.handleButtonsHide(event);
+                break;
+            }
+            case Level4Events.SIGN: {
+                this.handleSign(event);
+                break;
+            }
+            case Level4Events.SIGNHIDE: {
+                this.handleSignHide(event);
+                break;
+            }
+            case Level4Events.ELEVATOR: {
+                this.handleElevator(event);
+                break;
+            }
+            case Level4Events.ELEVATORHIDE: {
+                this.handleElevatorHide(event);
+                break;
+            }
             
             //FL
 
             //FR
-
+            case Level4Events.HELPSIGN: {
+                this.handleHelpSign(event);
+                break;
+            }
+            case Level4Events.HELPSIGNHIDE: {
+                this.handleHelpSignHide(event);
+                break;
+            }
             //FB
 
             //Facing Up (FU)
@@ -174,6 +223,11 @@ export default class Level4 extends HW3Level {
         this.dialogue.scale = new Vec2(0.5, 0.5);
         this.dialogue.color = new Color(0, 0, 0, 0.5);
         this.dialogue.visible = false;    
+
+        this.sign = this.add.sprite(Level4.SIGN_KEY, HW3Layers.PRIMARY);
+        this.sign.position.set(350, 380);
+        this.sign.scale = new Vec2(0.2, 0.2);
+        this.sign.visible = false;
         
         
     }
@@ -182,6 +236,81 @@ export default class Level4 extends HW3Level {
     
 
     //Handle show general dialogue boxes --> no images required
-    
+    protected handleSign(event: GameEvent): void {
+        if(!this.sign.visible) {
+            this.sign.visible = true;
+            this.dialogue.visible = true;
+            
+            const text1 = "Warning Sign";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.fontSize = 50;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handleSignHide(event: GameEvent): void {
+        if(this.sign.visible) {
+            this.sign.visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+        }
+    }
+
+    protected handleElevator(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "You came from Here. And it's suddenly down :(";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handleElevatorHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+    protected handleButtons(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "It seems to be broken, not working";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handleButtonsHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+    protected handleHelpSign(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "Try to look for Help? ";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+
+            const text2 = "Hint: The possible directions to look at are not just left and right :)"
+            this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 485), text: text2});
+            this.line2.textColor = Color.WHITE;
+            this.line2.visible = true;
+        }
+
+    }
+    protected handleHelpSignHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+            this.line2.visible = false;
+        }
+    }
+
 
 }

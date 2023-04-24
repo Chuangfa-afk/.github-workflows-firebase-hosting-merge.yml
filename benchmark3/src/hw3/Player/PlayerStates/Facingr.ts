@@ -10,6 +10,7 @@ import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import { HW3Events } from "../../HW3Events";
 import { Level2Events } from "../../Scenes/Level2";
 import { Level3Events } from "../../Scenes/Level3";
+import { Level4Events } from "../../Scenes/Level4";
 
 export default class Facingr extends PlayerState {
 	protected emitter: Emitter = new Emitter();
@@ -32,6 +33,9 @@ export default class Facingr extends PlayerState {
 	protected cup: Boolean = false;
 	protected safe: Boolean = false;
 	protected computer: Boolean = false;
+
+	//Level4
+	protected helpsign: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
         if(options) {
@@ -189,10 +193,10 @@ export default class Facingr extends PlayerState {
 
 
 
-			if (Input.isMouseJustPressed()) {
-				let mousePosition = Input.getMousePressPosition();
-				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
-			}
+			// if (Input.isMouseJustPressed()) {
+			// 	let mousePosition = Input.getMousePressPosition();
+			// 	console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
+			// }
 		}
 
 		//Level 4
@@ -206,6 +210,22 @@ export default class Facingr extends PlayerState {
 			} 
 			if(Input.isJustPressed(HW3Controls.MOVE_UP)) {
 				this.finished(PlayerStates.FACINGU);
+			}
+
+			if (!this.helpsign && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 152 && Input.getMousePressPosition().y < 409) && (Input.getMousePressPosition().x > 174 && Input.getMousePressPosition().x < 394)) { //help sign
+				this.emitter.fireEvent(Level4Events.HELPSIGN);
+				this.helpsign = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.helpsign && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level4Events.HELPSIGNHIDE);
+				this.helpsign = false;
+			}
+
+
+			if (Input.isMouseJustPressed()) {
+				let mousePosition = Input.getMousePressPosition();
+				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
 			}
 		}
 		/*
