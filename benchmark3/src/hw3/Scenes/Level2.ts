@@ -24,6 +24,7 @@ import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import { HW3Controls } from "../HW3Controls";
 import Level4 from "./Level4";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
+import MainMenu from "./MainMenu";
 
 export const Level2Events = {
     //Facing F
@@ -141,8 +142,8 @@ export default class Level2 extends HW3Level {
         this.load.keepAudio(this.jumpAudioKey);
         this.load.keepAudio(this.tileDestroyedAudioKey);
         */
-        this.load.keepSpritesheet(Level1.LEFT_KEY);
-        this.load.keepSpritesheet(Level1.RIGHT_KEY);
+        this.load.keepSpritesheet(MainMenu.LEFT_KEY);
+        this.load.keepSpritesheet(MainMenu.RIGHT_KEY);
         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: Level2.MUSIC_KEY});
     }
 

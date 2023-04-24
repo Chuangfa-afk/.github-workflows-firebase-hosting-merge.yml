@@ -261,12 +261,12 @@ export default abstract class HW3Level extends Scene {
     }
 
     public initializeButtons(): void {
-        this.lButton = this.add.animatedSprite(Level1.LEFT_KEY, HW3Layers.UI);
+        this.lButton = this.add.animatedSprite(MainMenu.LEFT_KEY, HW3Layers.UI);
         this.lButton.position.set(10, 100);
         this.lButton.scale = new Vec2(0.25, 0.25);
         this.lButton.addAI(ButtonBehavior, {isLeft: true});
 
-        this.rButton = this.add.animatedSprite(Level1.RIGHT_KEY, HW3Layers.UI);
+        this.rButton = this.add.animatedSprite(MainMenu.RIGHT_KEY, HW3Layers.UI);
         this.rButton.position.set(290, 100);
         this.rButton.scale = new Vec2(0.25, 0.25);
         this.rButton.addAI(ButtonBehavior, {isLeft: false});

@@ -157,8 +157,8 @@ export default class Level3 extends HW3Level {
         this.load.keepAudio(this.jumpAudioKey);
         this.load.keepAudio(this.tileDestroyedAudioKey);
         */
-        this.load.keepSpritesheet(Level1.LEFT_KEY);
-        this.load.keepSpritesheet(Level1.RIGHT_KEY);
+        this.load.keepSpritesheet(MainMenu.LEFT_KEY);
+        this.load.keepSpritesheet(MainMenu.RIGHT_KEY);
         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: Level3.MUSIC_KEY});
 
     }

@@ -64,11 +64,7 @@ export default class Level1 extends HW3Level {
     public static readonly BACKGROUND_KEY = "BACKGROUND";
     public static readonly BACKGROUND_PATH = "Level1_assets/Level_1.json";
 
-    public static LEFT_KEY: string = "LEFT";
-    public static LEFT_PATH = "Level_assets/spritesheets/Left Button.json";
-
-    public static RIGHT_KEY: string = "RIGHT";
-    public static RIGHT_PATH = "Level_assets/spritesheets/Right Button.json";
+    
 
     public static readonly CLOCK1_KEY = "CLOCK1";
     public static readonly CLOCK1_PATH = "Level1_assets/clock1.png";
@@ -115,8 +111,6 @@ export default class Level1 extends HW3Level {
      */
     public loadScene(): void {
         this.load.spritesheet(Level1.BACKGROUND_KEY, Level1.BACKGROUND_PATH);
-        this.load.spritesheet(Level1.LEFT_KEY, Level1.LEFT_PATH);
-        this.load.spritesheet(Level1.RIGHT_KEY, Level1.RIGHT_PATH);
         this.load.image(Level1.CLOCK1_KEY, Level1.CLOCK1_PATH);
         this.load.image(Level1.CLOCK2_KEY, Level1.CLOCK2_PATH);
         this.load.image(Level1.KEY_KEY, Level1.KEY_PATH);
@@ -136,8 +130,7 @@ export default class Level1 extends HW3Level {
         this.load.keepAudio(this.jumpAudioKey);
         this.load.keepAudio(this.tileDestroyedAudioKey);
         */
-       this.load.keepSpritesheet(Level1.LEFT_KEY);
-       this.load.keepSpritesheet(Level1.RIGHT_KEY);
+       
        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: Level1.MUSIC_KEY});
     }
 

@@ -9,6 +9,9 @@ import Layer from "../../Wolfie2D/Scene/Layer";
 import Receiver from "../../Wolfie2D/Events/Receiver";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
+import Level2 from "./Level2";
+import Level3 from "./Level3";
+import Level4 from "./Level4";
 
 // Layers for the main menu scene
 export const MenuLayers = {
@@ -34,6 +37,12 @@ export default class MainMenu extends Scene {
     public static readonly MUSIC_KEY = "MAIN_MENU_MUSIC";
     public static readonly MUSIC_PATH = "MainMenu_assets/music/Main_Menu.wav";
 
+    public static LEFT_KEY: string = "LEFT";
+    public static LEFT_PATH = "Level_assets/spritesheets/Left Button.json";
+
+    public static RIGHT_KEY: string = "RIGHT";
+    public static RIGHT_PATH = "Level_assets/spritesheets/Right Button.json";
+
     public loadScene(): void {
         // Load the menu song
         this.load.image("BACKGROUND", "MainMenu_assets/Splash_Screen.png");
@@ -46,6 +55,8 @@ export default class MainMenu extends Scene {
         this.load.image("LEVEL_3", "MainMenu_assets/Level_3.png");
         this.load.image("LEVEL_4", "MainMenu_assets/Level_4.png");
         this.load.audio(MainMenu.MUSIC_KEY, MainMenu.MUSIC_PATH);
+        this.load.spritesheet(MainMenu.LEFT_KEY, MainMenu.LEFT_PATH);
+        this.load.spritesheet(MainMenu.RIGHT_KEY, MainMenu.RIGHT_PATH);
     }
 
     public startScene(): void {
@@ -61,7 +72,8 @@ export default class MainMenu extends Scene {
         let mm = this.add.sprite("MAIN_MENU", "mainMenu");
         mm.position.set(center.x, center.y);
         this.mainMenu.setHidden(true);
-        //Level Select
+        //LEVEL SELECT
+        //Level 1
         this.levelSelect = this.addUILayer("levelSelect");
         let l = this.add.sprite("LEVEL_SELECT", "levelSelect");
         l.position.set(center.x, center.y);
@@ -74,6 +86,14 @@ export default class MainMenu extends Scene {
         let line1 = <Label>this.add.uiElement(UIElementType.LABEL, "levelSelect", {position: new Vec2(225, 410), text: text1});
         line1.textColor = Color.WHITE;
 
+        let lb1 = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(225, 300), text: ""});
+        lb1.backgroundColor = Color.TRANSPARENT;
+        lb1.borderColor = Color.TRANSPARENT;
+        lb1.borderRadius = 0;
+        lb1.setPadding(new Vec2(125, 70));
+        lb1.font = "PixelSimple";
+
+        //Level 2
         let l2 = this.add.sprite("LEVEL_2", "levelSelect");
         l2.position.set(600, 300);
         l2.scale = new Vec2(0.07, 0.07);
@@ -82,6 +102,14 @@ export default class MainMenu extends Scene {
         let line2 = <Label>this.add.uiElement(UIElementType.LABEL, "levelSelect", {position: new Vec2(600, 410), text: text2});
         line2.textColor = Color.WHITE;
 
+        let lb2 = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(600, 300), text: ""});
+        lb2.backgroundColor = Color.TRANSPARENT;
+        lb2.borderColor = Color.TRANSPARENT;
+        lb2.borderRadius = 0;
+        lb2.setPadding(new Vec2(125, 70));
+        lb2.font = "PixelSimple";
+
+        //Level 3
         let l3 = this.add.sprite("LEVEL_3", "levelSelect");
         l3.position.set(975, 300);
         l3.scale = new Vec2(0.07, 0.07);
@@ -90,6 +118,14 @@ export default class MainMenu extends Scene {
         let line3 = <Label>this.add.uiElement(UIElementType.LABEL, "levelSelect", {position: new Vec2(975, 410), text: text3});
         line3.textColor = Color.WHITE;
 
+        let lb3 = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(975, 300), text: ""});
+        lb3.backgroundColor = Color.TRANSPARENT;
+        lb3.borderColor = Color.TRANSPARENT;
+        lb3.borderRadius = 0;
+        lb3.setPadding(new Vec2(125, 70));
+        lb3.font = "PixelSimple";
+
+        //Level 4
         let l4 = this.add.sprite("LEVEL_4", "levelSelect");
         l4.position.set(600, 550);
         l4.scale = new Vec2(0.07, 0.07);
@@ -97,6 +133,13 @@ export default class MainMenu extends Scene {
         const text4 = "Level 4";
         let line4 = <Label>this.add.uiElement(UIElementType.LABEL, "levelSelect", {position: new Vec2(600, 660), text: text4});
         line4.textColor = Color.WHITE;
+
+        let lb4 = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(600, 550), text: ""});
+        lb4.backgroundColor = Color.TRANSPARENT;
+        lb4.borderColor = Color.TRANSPARENT;
+        lb4.borderRadius = 0;
+        lb4.setPadding(new Vec2(125, 70));
+        lb4.font = "PixelSimple";
         
         this.levelSelect.setHidden(true);
 
@@ -198,6 +241,19 @@ export default class MainMenu extends Scene {
             this.mainMenu.setHidden(false);
             this.levelSelect.setHidden(true);
         }
+        //Level Select buttons
+        lb1.onClick = () => {
+            this.sceneManager.changeToScene(Level1);
+        }
+        lb2.onClick = () => {
+            this.sceneManager.changeToScene(Level2);
+        }
+        lb3.onClick = () => {
+            this.sceneManager.changeToScene(Level3);
+        }
+        lb4.onClick = () => {
+            this.sceneManager.changeToScene(Level4);
+        }
         
         //Change splash screen to main menu
         document.onclick = () => {
@@ -226,6 +282,8 @@ export default class MainMenu extends Scene {
     public unloadScene(): void {
         // The scene is being destroyed, so we can stop playing the song
         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: MainMenu.MUSIC_KEY});
+        this.load.keepSpritesheet(MainMenu.LEFT_KEY);
+        this.load.keepSpritesheet(MainMenu.RIGHT_KEY);
     }
 }
 
