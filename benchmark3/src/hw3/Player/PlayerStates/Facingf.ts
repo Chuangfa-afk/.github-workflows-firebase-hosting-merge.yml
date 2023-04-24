@@ -100,7 +100,7 @@ export default class Facingf extends PlayerState {
 				this.finished(PlayerStates.FACINGR);
 			} 
 
-			if(!this.microwave && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 369 && Input.getMousePressPosition().y < 477) && (Input.getMousePressPosition().x > 634 && Input.getMousePressPosition().x < 732)) {
+			if(!this.microwave && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 369 && Input.getMousePressPosition().y < 477) && (Input.getMousePressPosition().x > 770 && Input.getMousePressPosition().x < 970)) {
 				this.emitter.fireEvent(Level2Events.MICROWAVE);
 				this.microwave = true;
 				this.timer.start(100);
@@ -111,7 +111,7 @@ export default class Facingf extends PlayerState {
 				this.emitter.fireEvent(Level2Events.MICROWAVEHIDE);
 			}
 
-			if(!this.doorHand && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 407 && Input.getMousePressPosition().y < 443) && (Input.getMousePressPosition().x > 216 && Input.getMousePressPosition().x < 252)) {
+			if(!this.doorHand && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 380 && Input.getMousePressPosition().y < 450) && (Input.getMousePressPosition().x > 300 && Input.getMousePressPosition().x < 420)) {
 				this.emitter.fireEvent(Level2Events.DOORHAND);
 				this.doorHand = true;
 				this.timer.start(100);
