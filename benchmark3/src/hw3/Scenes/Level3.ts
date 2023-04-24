@@ -43,6 +43,8 @@ export const Level3Events = {
     COMPUTERLHIDE: "COMPUTERLHIDE",
     FLOWER: "FLOWER",
     FLOWERHIDE: "FLOWERHIDE",
+    EXIT: "EXIT",
+    EXITHIDE: "EXITHIDE",
 
     //Facing R
     KEYBOARD: "KEYBAORD",
@@ -169,6 +171,8 @@ export default class Level3 extends HW3Level {
         this.receiver.subscribe(Level3Events.COMPUTERLHIDE);
         this.receiver.subscribe(Level3Events.FLOWER);
         this.receiver.subscribe(Level3Events.FLOWERHIDE);
+        this.receiver.subscribe(Level3Events.EXIT);
+        this.receiver.subscribe(Level3Events.EXITHIDE);
 
 
         //FR
@@ -273,6 +277,14 @@ export default class Level3 extends HW3Level {
             }
             case Level3Events.FLOWERHIDE: {
                 this.handleFlowerHide(event);
+                break;
+            }
+            case Level3Events.EXIT: {
+                this.handleExit(event);
+                break;
+            }
+            case Level3Events.EXITHIDE: {
+                this.handleExitHide(event);
                 break;
             }
             //FR
@@ -689,6 +701,22 @@ export default class Level3 extends HW3Level {
 
     }
     protected handleFlowerHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+    protected handleExit(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "Want to Exit? Use the Elevator!";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handleExitHide(event: GameEvent): void {
         if (this.dialogue.visible) {
             this.line1.visible = false;
             this.dialogue.visible = false;

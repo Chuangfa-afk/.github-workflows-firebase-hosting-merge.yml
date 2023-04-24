@@ -27,6 +27,7 @@ export default class Facingl extends PlayerState {
 	protected trash: Boolean = false;
 	protected computer: Boolean = false;
 	protected flower: Boolean = false;
+	protected exit: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
 		if(options) {
@@ -164,6 +165,15 @@ export default class Facingl extends PlayerState {
 			if(this.timer.isStopped() && this.flower && Input.isMouseJustPressed()) {
 				this.emitter.fireEvent(Level3Events.FLOWERHIDE);
 				this.flower = false;
+			}
+			if (!this.exit && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 79 && Input.getMousePressPosition().y < 165) && (Input.getMousePressPosition().x > 915 && Input.getMousePressPosition().x < 1106)) { //coffee
+				this.emitter.fireEvent(Level3Events.EXIT);
+				this.exit = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.exit && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level3Events.EXITHIDE);
+				this.exit = false;
 			}
 			
 
