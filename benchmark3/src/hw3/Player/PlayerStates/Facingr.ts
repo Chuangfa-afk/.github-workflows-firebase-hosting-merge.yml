@@ -159,6 +159,33 @@ export default class Facingr extends PlayerState {
 				this.emitter.fireEvent(Level3Events.PAPERHIDE);
 				this.paper = false;
 			}
+			if (!this.computer && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 205 && Input.getMousePressPosition().y < 390) && (Input.getMousePressPosition().x > 202 && Input.getMousePressPosition().x < 440)) { //computer
+				this.emitter.fireEvent(Level3Events.COMPUTER);
+				this.computer = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.computer && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level3Events.COMPUTERHIDE);
+				this.computer = false;
+			}
+			if (!this.cup && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 447 && Input.getMousePressPosition().y < 530) && (Input.getMousePressPosition().x > 520 && Input.getMousePressPosition().x < 597)) { //computer
+				this.emitter.fireEvent(Level3Events.CUP);
+				this.cup = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.cup && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level3Events.CUPHIDE);
+				this.cup = false;
+			}
+			if (!this.safe && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 586 && Input.getMousePressPosition().y < 763) && (Input.getMousePressPosition().x > 702 && Input.getMousePressPosition().x < 907)) { //computer
+				this.emitter.fireEvent(Level3Events.SAFE);
+				this.safe = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.safe && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level3Events.SAFEHIDE);
+				this.safe = false;
+			}
 
 
 

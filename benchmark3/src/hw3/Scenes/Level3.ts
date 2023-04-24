@@ -60,6 +60,9 @@ export default class Level3 extends HW3Level {
     public static readonly PAPER_KEY = "PAPER";
     public static readonly PAPER_PATH = "Level3_assets/paper.png";
 
+    public static readonly ID_KEY = "ID";
+    public static readonly ID_PATH = "Level3_assets/ID.png";
+
     protected background: Layer;
     public ui: Layer;
     public bg: HW3AnimatedSprite;
@@ -82,6 +85,7 @@ export default class Level3 extends HW3Level {
     //facingR
     public keyboard: Sprite;
     public paper: Sprite;
+    public id: Sprite;
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
@@ -99,6 +103,7 @@ export default class Level3 extends HW3Level {
         this.load.spritesheet(Level3.BACKGROUND_KEY, Level3.BACKGROUND_PATH);
         this.load.image(Level3.KEYBOARD_KEY, Level3.KEYBOARD_PATH);
         this.load.image(Level3.PAPER_KEY, Level3.PAPER_PATH);
+        this.load.image(Level3.ID_KEY, Level3.ID_PATH);
 
     }
 
@@ -113,6 +118,7 @@ export default class Level3 extends HW3Level {
         */
         this.load.keepSpritesheet(Level1.LEFT_KEY);
         this.load.keepSpritesheet(Level1.RIGHT_KEY);
+
     }
 
     public startScene(): void {
@@ -204,14 +210,30 @@ export default class Level3 extends HW3Level {
                 this.handlePaperHide(event);
                 break;
             }
-            // case Level3Events.COMPUTER: {
-            //     this.handleComputer(event);
-            //     break;
-            // }
-            // case Level3Events.COMPUTERHIDE: {
-            //     this.handleComputerHide(event);
-            //     break;
-            // }
+            case Level3Events.COMPUTER: {
+                this.handleComputer(event);
+                break;
+            }
+            case Level3Events.COMPUTERHIDE: {
+                this.handleComputerHide(event);
+                break;
+            }
+            case Level3Events.SAFE: {
+                this.handleSafe(event);
+                break;
+            }
+            case Level3Events.SAFEHIDE: {
+                this.handleSafeHide(event);
+                break;
+            }
+            case Level3Events.CUP: {
+                this.handleCup(event);
+                break;
+            }
+            case Level3Events.CUPHIDE: {
+                this.handleCupHide(event);
+                break;
+            }
 
             //FB
             case HW3Events.LEVEL_START: {
@@ -270,6 +292,11 @@ export default class Level3 extends HW3Level {
         this.paper.position.set(350, 400);
         this.paper.scale = new Vec2(0.2, 0.2);
         this.paper.visible = false;
+
+        this.id = this.add.sprite(Level3.ID_KEY, HW3Layers.PRIMARY);
+        this.id.position.set(350, 400);
+        this.id.scale = new Vec2(0.2, 0.2);
+        this.id.visible = false;
         
         
     }
@@ -313,10 +340,19 @@ export default class Level3 extends HW3Level {
     protected handleElevator(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "<Out of Service>";
-            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
-            this.line1.textColor = Color.WHITE;
-            this.line1.visible = true;
+            if(!this.hasId){
+                const text1 = "<Out of Service>";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.visible = true;
+            }
+            else{
+                const text1 = "THE ID is Valid!";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.visible = true;
+                this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END);
+            }
         }
 
     }
@@ -366,6 +402,69 @@ export default class Level3 extends HW3Level {
             this.paper.visible = false;
             this.dialogue.visible = false;
             this.line1.visible = false;
+        }
+    }
+
+    protected handleSafe(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const passcode = prompt("Ups! It's Locked. Need a passcode in 6 digits");
+            if( (passcode === "CSE380") || (passcode === "cse380")){
+                const text1 = "Opened, you get an ID";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.visible = true;
+                this.id.visible = true;
+                this.hasId = true;
+                // You can add any additional logic here for what happens when the correct passcode is entered
+            } else {
+                const text1 = "Hint: the order of the keys matter";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.visible = true;
+            }
+    }
+
+    }
+    protected handleSafeHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+            this.id.visible = false;
+        }
+    }
+
+    protected handleCup(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "Just a cup";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handleCupHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+
+    protected handleComputer(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "Computer Screen";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handleComputerHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
         }
     }
 
