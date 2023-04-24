@@ -87,6 +87,12 @@ export default class Level3 extends HW3Level {
     public static readonly LOCKERS_KEY = "LOCKERS";
     public static readonly LOCKERS_PATH = "Level3_assets/lockers.png";
 
+    public static readonly DIPLOMA_KEY = "DIPLOMA";
+    public static readonly DIPLOMA_PATH = "Level3_assets/diploma.png";
+
+    public static readonly RAT_KEY = "RAT";
+    public static readonly RAT_PATH = "Level3_assets/rat.png";
+
     protected background: Layer;
     public ui: Layer;
     public bg: HW3AnimatedSprite;
@@ -113,10 +119,15 @@ export default class Level3 extends HW3Level {
 
     //facingB
     public lockers: Sprite;
+    
+    //facingL
+    public diploma: Sprite;
+    public rat: Sprite;
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
     public hasKey: Boolean = false;
+    public pop_up: Boolean = false;
 
     public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, options);
@@ -133,6 +144,8 @@ export default class Level3 extends HW3Level {
         this.load.image(Level3.ID_KEY, Level3.ID_PATH);
         this.load.audio(Level3.MUSIC_KEY, Level3.MUSIC_PATH);
         this.load.image(Level3.LOCKERS_KEY, Level3.LOCKERS_PATH);
+        this.load.image(Level3.DIPLOMA_KEY, Level3.DIPLOMA_PATH);
+        this.load.image(Level3.RAT_KEY, Level3.RAT_PATH);
     }
 
     /**
@@ -416,6 +429,16 @@ export default class Level3 extends HW3Level {
         this.lockers.position.set(350, 400);
         this.lockers.scale = new Vec2(0.2, 0.2);
         this.lockers.visible = false;
+
+        this.diploma = this.add.sprite(Level3.DIPLOMA_KEY, HW3Layers.PRIMARY);
+        this.diploma.position.set(350, 400);
+        this.diploma.scale = new Vec2(0.2, 0.2);
+        this.diploma.visible = false;
+
+        this.rat = this.add.sprite(Level3.RAT_KEY, HW3Layers.PRIMARY);
+        this.rat.position.set(350, 400);
+        this.rat.scale = new Vec2(0.2, 0.2);
+        this.rat.visible = false;
         
         
     }
@@ -643,25 +666,42 @@ export default class Level3 extends HW3Level {
         }
     }
     protected handleDiploma(event: GameEvent): void {
-        if (!this.dialogue.visible){
+        if(!this.diploma.visible) {
+            this.diploma.visible = true;
             this.dialogue.visible = true;
-            const text1 = "Just a cup";
+            
+            const text1 = "Just a diploma";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
+            this.line1.fontSize = 50;
             this.line1.visible = true;
         }
 
     }
     protected handleDiplomaHide(event: GameEvent): void {
-        if (this.dialogue.visible) {
-            this.line1.visible = false;
+        if(this.diploma.visible) {
+            this.diploma.visible = false;
             this.dialogue.visible = false;
+            this.line1.visible = false;
         }
     }
     protected handleTrash(event: GameEvent): void {
+        if(!this.pop_up){
+            this.pop_up = true;
+            if(!this.rat.visible) {
+                this.rat.visible = true;
+                this.dialogue.visible = true;
+                
+                const text1 = "AHHH A Rattt!!!";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.fontSize = 50;
+                this.line1.visible = true;
+            }
+        }
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "Just a cup";
+            const text1 = "Ewww That's Nasty...";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -672,6 +712,7 @@ export default class Level3 extends HW3Level {
         if (this.dialogue.visible) {
             this.line1.visible = false;
             this.dialogue.visible = false;
+            this.rat.visible = false;
         }
     }
     protected handleComputerl(event: GameEvent): void {
