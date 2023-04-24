@@ -5,11 +5,16 @@ import { HW3Controls } from "../../HW3Controls";
 import Emitter from "../../../Wolfie2D/Events/Emitter";
 import { Level1Events } from "../../Scenes/Level1";
 import Timer from "../../../Wolfie2D/Timing/Timer";
+import { Level4Events } from "../../Scenes/Level4";
 
 export default class Facingu extends PlayerState {
     protected emitter: Emitter = new Emitter();
 	protected prevState: string;
 	protected whatLevel: number = -1;
+	protected timer: Timer = new Timer(100);
+
+
+	protected trapdoor: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
 		this.owner.animation.play(PlayerAnimations.FACINGU);
@@ -24,6 +29,21 @@ export default class Facingu extends PlayerState {
 		if (Input.isJustPressed(HW3Controls.MOVE_DOWN)){
 			this.finished(this.prevState);
 		} 
+
+		if (!this.trapdoor && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 123 && Input.getMousePressPosition().y < 356) && (Input.getMousePressPosition().x > 326 && Input.getMousePressPosition().x < 555)) { //keyboard
+			this.emitter.fireEvent(Level4Events.TRAPDOOR);
+			this.trapdoor = true;
+			this.timer.start(100);
+		}
+		if(this.timer.isStopped() && this.trapdoor && Input.isMouseJustPressed()) {
+			this.emitter.fireEvent(Level4Events.TRAPDOORHIDE);
+			this.trapdoor = false;
+		}
+
+		if (Input.isMouseJustPressed()) {
+			let mousePosition = Input.getMousePressPosition();
+			console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
+		}
         
         // Otherwise, do nothing (keep idling)
 		

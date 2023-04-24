@@ -41,6 +41,10 @@ export const Level4Events = {
     //Facing B
     HOLE: "HOLE",
     HOLEHIDE: "HOLEHIDE",
+
+    //Facing U
+    TRAPDOOR: "TRAPDOOR",
+    TRAPDOORHIDE: "TRAPDOORHIDE",
     
 } as const;
 
@@ -57,6 +61,9 @@ export default class Level4 extends HW3Level {
 
     public static readonly HAMMER_KEY = "HAMMER";
     public static readonly HAMMER_PATH = "Level4_assets/hammer.png";
+
+    public static readonly GOODJOB_KEY = "GOODJOB";
+    public static readonly GOODJOB_PATH = "Level4_assets/goodjob.png";
 
     protected background: Layer;
     public ui: Layer;
@@ -75,10 +82,12 @@ export default class Level4 extends HW3Level {
     //FacingF
     public sign: Sprite;
     public hammer: Sprite;
+    public goodjob: Sprite;
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
     public hasKey: Boolean = false;
+    public hasHammer: Boolean = false;
 
     public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, options);
@@ -93,6 +102,8 @@ export default class Level4 extends HW3Level {
         this.load.audio(Level4.MUSIC_KEY, Level4.MUSIC_PATH);
         this.load.image(Level4.SIGN_KEY, Level4.SIGN_PATH);
         this.load.image(Level4.HAMMER_KEY, Level4.HAMMER_PATH);
+        this.load.image(Level4.GOODJOB_KEY, Level4.GOODJOB_PATH);
+
     }
 
     /**
@@ -125,9 +136,15 @@ export default class Level4 extends HW3Level {
         //FR
         this.receiver.subscribe(Level4Events.HELPSIGN);
         this.receiver.subscribe(Level4Events.HELPSIGNHIDE);
+
         //FB
         this.receiver.subscribe(Level4Events.HOLE);
         this.receiver.subscribe(Level4Events.HOLEHIDE);
+
+        //FU
+        this.receiver.subscribe(Level4Events.TRAPDOOR);
+        this.receiver.subscribe(Level4Events.TRAPDOORHIDE);
+
 
         this.background = this.addUILayer("background");
         this.addParallaxLayer("BACKGROUND", new Vec2(0.5, 1), -1);
@@ -207,6 +224,15 @@ export default class Level4 extends HW3Level {
 
 
             //Facing Up (FU)
+            case Level4Events.TRAPDOOR: {
+                this.handleTrapDoor(event);
+                break;
+            }
+            case Level4Events.TRAPDOORHIDE: {
+                this.handleTrapDoorHide(event);
+                break;
+            }
+
             case HW3Events.LEVEL_START: {
                 Input.enableInput();
                 break;
@@ -263,6 +289,11 @@ export default class Level4 extends HW3Level {
         this.hammer.position.set(350, 380);
         this.hammer.scale = new Vec2(0.2, 0.2);
         this.hammer.visible = false;
+
+        this.goodjob = this.add.sprite(Level4.GOODJOB_KEY, HW3Layers.PRIMARY);
+        this.goodjob.position.set(350, 380);
+        this.goodjob.scale = new Vec2(0.2, 0.2);
+        this.goodjob.visible = false;
         
         
     }
@@ -357,6 +388,7 @@ export default class Level4 extends HW3Level {
             this.line1.textColor = Color.WHITE;
             this.line1.fontSize = 30;
             this.line1.visible = true;
+            this.hasHammer = true;
         }
     }
 
@@ -380,6 +412,33 @@ export default class Level4 extends HW3Level {
 
     }
     protected handleStockHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+
+    protected handleTrapDoor(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            if (this.hasHammer) {
+                const text1 = "Congratulations! You DID IT!";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.visible = true;
+                this.goodjob.visible = true;
+                this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END);
+                // You can add any additional logic here for what happens when the correct passcode is entered
+            } else {
+                const text1 = "It seems fragile. Maybe find something to break it";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.visible = true;
+            }
+    }
+
+    }
+    protected handleTrapDoorHide(event: GameEvent): void {
         if (this.dialogue.visible) {
             this.line1.visible = false;
             this.dialogue.visible = false;

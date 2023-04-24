@@ -223,10 +223,10 @@ export default class Facingr extends PlayerState {
 			}
 
 
-			if (Input.isMouseJustPressed()) {
-				let mousePosition = Input.getMousePressPosition();
-				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
-			}
+			// if (Input.isMouseJustPressed()) {
+			// 	let mousePosition = Input.getMousePressPosition();
+			// 	console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
+			// }
 		}
 		/*
 		if(!this.clock2 && !this.phone && Input.isMouseJustPressed()) {
