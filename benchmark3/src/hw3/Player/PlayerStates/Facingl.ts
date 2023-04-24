@@ -6,6 +6,7 @@ import Emitter from "../../../Wolfie2D/Events/Emitter";
 import { Level1Events } from "../../Scenes/Level1";
 import Timer from "../../../Wolfie2D/Timing/Timer";
 import { Level2Events } from "../../Scenes/Level2";
+import { Level3Events } from "../../Scenes/Level3";
 
 export default class Facingl extends PlayerState {
     protected emitter: Emitter = new Emitter();
@@ -118,6 +119,60 @@ export default class Facingl extends PlayerState {
 			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.finished(PlayerStates.FACINGF);
 			} 
+
+			if (!this.light && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 211 && Input.getMousePressPosition().y < 430) && (Input.getMousePressPosition().x > 562 && Input.getMousePressPosition().x < 722)) { //coffee
+				this.emitter.fireEvent(Level3Events.LIGHT);
+				this.light = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.light && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level3Events.LIGHTHIDE);
+				this.light = false;
+			}
+			if (!this.diploma && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 391 && Input.getMousePressPosition().y < 472) && (Input.getMousePressPosition().x > 418 && Input.getMousePressPosition().x < 518)) { //coffee
+				this.emitter.fireEvent(Level3Events.DIPLOMA);
+				this.diploma = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.diploma && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level3Events.DIPLOMAHIDE);
+				this.diploma = false;
+			}
+			if (!this.trash && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 607 && Input.getMousePressPosition().y < 768) && (Input.getMousePressPosition().x > 291 && Input.getMousePressPosition().x < 420)) { //coffee
+				this.emitter.fireEvent(Level3Events.TRASH);
+				this.trash = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.trash && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level3Events.TRASHHIDE);
+				this.trash = false;
+			}
+			if (!this.computer && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 221 && Input.getMousePressPosition().y < 386) && (Input.getMousePressPosition().x > 750 && Input.getMousePressPosition().x < 940)) { //coffee
+				this.emitter.fireEvent(Level3Events.COMPUTERL);
+				this.computer = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.computer && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level3Events.COMPUTERLHIDE);
+				this.computer = false;
+			}
+			if (!this.flower && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 203 && Input.getMousePressPosition().y < 412) && (Input.getMousePressPosition().x > 1013 && Input.getMousePressPosition().x < 1085)) { //coffee
+				this.emitter.fireEvent(Level3Events.FLOWER);
+				this.flower = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.flower && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level3Events.FLOWERHIDE);
+				this.flower = false;
+			}
+			
+
+
+
+			if (Input.isMouseJustPressed()) {
+				let mousePosition = Input.getMousePressPosition();
+				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
+			}
 		}
 
 		//Level 4
