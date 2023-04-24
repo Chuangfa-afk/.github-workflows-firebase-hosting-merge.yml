@@ -6,7 +6,7 @@ dist/*
 
 .vscode
 
-dist/bundle.js
+bundle.js
 
 # Include the demo_assets folder
 !dist/demo_assets/
