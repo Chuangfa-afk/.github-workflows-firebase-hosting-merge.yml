@@ -652,7 +652,7 @@ export default class Level3 extends HW3Level {
     protected handleLight(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "Just a cup";
+            const text1 = "The light is on...";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -718,7 +718,7 @@ export default class Level3 extends HW3Level {
     protected handleComputerl(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "Just a cup";
+            const text1 = "Computer Screen";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -734,7 +734,7 @@ export default class Level3 extends HW3Level {
     protected handleFlower(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "Just a cup";
+            const text1 = "Smells sweat";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
