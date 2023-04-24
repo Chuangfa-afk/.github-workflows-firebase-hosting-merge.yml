@@ -92,7 +92,10 @@ export default class Facingb extends PlayerState {
 				this.emitter.fireEvent(Level2Events.CLOCK);
 				this.clock = true;
 				this.timer.start(100);
-				
+			}
+			if(this.timer.isStopped() && this.clock && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level2Events.CLOCKHIDE);
+				this.clock = false;
 			}
 
 			if (Input.isMouseJustPressed()) {

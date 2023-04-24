@@ -261,21 +261,36 @@ export default class Level2 extends HW3Level {
     }
 
     protected handleDoorHand(event: GameEvent): void {
-        if(!this.dialogue.visible) {
+        if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "Enter the 4 magic digits to get out of here.";
-            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
-            this.line1.textColor = Color.WHITE;
-            this.line1.visible = true;
-        }
+            const passcode = prompt("Enter the 4 magic digits to get out of here.");
+            if (passcode === "1222") {
+                const text1 = "You are Correct! heading to the Office Room.";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.visible = true;
+                this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END);
+                // You can add any additional logic here for what happens when the correct passcode is entered
+            } else {
+                const text1 = "Beep, this is not the 4 magic digits. Hint: Clock";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.visible = true;
+            }
+    }
     }
 
     protected handleDoorHandHide(event: GameEvent): void {
-        if(this.dialogue.visible){
+        if (this.dialogue.visible) {
             this.line1.visible = false;
             this.dialogue.visible = false;
         }
     }
+
+    
+    
+    
+    
 
     
 
