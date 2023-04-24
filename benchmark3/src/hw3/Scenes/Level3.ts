@@ -22,6 +22,7 @@ import { HW3Controls } from "../HW3Controls";
 import Level1 from "./Level1";
 import Level2 from "./Level2";
 import Level4 from "./Level4";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export const Level3Events = {
     //Facing F
@@ -51,6 +52,10 @@ export const Level3Events = {
  * The first level for HW4 - should be the one with the grass and the clouds.
  */
 export default class Level3 extends HW3Level {
+
+    public static readonly MUSIC_KEY = "LEVEL_3_MUSIC";
+    public static readonly MUSIC_PATH = "Level3_assets/music/Level_3.wav";
+
     public static readonly BACKGROUND_KEY = "BACKGROUND";
     public static readonly BACKGROUND_PATH = "Level3_assets/Level_3.json";
 
@@ -104,7 +109,7 @@ export default class Level3 extends HW3Level {
         this.load.image(Level3.KEYBOARD_KEY, Level3.KEYBOARD_PATH);
         this.load.image(Level3.PAPER_KEY, Level3.PAPER_PATH);
         this.load.image(Level3.ID_KEY, Level3.ID_PATH);
-
+        this.load.audio(Level3.MUSIC_KEY, Level3.MUSIC_PATH);
     }
 
     /**
@@ -118,6 +123,7 @@ export default class Level3 extends HW3Level {
         */
         this.load.keepSpritesheet(Level1.LEFT_KEY);
         this.load.keepSpritesheet(Level1.RIGHT_KEY);
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: Level3.MUSIC_KEY});
 
     }
 
@@ -157,7 +163,8 @@ export default class Level3 extends HW3Level {
         this.initializeUserInterface();
         this.nextLevel = Level4;
         
-        //this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END);
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: Level3.MUSIC_KEY, loop: true, holdReference: true});
+
     }
 
     /**
