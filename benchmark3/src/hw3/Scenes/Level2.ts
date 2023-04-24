@@ -31,7 +31,8 @@ export const Level2Events = {
     //Facing R
 
     //Facing B
-    
+    CLOCK: "CLOCK",
+    CLOCKHIDE: "CLOCKHIDE",
 } as const;
 /**
  * The first level for HW4 - should be the one with the grass and the clouds.
@@ -43,6 +44,9 @@ export default class Level2 extends HW3Level {
 
     public static readonly MICROWAVE_KEY = "MICROWAVE";
     public static readonly MICROWAVE_PATH = "Level2_assets/F_microwave.png";
+
+    public static readonly CLOCK_KEY = "CLOCK";
+    public static readonly CLOCK_PATH = "Level2_assets/Clock.png"
 
 
 
@@ -60,8 +64,12 @@ export default class Level2 extends HW3Level {
     public sign1: Sprite;
     public sign2: Sprite;
 
+    //facingF
     public microwave: Sprite;
     public doorhand: Sprite;
+
+    //facingB
+    public clock: Sprite;
 
 
     protected emitter: Emitter;
@@ -79,6 +87,7 @@ export default class Level2 extends HW3Level {
     public loadScene(): void {
         this.load.spritesheet(Level2.BACKGROUND_KEY, Level2.BACKGROUND_PATH);
         this.load.image(Level2.MICROWAVE_KEY, Level2.MICROWAVE_PATH);
+        this.load.image(Level2.CLOCK_KEY, Level2.CLOCK_PATH);
     }
 
     /**
@@ -107,6 +116,9 @@ export default class Level2 extends HW3Level {
         //FR
         
         //FB
+        this.receiver.subscribe(Level2Events.CLOCK);
+        this.receiver.subscribe(Level2Events.CLOCKHIDE);
+
 
         this.background = this.addUILayer("background");
         this.addParallaxLayer("BACKGROUND", new Vec2(0.5, 1), -1);
@@ -143,6 +155,14 @@ export default class Level2 extends HW3Level {
             }
             case Level2Events.DOORHANDHIDE: {
                 this.handleDoorHandHide(event);
+                break;
+            }
+            case Level2Events.CLOCK: {
+                this.handleClock(event);
+                break;
+            }
+            case Level2Events.CLOCKHIDE: {
+                this.handleClockHide(event);
                 break;
             }
             //FL
@@ -188,13 +208,35 @@ export default class Level2 extends HW3Level {
         this.microwave.scale = new Vec2(0.1, 0.1);
         this.microwave.visible = false;
 
+        this.clock = this.add.sprite(Level2.CLOCK_KEY, HW3Layers.PRIMARY);
+        this.clock.position.set(350, 380);
+        this.clock.scale = new Vec2(0.1, 0.1);
+        this.clock.visible = false;
         
         
     }
 
     //Handle show dialogue with sprites
+    protected handleClock(event: GameEvent): void {
+        if(!this.clock.visible) {
+            this.clock.visible = true;
+            this.dialogue.visible = true;
+            
+            const text1 = "ops! no battery. It stucks in 12:22";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.fontSize = 50;
+            this.line1.visible = true;
+        }
+    }
 
-
+    protected handleClockHide(event: GameEvent): void {
+        if(this.clock.visible) {
+            this.clock.visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+        }
+    }
 
     //Handle show general dialogue boxes --> no images required
     protected handleMicrowavePress(event: GameEvent): void {

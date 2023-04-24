@@ -6,6 +6,7 @@ import Emitter from "../../../Wolfie2D/Events/Emitter";
 import { Level1Events } from "../../Scenes/Level1";
 import Timer from "../../../Wolfie2D/Timing/Timer";
 import Facingf from "./Facingf";
+import { Level2Events } from "../../Scenes/Level2";
 
 export default class Facingb extends PlayerState {
     protected emitter: Emitter = new Emitter();
@@ -15,6 +16,9 @@ export default class Facingb extends PlayerState {
     protected door: Boolean = false;
 	protected timer: Timer = new Timer(100);
 	protected whatLevel: number = -1;
+
+	//Level2
+	protected clock: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
 		if(options) {
@@ -84,6 +88,18 @@ export default class Facingb extends PlayerState {
 			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.finished(PlayerStates.FACINGL);
 			} 
+			if (!this.clock && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 122 && Input.getMousePressPosition().y < 271) && (Input.getMousePressPosition().x > 570 && Input.getMousePressPosition().x < 683)) { //Clock
+				this.emitter.fireEvent(Level2Events.CLOCK);
+				this.clock = true;
+				this.timer.start(100);
+				
+			}
+
+			if (Input.isMouseJustPressed()) {
+				let mousePosition = Input.getMousePressPosition();
+				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
+			}
+
 		}
 		
 		//Level 3
