@@ -118,6 +118,15 @@ export default class Facingb extends PlayerState {
 				this.emitter.fireEvent(Level2Events.PLANTHIDE);
 				this.plant = false;
 			}
+			if (!this.refrigerator && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 256 && Input.getMousePressPosition().y < 669) && (Input.getMousePressPosition().x > 168 && Input.getMousePressPosition().x < 226)) { //Refri
+				this.emitter.fireEvent(Level2Events.REFRIGERATOR);
+				this.refrigerator = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.refrigerator && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level2Events.REFRIGERATORHIDE);
+				this.refrigerator = false;
+			}
 			
 
 			if (Input.isMouseJustPressed()) {

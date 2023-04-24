@@ -60,7 +60,9 @@ export default class Level2 extends HW3Level {
     public static readonly CLOCK_KEY = "CLOCK";
     public static readonly CLOCK_PATH = "Level2_assets/Clock.png"
 
-    
+    public static readonly REFRIGERATOR_KEY = "REFRIGERATOR";
+    public static readonly REFRIGERATOR_PATH = "Level2_assets/refrigerator.png"
+
 
 
 
@@ -84,8 +86,8 @@ export default class Level2 extends HW3Level {
 
     //facingB
     public clock: Sprite;
-    public waterButton: Button;
-    public ignoreButton: Button;
+
+    public refrigerator: Sprite;
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
@@ -103,6 +105,8 @@ export default class Level2 extends HW3Level {
         this.load.spritesheet(Level2.BACKGROUND_KEY, Level2.BACKGROUND_PATH);
         this.load.image(Level2.MICROWAVE_KEY, Level2.MICROWAVE_PATH);
         this.load.image(Level2.CLOCK_KEY, Level2.CLOCK_PATH);
+        this.load.image(Level2.REFRIGERATOR_KEY, Level2.REFRIGERATOR_PATH);
+
     }
 
     /**
@@ -214,14 +218,14 @@ export default class Level2 extends HW3Level {
                 this.handlePlantHide(event);
                 break;
             }
-            // case Level2Events.REFRIGERATOR: {
-            //     this.handleRefrigerator(event);
-            //     break;
-            // }
-            // case Level2Events.REFRIGERATORHIDE: {
-            //     this.handleRefrigeratorHide(event);
-            //     break;
-            // }
+            case Level2Events.REFRIGERATOR: {
+                this.handleRefrigerator(event);
+                break;
+            }
+            case Level2Events.REFRIGERATORHIDE: {
+                this.handleRefrigeratorHide(event);
+                break;
+            }
 
             case Level2Events.WATER_PLANT: {
                 this.handleWaterPlant(event);
@@ -295,7 +299,10 @@ export default class Level2 extends HW3Level {
         this.clock.scale = new Vec2(0.1, 0.1);
         this.clock.visible = false;
 
-        
+        this.refrigerator = this.add.sprite(Level2.REFRIGERATOR_KEY, HW3Layers.PRIMARY);
+        this.refrigerator.position.set(350, 400);
+        this.refrigerator.scale = new Vec2(0.15, 0.1);
+        this.refrigerator.visible = false;
 
         
 
@@ -413,6 +420,25 @@ export default class Level2 extends HW3Level {
     
     protected handleIgnorePlant(event: GameEvent): void {
         alert("Ignored...");
+    }
+
+    protected handleRefrigerator(event: GameEvent): void {
+        if(!this.refrigerator.visible) {
+            this.refrigerator.visible = true;
+            this.dialogue.visible = true;
+            
+            const text1 = "Fresh! No need to clean";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+    protected handleRefrigeratorHide(event: GameEvent): void {
+        if(this.refrigerator.visible) {
+            this.refrigerator.visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+        }
     }
     
     
