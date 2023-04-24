@@ -57,6 +57,9 @@ export default class Level3 extends HW3Level {
     public static readonly KEYBOARD_KEY = "KEYBOARD";
     public static readonly KEYBOARD_PATH = "Level3_assets/keyboard.png";
 
+    public static readonly PAPER_KEY = "PAPER";
+    public static readonly PAPER_PATH = "Level3_assets/paper.png";
+
     protected background: Layer;
     public ui: Layer;
     public bg: HW3AnimatedSprite;
@@ -78,6 +81,7 @@ export default class Level3 extends HW3Level {
 
     //facingR
     public keyboard: Sprite;
+    public paper: Sprite;
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
@@ -94,6 +98,8 @@ export default class Level3 extends HW3Level {
     public loadScene(): void {
         this.load.spritesheet(Level3.BACKGROUND_KEY, Level3.BACKGROUND_PATH);
         this.load.image(Level3.KEYBOARD_KEY, Level3.KEYBOARD_PATH);
+        this.load.image(Level3.PAPER_KEY, Level3.PAPER_PATH);
+
     }
 
     /**
@@ -190,6 +196,22 @@ export default class Level3 extends HW3Level {
                 this.handleKeyboardHide(event);
                 break;
             }
+            case Level3Events.PAPER: {
+                this.handlePaper(event);
+                break;
+            }
+            case Level3Events.PAPERHIDE: {
+                this.handlePaperHide(event);
+                break;
+            }
+            // case Level3Events.COMPUTER: {
+            //     this.handleComputer(event);
+            //     break;
+            // }
+            // case Level3Events.COMPUTERHIDE: {
+            //     this.handleComputerHide(event);
+            //     break;
+            // }
 
             //FB
             case HW3Events.LEVEL_START: {
@@ -241,8 +263,13 @@ export default class Level3 extends HW3Level {
 
         this.keyboard = this.add.sprite(Level3.KEYBOARD_KEY, HW3Layers.PRIMARY);
         this.keyboard.position.set(350, 400);
-        this.keyboard.scale = new Vec2(0.15, 0.1);
+        this.keyboard.scale = new Vec2(0.12, 0.1);
         this.keyboard.visible = false;
+
+        this.paper = this.add.sprite(Level3.PAPER_KEY, HW3Layers.PRIMARY);
+        this.paper.position.set(350, 400);
+        this.paper.scale = new Vec2(0.2, 0.2);
+        this.paper.visible = false;
         
         
     }
@@ -316,6 +343,27 @@ export default class Level3 extends HW3Level {
     protected handleKeyboardHide(event: GameEvent): void {
         if(this.keyboard.visible) {
             this.keyboard.visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+        }
+    }
+
+    protected handlePaper(event: GameEvent): void {
+        if(!this.paper.visible) {
+            this.paper.visible = true;
+            this.dialogue.visible = true;
+            
+            const text1 = "It looks familiar...";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.fontSize = 50;
+            this.line1.visible = true;
+        }
+    }
+
+    protected handlePaperHide(event: GameEvent): void {
+        if(this.paper.visible) {
+            this.paper.visible = false;
             this.dialogue.visible = false;
             this.line1.visible = false;
         }

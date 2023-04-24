@@ -9,6 +9,7 @@ import Receiver from "../../../Wolfie2D/Events/Receiver";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import { HW3Events } from "../../HW3Events";
 import { Level2Events } from "../../Scenes/Level2";
+import { Level3Events } from "../../Scenes/Level3";
 
 export default class Facingr extends PlayerState {
 	protected emitter: Emitter = new Emitter();
@@ -24,6 +25,13 @@ export default class Facingr extends PlayerState {
 	protected faucet: Boolean = false;
 	protected refrigerator2: Boolean = false;
 	protected lock: Boolean = false;
+
+	//Level3
+	protected keyboard: Boolean = false;
+	protected paper: Boolean = false;
+	protected cup: Boolean = false;
+	protected safe: Boolean = false;
+	protected computer: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
         if(options) {
@@ -131,6 +139,33 @@ export default class Facingr extends PlayerState {
 			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.finished(PlayerStates.FACINGB);
 			} 
+
+			if (!this.keyboard && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 434 && Input.getMousePressPosition().y < 512) && (Input.getMousePressPosition().x > 253 && Input.getMousePressPosition().x < 425)) { //keyboard
+				this.emitter.fireEvent(Level3Events.KEYBOARD);
+				this.keyboard = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.keyboard && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level3Events.KEYBOARDHIDE);
+				this.keyboard = false;
+			}
+
+			if (!this.paper && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 208 && Input.getMousePressPosition().y < 283) && (Input.getMousePressPosition().x > 625 && Input.getMousePressPosition().x < 708)) { //refri2
+				this.emitter.fireEvent(Level3Events.PAPER);
+				this.paper = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.paper && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level3Events.PAPERHIDE);
+				this.paper = false;
+			}
+
+
+
+			if (Input.isMouseJustPressed()) {
+				let mousePosition = Input.getMousePressPosition();
+				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
+			}
 		}
 
 		//Level 4
