@@ -33,6 +33,12 @@ export const Level2Events = {
     //Facing L
 
     //Facing R
+    REFRIGERATOR2: "REFRIGERATOR2",
+    REFRIGERATOR2HIDE: "REFRIGERATOR2HIDE",
+    FAUCET: "FAUCET",
+    FAUCETHIDE: "FAUCETHIDE",
+    LOCK: "LOCK",
+    LOCKHIDE: "LOCKHIDE",
 
     //Facing B
     CLOCK: "CLOCK",
@@ -86,8 +92,12 @@ export default class Level2 extends HW3Level {
 
     //facingB
     public clock: Sprite;
-
     public refrigerator: Sprite;
+
+    //facingR
+    public lock: Sprite;
+    public faucet: Sprite;
+    public refrigerator2: Sprite;
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
@@ -144,8 +154,13 @@ export default class Level2 extends HW3Level {
         this.receiver.subscribe(Level2Events.PLANTHIDE);
         this.receiver.subscribe(Level2Events.REFRIGERATOR);
         this.receiver.subscribe(Level2Events.REFRIGERATORHIDE);
-        this.receiver.subscribe(Level2Events.WATER_PLANT);
-        this.receiver.subscribe(Level2Events.IGNORE_PLANT);
+        this.receiver.subscribe(Level2Events.LOCK);
+        this.receiver.subscribe(Level2Events.LOCKHIDE);
+        this.receiver.subscribe(Level2Events.FAUCETHIDE);
+        this.receiver.subscribe(Level2Events.REFRIGERATOR2);
+        this.receiver.subscribe(Level2Events.REFRIGERATOR2HIDE);
+        this.receiver.subscribe(Level2Events.FAUCET);
+
 
 
 
@@ -192,6 +207,14 @@ export default class Level2 extends HW3Level {
             //FL
 
             //FR
+            case Level2Events.REFRIGERATOR2: {
+                this.handleRefrigerator2(event);
+                break;
+            }
+            case Level2Events.REFRIGERATOR2HIDE: {
+                this.handleRefrigerator2Hide(event);
+                break;
+            }
 
             //FB
             case Level2Events.CLOCK: {
@@ -226,15 +249,24 @@ export default class Level2 extends HW3Level {
                 this.handleRefrigeratorHide(event);
                 break;
             }
+            case Level2Events.FAUCET: {
+                this.handleFaucet(event);
+                break;
+            }
+            case Level2Events.FAUCETHIDE: {
+                this.handleFaucetHide(event);
+                break;
+            }
+            case Level2Events.LOCK: {
+                this.handleLock(event);
+                break;
+            }
+            case Level2Events.LOCKHIDE: {
+                this.handleLockHide(event);
+                break;
+            }
 
-            case Level2Events.WATER_PLANT: {
-                this.handleWaterPlant(event);
-                break;
-            }
-            case Level2Events.IGNORE_PLANT: {
-                this.handleIgnorePlant(event);
-                break;
-            }
+
             
 
 
@@ -303,6 +335,11 @@ export default class Level2 extends HW3Level {
         this.refrigerator.position.set(350, 400);
         this.refrigerator.scale = new Vec2(0.15, 0.1);
         this.refrigerator.visible = false;
+
+        this.refrigerator2 = this.add.sprite(Level2.REFRIGERATOR_KEY, HW3Layers.PRIMARY);
+        this.refrigerator2.position.set(350, 400);
+        this.refrigerator2.scale = new Vec2(0.15, 0.1);
+        this.refrigerator2.visible = false;
 
         
 
@@ -438,6 +475,59 @@ export default class Level2 extends HW3Level {
             this.refrigerator.visible = false;
             this.dialogue.visible = false;
             this.line1.visible = false;
+        }
+    }
+//---------------------------------------------------------------------------------------
+    protected handleRefrigerator2(event: GameEvent): void {
+        if(!this.refrigerator2.visible) {
+            this.refrigerator2.visible = true;
+            this.dialogue.visible = true;
+            
+            const text1 = "Fresh! No need to clean";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+    protected handleRefrigerator2Hide(event: GameEvent): void {
+        if(this.refrigerator2.visible) {
+            this.refrigerator2.visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+        }
+    }
+
+    protected handleFaucet(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "No more water to clean.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    
+    }
+    protected handleFaucetHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+
+    protected handleLock(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "Ups! It seems to be locked";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handleLockHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
         }
     }
     

@@ -8,6 +8,7 @@ import { Level1Events } from "../../Scenes/Level1";
 import Receiver from "../../../Wolfie2D/Events/Receiver";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import { HW3Events } from "../../HW3Events";
+import { Level2Events } from "../../Scenes/Level2";
 
 export default class Facingr extends PlayerState {
 	protected emitter: Emitter = new Emitter();
@@ -18,6 +19,11 @@ export default class Facingr extends PlayerState {
 	protected keyShow: Boolean = false;
 	protected timer: Timer = new Timer(100);
 	protected whatLevel: number = -1;
+
+	//Level2
+	protected faucet: Boolean = false;
+	protected refrigerator2: Boolean = false;
+	protected lock: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
         if(options) {
@@ -81,6 +87,39 @@ export default class Facingr extends PlayerState {
 			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.finished(PlayerStates.FACINGB);
 			} 
+
+			if (!this.refrigerator2 && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 155 && Input.getMousePressPosition().y < 681) && (Input.getMousePressPosition().x > 700 && Input.getMousePressPosition().x < 1000)) { //refri2
+				this.emitter.fireEvent(Level2Events.REFRIGERATOR2);
+				this.refrigerator2 = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.refrigerator2 && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level2Events.REFRIGERATOR2HIDE);
+				this.refrigerator2 = false;
+			}
+			if (!this.faucet && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 347 && Input.getMousePressPosition().y < 493) && (Input.getMousePressPosition().x > 392 && Input.getMousePressPosition().x < 550)) { //faucet
+				this.emitter.fireEvent(Level2Events.FAUCET);
+				this.faucet = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.faucet && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level2Events.FAUCETHIDE);
+				this.faucet = false;
+			}
+			if (!this.lock && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 161 && Input.getMousePressPosition().y < 308) && (Input.getMousePressPosition().x > 243 && Input.getMousePressPosition().x < 340)) { //faucet
+				this.emitter.fireEvent(Level2Events.LOCK);
+				this.lock = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.lock && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level2Events.LOCKHIDE);
+				this.lock = false;
+			}
+
+			if (Input.isMouseJustPressed()) {
+				let mousePosition = Input.getMousePressPosition();
+				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
+			}
 		}
 
 		//Level 3
