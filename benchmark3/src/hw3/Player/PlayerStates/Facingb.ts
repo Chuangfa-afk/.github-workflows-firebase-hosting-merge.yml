@@ -7,6 +7,7 @@ import { Level1Events } from "../../Scenes/Level1";
 import Timer from "../../../Wolfie2D/Timing/Timer";
 import Facingf from "./Facingf";
 import { Level2Events } from "../../Scenes/Level2";
+import { Level3Events } from "../../Scenes/Level3";
 
 export default class Facingb extends PlayerState {
     protected emitter: Emitter = new Emitter();
@@ -22,6 +23,10 @@ export default class Facingb extends PlayerState {
 	protected boiler: Boolean = false;
 	protected plant: Boolean = false;
 	protected refrigerator: Boolean = false;
+
+	//Level3
+	protected clock2: Boolean = false;
+	protected lockers: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
 		if(options) {
@@ -145,6 +150,31 @@ export default class Facingb extends PlayerState {
 			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.finished(PlayerStates.FACINGL);
 			} 
+
+			if (!this.clock2 && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 208 && Input.getMousePressPosition().y < 269) && (Input.getMousePressPosition().x > 805 && Input.getMousePressPosition().x < 855)) { //Refri
+				this.emitter.fireEvent(Level3Events.CLOCK);
+				this.clock2 = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.clock2 && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level3Events.CLOCKHIDE);
+				this.clock2 = false;
+			}
+
+			if (!this.lockers && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 369 && Input.getMousePressPosition().y < 632) && (Input.getMousePressPosition().x > 131 && Input.getMousePressPosition().x < 426)) { //Refri
+				this.emitter.fireEvent(Level3Events.LOCKERS);
+				this.lockers = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.lockers && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level3Events.LOCKERSHIDE);
+				this.lockers = false;
+			}
+
+			if (Input.isMouseJustPressed()) {
+				let mousePosition = Input.getMousePressPosition();
+				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
+			}
 		}
 
 		//Level 4

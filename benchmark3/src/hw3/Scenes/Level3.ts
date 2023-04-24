@@ -46,6 +46,10 @@ export const Level3Events = {
     PAPER: "PAPER",
     PAPERHIDE: "PAPERHIDE",
     //Facing B
+    LOCKERS: "LOCKERS",
+    LOCKERSHIDE: "LOCKERSHIDE",
+    CLOCK: "CLOCK",
+    CLOCKHIDE: "CLOCKHIDE",
     
 } as const;
 /**
@@ -67,6 +71,9 @@ export default class Level3 extends HW3Level {
 
     public static readonly ID_KEY = "ID";
     public static readonly ID_PATH = "Level3_assets/ID.png";
+
+    public static readonly LOCKERS_KEY = "LOCKERS";
+    public static readonly LOCKERS_PATH = "Level3_assets/lockers.png";
 
     protected background: Layer;
     public ui: Layer;
@@ -92,6 +99,9 @@ export default class Level3 extends HW3Level {
     public paper: Sprite;
     public id: Sprite;
 
+    //facingB
+    public lockers: Sprite;
+
     protected emitter: Emitter;
     public hasId: Boolean = false;
     public hasKey: Boolean = false;
@@ -110,6 +120,7 @@ export default class Level3 extends HW3Level {
         this.load.image(Level3.PAPER_KEY, Level3.PAPER_PATH);
         this.load.image(Level3.ID_KEY, Level3.ID_PATH);
         this.load.audio(Level3.MUSIC_KEY, Level3.MUSIC_PATH);
+        this.load.image(Level3.LOCKERS_KEY, Level3.LOCKERS_PATH);
     }
 
     /**
@@ -151,6 +162,10 @@ export default class Level3 extends HW3Level {
         this.receiver.subscribe(Level3Events.KEYBOARD);
         this.receiver.subscribe(Level3Events.KEYBOARDHIDE);
         //FB
+        this.receiver.subscribe(Level3Events.CLOCK);
+        this.receiver.subscribe(Level3Events.CLOCKHIDE);
+        this.receiver.subscribe(Level3Events.LOCKERS);
+        this.receiver.subscribe(Level3Events.LOCKERSHIDE);
 
         this.background = this.addUILayer("background");
         this.addParallaxLayer("BACKGROUND", new Vec2(0.5, 1), -1);
@@ -243,6 +258,26 @@ export default class Level3 extends HW3Level {
             }
 
             //FB
+
+            case Level3Events.LOCKERS: {
+                this.handleLockers(event);
+                break;
+            }
+            case Level3Events.LOCKERSHIDE: {
+                this.handleLockersHide(event);
+                break;
+            }
+            case Level3Events.CLOCK: {
+                this.handleClock(event);
+                break;
+            }
+            case Level3Events.CLOCKHIDE: {
+                this.handleClockHide(event);
+                break;
+            }
+
+
+
             case HW3Events.LEVEL_START: {
                 Input.enableInput();
                 break;
@@ -304,6 +339,11 @@ export default class Level3 extends HW3Level {
         this.id.position.set(350, 400);
         this.id.scale = new Vec2(0.2, 0.2);
         this.id.visible = false;
+
+        this.lockers = this.add.sprite(Level3.LOCKERS_KEY, HW3Layers.PRIMARY);
+        this.lockers.position.set(350, 400);
+        this.lockers.scale = new Vec2(0.2, 0.2);
+        this.lockers.visible = false;
         
         
     }
@@ -348,7 +388,7 @@ export default class Level3 extends HW3Level {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
             if(!this.hasId){
-                const text1 = "<Out of Service>";
+                const text1 = "<Out of Service> OR maybe the ID could help you access it";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.visible = true;
@@ -396,7 +436,7 @@ export default class Level3 extends HW3Level {
             this.paper.visible = true;
             this.dialogue.visible = true;
             
-            const text1 = "It looks familiar...";
+            const text1 = "hmm... The pattern looks familiar...";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.fontSize = 50;
@@ -469,6 +509,44 @@ export default class Level3 extends HW3Level {
 
     }
     protected handleComputerHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+
+    protected handleLockers(event: GameEvent): void {
+        if(!this.lockers.visible) {
+            this.lockers.visible = true;
+            this.dialogue.visible = true;
+            
+            const text1 = "All the lockers are locked";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.fontSize = 50;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handleLockersHide(event: GameEvent): void {
+        if(this.lockers.visible) {
+            this.lockers.visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+        }
+    }
+
+    protected handleClock(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "Time -> 12:22AM";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handleClockHide(event: GameEvent): void {
         if (this.dialogue.visible) {
             this.line1.visible = false;
             this.dialogue.visible = false;
