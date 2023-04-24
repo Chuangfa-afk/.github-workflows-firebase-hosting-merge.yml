@@ -40,6 +40,10 @@ export default class MainMenu extends Scene {
         this.load.image("CONTROLS", "MainMenu_assets/Controls.png");
         this.load.image("HELP", "MainMenu_assets/Help_Screen.png");
         this.load.image("LEVEL_SELECT", "MainMenu_assets/Level_Selection.png");
+        this.load.image("LEVEL_1", "MainMenu_assets/Level_1.png");
+        this.load.image("LEVEL_2", "MainMenu_assets/Level_2.png");
+        this.load.image("LEVEL_3", "MainMenu_assets/Level_3.png");
+        this.load.image("LEVEL_4", "MainMenu_assets/Level_4.png");
         this.load.audio(MainMenu.MUSIC_KEY, MainMenu.MUSIC_PATH);
     }
 
@@ -49,7 +53,7 @@ export default class MainMenu extends Scene {
         this.splashScreen = this.addUILayer("splashScreen");
         this.addParallaxLayer("bg", new Vec2(0.5, 1), -1);
         let bg = this.add.sprite("BACKGROUND", "splashScreen");
-        bg.position.set(center.x, center.y);
+        bg.position.set(600, 400);
 
         //Main Menu
         this.mainMenu = this.addUILayer("mainMenu");
@@ -60,7 +64,25 @@ export default class MainMenu extends Scene {
         this.levelSelect = this.addUILayer("levelSelect");
         let l = this.add.sprite("LEVEL_SELECT", "levelSelect");
         l.position.set(center.x, center.y);
+        
+        let l1 = this.add.sprite("LEVEL_1", "levelSelect");
+        l1.position.set(225, 300);
+        l1.scale = new Vec2(0.07, 0.07);
+
+        let l2 = this.add.sprite("LEVEL_2", "levelSelect");
+        l2.position.set(600, 300);
+        l2.scale = new Vec2(0.07, 0.07);
+
+        let l3 = this.add.sprite("LEVEL_3", "levelSelect");
+        l3.position.set(975, 300);
+        l3.scale = new Vec2(0.07, 0.07);
+
+        let l4 = this.add.sprite("LEVEL_4", "levelSelect");
+        l4.position.set(600, 550);
+        l4.scale = new Vec2(0.07, 0.07);
+        
         this.levelSelect.setHidden(true);
+
         //Controls
         this.controls = this.addUILayer("controls");
         let c = this.add.sprite("CONTROLS", "controls");
