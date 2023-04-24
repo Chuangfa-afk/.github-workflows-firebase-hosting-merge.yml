@@ -24,14 +24,14 @@ const MainMenuEvent = {
 
 export default class MainMenu extends Scene {
 
-
     private mainMenu: Layer;
     private splashScreen: Layer;
     private levelSelect: Layer;
     private controls: Layer;
     private help: Layer;
 
-
+    public static readonly MUSIC_KEY = "MAIN_MENU_MUSIC";
+    public static readonly MUSIC_PATH = "MainMenu_assets/music/Main_Menu.wav";
 
     public loadScene(): void {
         // Load the menu song
@@ -40,8 +40,7 @@ export default class MainMenu extends Scene {
         this.load.image("CONTROLS", "MainMenu_assets/Controls.png");
         this.load.image("HELP", "MainMenu_assets/Help_Screen.png");
         this.load.image("LEVEL_SELECT", "MainMenu_assets/Level_Selection.png");
-
-
+        this.load.audio(MainMenu.MUSIC_KEY, MainMenu.MUSIC_PATH);
     }
 
     public startScene(): void {
@@ -166,6 +165,7 @@ export default class MainMenu extends Scene {
             if(!this.splashScreen.isHidden()) {
                 this.splashScreen.setHidden(true);
                 this.mainMenu.setHidden(false);
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.MUSIC_KEY, loop: true, holdReference: true});
             }
         }
 
@@ -186,6 +186,7 @@ export default class MainMenu extends Scene {
     }
     public unloadScene(): void {
         // The scene is being destroyed, so we can stop playing the song
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: MainMenu.MUSIC_KEY});
     }
 }
 
