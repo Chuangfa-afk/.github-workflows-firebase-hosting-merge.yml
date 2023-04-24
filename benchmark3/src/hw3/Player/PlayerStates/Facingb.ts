@@ -91,7 +91,7 @@ export default class Facingb extends PlayerState {
 			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.finished(PlayerStates.FACINGL);
 			} 
-			if (!this.clock && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 122 && Input.getMousePressPosition().y < 271) && (Input.getMousePressPosition().x > 570 && Input.getMousePressPosition().x < 683)) { //Clock
+			if (!this.clock && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 122 && Input.getMousePressPosition().y < 271) && (Input.getMousePressPosition().x > 790 && Input.getMousePressPosition().x < 950)) { //Clock
 				this.emitter.fireEvent(Level2Events.CLOCK);
 				this.clock = true;
 				this.timer.start(100);
@@ -100,7 +100,7 @@ export default class Facingb extends PlayerState {
 				this.emitter.fireEvent(Level2Events.CLOCKHIDE);
 				this.clock = false;
 			}
-			if (!this.boiler && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 509 && Input.getMousePressPosition().y < 599) && (Input.getMousePressPosition().x > 607 && Input.getMousePressPosition().x < 691)) { //boiler
+			if (!this.boiler && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 509 && Input.getMousePressPosition().y < 599) && (Input.getMousePressPosition().x > 800 && Input.getMousePressPosition().x < 940)) { //boiler
 				this.emitter.fireEvent(Level2Events.BOILER);
 				this.boiler = true;
 				this.timer.start(100);
@@ -109,7 +109,7 @@ export default class Facingb extends PlayerState {
 				this.emitter.fireEvent(Level2Events.BOILERHIDE);
 				this.boiler = false;
 			}
-			if (!this.plant && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 416 && Input.getMousePressPosition().y < 502) && (Input.getMousePressPosition().x > 364 && Input.getMousePressPosition().x < 446)) { //plant
+			if (!this.plant && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 416 && Input.getMousePressPosition().y < 502) && (Input.getMousePressPosition().x > 510 && Input.getMousePressPosition().x < 600)) { //plant
 				this.emitter.fireEvent(Level2Events.PLANT);
 				this.plant = true;
 				this.timer.start(100);
@@ -118,7 +118,7 @@ export default class Facingb extends PlayerState {
 				this.emitter.fireEvent(Level2Events.PLANTHIDE);
 				this.plant = false;
 			}
-			if (!this.refrigerator && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 256 && Input.getMousePressPosition().y < 669) && (Input.getMousePressPosition().x > 168 && Input.getMousePressPosition().x < 226)) { //Refri
+			if (!this.refrigerator && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 256 && Input.getMousePressPosition().y < 669) && (Input.getMousePressPosition().x > 268 && Input.getMousePressPosition().x < 326)) { //Refri
 				this.emitter.fireEvent(Level2Events.REFRIGERATOR);
 				this.refrigerator = true;
 				this.timer.start(100);
