@@ -8,6 +8,7 @@ import Level1 from "./Level1";
 import Layer from "../../Wolfie2D/Scene/Layer";
 import Receiver from "../../Wolfie2D/Events/Receiver";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
+import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 
 // Layers for the main menu scene
 export const MenuLayers = {
@@ -69,17 +70,33 @@ export default class MainMenu extends Scene {
         l1.position.set(225, 300);
         l1.scale = new Vec2(0.07, 0.07);
 
+        const text1 = "Level 1";
+        let line1 = <Label>this.add.uiElement(UIElementType.LABEL, "levelSelect", {position: new Vec2(225, 410), text: text1});
+        line1.textColor = Color.WHITE;
+
         let l2 = this.add.sprite("LEVEL_2", "levelSelect");
         l2.position.set(600, 300);
         l2.scale = new Vec2(0.07, 0.07);
+
+        const text2 = "Level 2";
+        let line2 = <Label>this.add.uiElement(UIElementType.LABEL, "levelSelect", {position: new Vec2(600, 410), text: text2});
+        line2.textColor = Color.WHITE;
 
         let l3 = this.add.sprite("LEVEL_3", "levelSelect");
         l3.position.set(975, 300);
         l3.scale = new Vec2(0.07, 0.07);
 
+        const text3 = "Level 3";
+        let line3 = <Label>this.add.uiElement(UIElementType.LABEL, "levelSelect", {position: new Vec2(975, 410), text: text3});
+        line3.textColor = Color.WHITE;
+
         let l4 = this.add.sprite("LEVEL_4", "levelSelect");
         l4.position.set(600, 550);
         l4.scale = new Vec2(0.07, 0.07);
+
+        const text4 = "Level 4";
+        let line4 = <Label>this.add.uiElement(UIElementType.LABEL, "levelSelect", {position: new Vec2(600, 660), text: text4});
+        line4.textColor = Color.WHITE;
         
         this.levelSelect.setHidden(true);
 
