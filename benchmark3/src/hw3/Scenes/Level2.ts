@@ -31,6 +31,10 @@ export const Level2Events = {
     DOORHAND: "DOORHAND",
     DOORHANDHIDE: "DOORHANDHIDE",
     //Facing L
+    COFFEE: "COFFEE",
+    COFFEEHIDE: "COFFEEHIDE",
+    PICTURE: "PICTURE",
+    PICTUREHIDE: "PICTUREHIDE",
 
     //Facing R
     REFRIGERATOR2: "REFRIGERATOR2",
@@ -99,6 +103,10 @@ export default class Level2 extends HW3Level {
     public faucet: Sprite;
     public refrigerator2: Sprite;
 
+    //facingL
+    public coffee: Sprite;
+    public picture: Sprite;
+
     protected emitter: Emitter;
     public hasId: Boolean = false;
     public hasKey: Boolean = false;
@@ -160,6 +168,11 @@ export default class Level2 extends HW3Level {
         this.receiver.subscribe(Level2Events.REFRIGERATOR2);
         this.receiver.subscribe(Level2Events.REFRIGERATOR2HIDE);
         this.receiver.subscribe(Level2Events.FAUCET);
+        this.receiver.subscribe(Level2Events.COFFEE);
+        this.receiver.subscribe(Level2Events.COFFEEHIDE);
+        this.receiver.subscribe(Level2Events.PICTURE);
+        this.receiver.subscribe(Level2Events.PICTUREHIDE);
+        
 
 
 
@@ -205,6 +218,22 @@ export default class Level2 extends HW3Level {
             }
 
             //FL
+            case Level2Events.COFFEE: {
+                this.handleCoffee(event);
+                break;
+            }
+            case Level2Events.COFFEEHIDE: {
+                this.handleCoffeeHide(event);
+                break;
+            }
+            case Level2Events.PICTURE: {
+                this.handlePicture(event);
+                break;
+            }
+            case Level2Events.PICTUREHIDE: {
+                this.handlePictureHide(event);
+                break;
+            }
 
             //FR
             case Level2Events.REFRIGERATOR2: {
@@ -525,6 +554,41 @@ export default class Level2 extends HW3Level {
 
     }
     protected handleLockHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+
+    //----------------------------------------------------------------------
+    protected handlePicture(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "Just a picture";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handlePictureHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+
+    protected handleCoffee(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "Why is it still warm?";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handleCoffeeHide(event: GameEvent): void {
         if (this.dialogue.visible) {
             this.line1.visible = false;
             this.dialogue.visible = false;

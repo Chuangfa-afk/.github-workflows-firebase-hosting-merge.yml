@@ -5,6 +5,7 @@ import { HW3Controls } from "../../HW3Controls";
 import Emitter from "../../../Wolfie2D/Events/Emitter";
 import { Level1Events } from "../../Scenes/Level1";
 import Timer from "../../../Wolfie2D/Timing/Timer";
+import { Level2Events } from "../../Scenes/Level2";
 
 export default class Facingl extends PlayerState {
     protected emitter: Emitter = new Emitter();
@@ -14,6 +15,10 @@ export default class Facingl extends PlayerState {
 	protected checkInSign: Boolean = false;
 	protected timer: Timer = new Timer(100);
 	protected whatLevel: number = -1;
+
+	//Level2
+	protected coffee: Boolean = false;
+	protected picture: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
 		if(options) {
@@ -70,6 +75,31 @@ export default class Facingl extends PlayerState {
 			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.finished(PlayerStates.FACINGF);
 			} 
+
+			if (!this.coffee && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 335 && Input.getMousePressPosition().y < 537) && (Input.getMousePressPosition().x > 663 && Input.getMousePressPosition().x < 888)) { //coffee
+				this.emitter.fireEvent(Level2Events.COFFEE);
+				this.coffee = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.coffee && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level2Events.COFFEEHIDE);
+				this.coffee = false;
+			}
+
+			if (!this.picture && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 224 && Input.getMousePressPosition().y < 423) && (Input.getMousePressPosition().x > 240 && Input.getMousePressPosition().x < 577)) { //coffee
+				this.emitter.fireEvent(Level2Events.PICTURE);
+				this.picture = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.picture && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level2Events.PICTUREHIDE);
+				this.picture = false;
+			}
+
+			if (Input.isMouseJustPressed()) {
+				let mousePosition = Input.getMousePressPosition();
+				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
+			}
 		}
 
 		//Level 3
