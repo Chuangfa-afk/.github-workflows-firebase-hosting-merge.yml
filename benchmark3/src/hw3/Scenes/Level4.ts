@@ -33,7 +33,8 @@ export const Level4Events = {
     BUTTONS: "BUTTONS",
     BUTTONSHIDE: "BUTTONSHIDE",
     //Facing L
-
+    STOCK: "STOCK",
+    STOCKHIDE: "STOCKHIDE",
     //Facing R
     HELPSIGN: "HELPSIGN",
     HELPSIGNHIDE: "HELPSIGNHIDE",
@@ -118,6 +119,8 @@ export default class Level4 extends HW3Level {
         this.receiver.subscribe(Level4Events.ELEVATOR);
         this.receiver.subscribe(Level4Events.ELEVATORHIDE);
         //FL
+        this.receiver.subscribe(Level4Events.STOCK);
+        this.receiver.subscribe(Level4Events.STOCKHIDE);
         
         //FR
         this.receiver.subscribe(Level4Events.HELPSIGN);
@@ -173,6 +176,15 @@ export default class Level4 extends HW3Level {
             }
             
             //FL
+            case Level4Events.STOCK: {
+                this.handleStock(event);
+                break;
+            }
+            case Level4Events.STOCKHIDE: {
+                this.handleStockHide(event);
+                break;
+            }
+            
 
             //FR
             case Level4Events.HELPSIGN: {
@@ -353,6 +365,24 @@ export default class Level4 extends HW3Level {
             this.hammer.visible = false;
             this.dialogue.visible = false;
             this.line1.visible = false;
+        }
+    }
+
+
+    protected handleStock(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "Just a Stock Brokerage Agent's Commercial post";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handleStockHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
         }
     }
 

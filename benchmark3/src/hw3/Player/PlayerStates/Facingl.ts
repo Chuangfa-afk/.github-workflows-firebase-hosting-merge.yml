@@ -7,6 +7,7 @@ import { Level1Events } from "../../Scenes/Level1";
 import Timer from "../../../Wolfie2D/Timing/Timer";
 import { Level2Events } from "../../Scenes/Level2";
 import { Level3Events } from "../../Scenes/Level3";
+import { Level4Events } from "../../Scenes/Level4";
 
 export default class Facingl extends PlayerState {
     protected emitter: Emitter = new Emitter();
@@ -28,6 +29,9 @@ export default class Facingl extends PlayerState {
 	protected computer: Boolean = false;
 	protected flower: Boolean = false;
 	protected exit: Boolean = false;
+
+	//Level4
+	protected stock: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
 		if(options) {
@@ -179,10 +183,10 @@ export default class Facingl extends PlayerState {
 
 
 
-			if (Input.isMouseJustPressed()) {
-				let mousePosition = Input.getMousePressPosition();
-				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
-			}
+			// if (Input.isMouseJustPressed()) {
+			// 	let mousePosition = Input.getMousePressPosition();
+			// 	console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
+			// }
 		}
 
 		//Level 4
@@ -196,6 +200,21 @@ export default class Facingl extends PlayerState {
 			} 
 			if(Input.isJustPressed(HW3Controls.MOVE_UP)) {
 				this.finished(PlayerStates.FACINGU);
+			}
+
+			if (!this.stock && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 145 && Input.getMousePressPosition().y < 566) && (Input.getMousePressPosition().x > 283 && Input.getMousePressPosition().x < 560)) { //coffee
+				this.emitter.fireEvent(Level4Events.STOCK);
+				this.stock = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.stock && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level4Events.STOCKHIDE);
+				this.stock = false;
+			}
+
+			if (Input.isMouseJustPressed()) {
+				let mousePosition = Input.getMousePressPosition();
+				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
 			}
 		}
         // Otherwise, do nothing (keep idling)
