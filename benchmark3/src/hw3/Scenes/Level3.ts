@@ -33,6 +33,16 @@ export const Level3Events = {
     WATERMACHINE: "WATERMACHINE",
     WATERMACHINEHIDE: "WATERMACHINEHIDE",
     //Facing L
+    LIGHT: "LIGHT",
+    LIGHTHIDE: "LIGHTHIDE",
+    DIPLOMA: "DIPLOMA",
+    DIPLOMAHIDE: "DIPLOMAHIDE",
+    TRASH: "TRASH",
+    TRASHHIDE: "TRASHHIDE",
+    COMPUTERL: "COMPUTERL",
+    COMPUTERLHIDE: "COMPUTERLHIDE",
+    FLOWER: "FLOWER",
+    FLOWERHIDE: "FLOWERHIDE",
 
     //Facing R
     KEYBOARD: "KEYBAORD",
@@ -149,7 +159,18 @@ export default class Level3 extends HW3Level {
         this.receiver.subscribe(Level3Events.WATERMACHINE);
         this.receiver.subscribe(Level3Events.WATERMACHINEHIDE);
         //FL
-        
+        this.receiver.subscribe(Level3Events.LIGHT);
+        this.receiver.subscribe(Level3Events.LIGHTHIDE);
+        this.receiver.subscribe(Level3Events.DIPLOMA);
+        this.receiver.subscribe(Level3Events.DIPLOMAHIDE);
+        this.receiver.subscribe(Level3Events.TRASH);
+        this.receiver.subscribe(Level3Events.TRASHHIDE);
+        this.receiver.subscribe(Level3Events.COMPUTER);
+        this.receiver.subscribe(Level3Events.COMPUTERHIDE);
+        this.receiver.subscribe(Level3Events.FLOWER);
+        this.receiver.subscribe(Level3Events.FLOWERHIDE);
+
+
         //FR
         this.receiver.subscribe(Level3Events.PAPER);
         this.receiver.subscribe(Level3Events.PAPERHIDE);
@@ -214,7 +235,46 @@ export default class Level3 extends HW3Level {
                 break;
             }
             //FL
-
+            case Level3Events.LIGHT: {
+                this.handleLight(event);
+                break;
+            }
+            case Level3Events.LIGHTHIDE: {
+                this.handleLightHide(event);
+                break;
+            }
+            case Level3Events.DIPLOMA: {
+                this.handleDiploma(event);
+                break;
+            }
+            case Level3Events.DIPLOMAHIDE: {
+                this.handleDiplomaHide(event);
+                break;
+            }
+            case Level3Events.TRASH: {
+                this.handleTrash(event);
+                break;
+            }
+            case Level3Events.WATERMACHINEHIDE: {
+                this.handleWaterMachineHide(event);
+                break;
+            }
+            case Level3Events.WATERMACHINE: {
+                this.handleWaterMachine(event);
+                break;
+            }
+            case Level3Events.WATERMACHINEHIDE: {
+                this.handleWaterMachineHide(event);
+                break;
+            }
+            case Level3Events.WATERMACHINE: {
+                this.handleWaterMachine(event);
+                break;
+            }
+            case Level3Events.WATERMACHINEHIDE: {
+                this.handleWaterMachineHide(event);
+                break;
+            }
             //FR
             case Level3Events.KEYBOARD: {
                 this.handleKeyboard(event);

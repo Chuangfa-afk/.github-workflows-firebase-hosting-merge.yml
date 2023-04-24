@@ -20,6 +20,13 @@ export default class Facingl extends PlayerState {
 	protected coffee: Boolean = false;
 	protected picture: Boolean = false;
 
+	//Level3
+	protected light: Boolean = false;
+	protected diploma: Boolean = false;
+	protected trash: Boolean = false;
+	protected computer: Boolean = false;
+	protected flower: Boolean = false;
+
 	public onEnter(options: Record<string, any>): void {
 		if(options) {
 			this.whatLevel = options.whatLevel;
