@@ -465,7 +465,7 @@ export default class Level3 extends HW3Level {
     protected handlePlant(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "So cute";
+            const text1 = "These plants are kinda cute, in an interior-design-kinda way.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -481,7 +481,7 @@ export default class Level3 extends HW3Level {
     protected handleWaterMachine(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "It's empty! Seems like need to be fill with the faucet in the Break room";
+            const text1 = "There's no more water! I've gotta refill it later.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -498,13 +498,13 @@ export default class Level3 extends HW3Level {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
             if(!this.hasId){
-                const text1 = "<Out of Service> OR maybe the ID could help you access it";
+                const text1 = "[ACCESS DENIED] I really should've remembered my ID back at home...";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.visible = true;
             }
             else{
-                const text1 = "THE ID is Valid!";
+                const text1 = "[ACCESS APPROVED] This is such a hassle.";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.visible = true;
@@ -525,7 +525,7 @@ export default class Level3 extends HW3Level {
             this.keyboard.visible = true;
             this.dialogue.visible = true;
             
-            const text1 = "There are some keys selected";
+            const text1 = "Hm, what's this?";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.fontSize = 50;
@@ -546,7 +546,7 @@ export default class Level3 extends HW3Level {
             this.paper.visible = true;
             this.dialogue.visible = true;
             
-            const text1 = "hmm... The pattern looks familiar...";
+            const text1 = "Hm, this pattern looks vaguely familiar...";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.fontSize = 50;
@@ -565,9 +565,9 @@ export default class Level3 extends HW3Level {
     protected handleSafe(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const passcode = prompt("Ups! It's Locked. Need a passcode in 6 digits");
+            const passcode = prompt("[PLEASE ENTER YOUR SIX-DIGIT PASSCODE]");
             if( (passcode === "CSE380") || (passcode === "cse380")){
-                const text1 = "Opened, you get an ID";
+                const text1 = "It opened! Oh, look! This ID will probably get me access.";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.visible = true;
@@ -575,7 +575,7 @@ export default class Level3 extends HW3Level {
                 this.hasId = true;
                 // You can add any additional logic here for what happens when the correct passcode is entered
             } else {
-                const text1 = "Hint: the order of the keys matter";
+                const text1 = "Should I really be snooping in here? (Hint: the order of the keys matter!)";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.visible = true;
@@ -594,7 +594,7 @@ export default class Level3 extends HW3Level {
     protected handleCup(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "Just a cup";
+            const text1 = "Someone really just left their half-empty cup here.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -611,7 +611,7 @@ export default class Level3 extends HW3Level {
     protected handleComputer(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "Computer Screen";
+            const text1 = "The computer screen's a little dusty. Lemme wipe it...";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -630,10 +630,10 @@ export default class Level3 extends HW3Level {
             this.lockers.visible = true;
             this.dialogue.visible = true;
             
-            const text1 = "All the lockers are locked";
+            const text1 = "All the lockers here are locked. (Why are they even in an office?)";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
-            this.line1.fontSize = 50;
+            this.line1.fontSize = 36;
             this.line1.visible = true;
         }
 
@@ -649,7 +649,7 @@ export default class Level3 extends HW3Level {
     protected handleClock(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "Time -> 12:22AM";
+            const text1 = "All these clocks are wrong...";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -667,7 +667,7 @@ export default class Level3 extends HW3Level {
     protected handleLight(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "The light is on...";
+            const text1 = "The light's still on. (Geez, these employees...)";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -685,10 +685,10 @@ export default class Level3 extends HW3Level {
             this.diploma.visible = true;
             this.dialogue.visible = true;
             
-            const text1 = "Just a diploma";
+            const text1 = "Heh, nice diploma.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
-            this.line1.fontSize = 50;
+            this.line1.fontSize = 36;
             this.line1.visible = true;
         }
 
@@ -707,7 +707,7 @@ export default class Level3 extends HW3Level {
                 this.rat.visible = true;
                 this.dialogue.visible = true;
                 
-                const text1 = "AHHH A Rattt!!!";
+                const text1 = "OH, **** IT'S A RAT!!!";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.fontSize = 50;
@@ -716,7 +716,7 @@ export default class Level3 extends HW3Level {
         }
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "Ewww That's Nasty...";
+            const text1 = "Why did I choose this profession...";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -733,7 +733,7 @@ export default class Level3 extends HW3Level {
     protected handleComputerl(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "Computer Screen";
+            const text1 = "This screen's kinda filthy. Time to wipe it down.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -749,7 +749,7 @@ export default class Level3 extends HW3Level {
     protected handleFlower(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "Smells sweat";
+            const text1 = "It's got a pleasant aroma.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -765,7 +765,7 @@ export default class Level3 extends HW3Level {
     protected handleExit(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "Want to Exit? Use the Elevator!";
+            const text1 = "If I want to exit, I have to use the elevator. (No stairs for me!)";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -782,8 +782,8 @@ export default class Level3 extends HW3Level {
     protected handleLevelStart(event: GameEvent): void {
         this.narration.visible = true;
 
-        const text1 = "Why is the light turned on when there are no individuals present?";
-        const text2 = "hmmm... nvm ops! why is it smells that bad!";
+        const text1 = "Why is the light already turned on when no one's here?";
+        const text2 = "Oh, wow, it smells awful in here.";
         this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
         this.line1.textColor = Color.WHITE;
         this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
