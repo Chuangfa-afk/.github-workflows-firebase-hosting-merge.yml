@@ -91,6 +91,7 @@ export default class Level1 extends HW3Level {
     public narration: Rect;
     public line1: Label;
     public line2: Label;
+    public line3: Label;
     public drawer1: Sprite;
     public drawer2: Sprite;
     public sign1: Sprite;
@@ -317,6 +318,7 @@ export default class Level1 extends HW3Level {
                 this.narration.visible = false;
                 this.line1.visible = false;
                 this.line2.visible = false;
+                this.line3.visible = false;
             }
         }
     }
@@ -384,13 +386,18 @@ export default class Level1 extends HW3Level {
         this.narration.visible = true;
 
         const text1 = "It's just another day at work.";
-        const text2 = "Shoot--I forgot my ID at home! It's too late to go back home now...";
-        this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
+        const text2 = "Shoot! I forgot my ID at home! It's too late to go back home now...";
+        const text3 = "(Click to exit dialogue or select items and use A & D keys to go left and right.)"
+        this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 465), text: text1});
         this.line1.textColor = Color.WHITE;
-        this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
+        this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text2});
         this.line2.textColor = Color.WHITE;
+        this.line3 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 485), text: text3});
+        this.line3.textColor = Color.WHITE;
+        this.line3.fontSize = 24;
         this.line1.visible = true;
         this.line2.visible = true;
+        this.line3.visible = true;
     }
 
     //Show dialogue with sprites

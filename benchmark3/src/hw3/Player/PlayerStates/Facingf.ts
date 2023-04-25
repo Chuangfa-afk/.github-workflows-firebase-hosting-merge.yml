@@ -90,7 +90,7 @@ export default class Facingf extends PlayerState {
 				this.elevator = true;
 				this.timer.start(100);
 			}
-			if(this.timer.isStopped() && this.elevator && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 319 && Input.getMousePressPosition().y < 610) && (Input.getMousePressPosition().x > 397 && Input.getMousePressPosition().x < 807)) { //Hide Elevator
+			if(this.timer.isStopped() && this.elevator && Input.isMouseJustPressed()) { //Hide Elevator
 				this.elevator = false;
 				this.emitter.fireEvent(Level1Events.ELEVATORHIDE);
 			}
