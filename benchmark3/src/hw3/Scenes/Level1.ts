@@ -54,7 +54,7 @@ export const Level1Events = {
     
 } as const;
 /**
- * The first level for HW4 - should be the one with the grass and the clouds.
+ * The first level for HW4
  */
 export default class Level1 extends HW3Level {
 
@@ -63,8 +63,6 @@ export default class Level1 extends HW3Level {
 
     public static readonly BACKGROUND_KEY = "BACKGROUND";
     public static readonly BACKGROUND_PATH = "Level1_assets/Level_1.json";
-
-    
 
     public static readonly CLOCK1_KEY = "CLOCK1";
     public static readonly CLOCK1_PATH = "Level1_assets/clock1.png";
@@ -97,6 +95,8 @@ export default class Level1 extends HW3Level {
     public drawer2: Sprite;
     public sign1: Sprite;
     public sign2: Sprite;
+    protected drawer2Visited: Boolean = false;
+    protected drawer1Visited: Boolean = false;
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
@@ -432,7 +432,7 @@ export default class Level1 extends HW3Level {
         }
     }
     protected handlePlantPress(event: GameEvent): void {
-        if(!this.key.visible) {
+        if(this.drawer1Visited && !this.hasKey) {
             this.key.visible = true;
             this.dialogue.visible = true;
 
@@ -443,27 +443,62 @@ export default class Level1 extends HW3Level {
 
             this.hasKey = true;
         }
+        else if(!this.drawer1Visited && !this.hasKey) {
+            this.dialogue.visible = true;
+
+            const text1 = "It's a pretty inconspicuous-looking plant, albeit a little shiny.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+        else if(this.hasKey) {
+            this.dialogue.visible = true;
+
+            const text1 = "Why do I keep looking at this plant?";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
     }
     protected handleKeyHide(event: GameEvent): void {
-        if(this.key.visible) {
-            this.key.visible = false;
-            this.dialogue.visible = false;
-            this.line1.visible = false;
-        }
+        this.key.visible = false;
+        this.dialogue.visible = false;
+        this.line1.visible = false;
     }
 
     protected handleDrawerPress(event: GameEvent): void {
-        if(!this.drawer1.visible && !this.hasKey) {
+        if(this.drawer2Visited && !this.drawer1.visible) {
+            this.drawer1.visible = true;
+            this.dialogue.visible = true;
+            
+            const text1 = "I don't think there's anything of use in this drawer.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
+            this.line1.textColor = Color.WHITE;
+            const text2 = "I've already gotten an ID, so I can probably access the elevator now.";
+            this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
+            this.line2.textColor = Color.WHITE;
+            this.line1.visible = true;
+            this.line2.visible = true;
+        }
+        else if(!this.drawer1.visible && !this.hasKey) {
             this.drawer1.visible = true;
             this.dialogue.visible = true;
             
             const text1 = "There's just a To-Do list that goes on and on about the plants.";
-            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
-        } else if(!this.drawer2.visible && this.hasKey) {
+            const text2 = "(Perhaps I should inspect the plants a little closer...)";
+            this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
+            this.line2.textColor = Color.WHITE;
+            this.line2.visible = true;
+
+            this.drawer1Visited = true;
+        } 
+        else if(!this.drawer2.visible && this.hasKey) {
             this.drawer2.visible = true;
             this.dialogue.visible = true;
+            this.drawer2Visited = true;
             
             const text1 = "The key I found opens this drawer!";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
@@ -482,6 +517,7 @@ export default class Level1 extends HW3Level {
             this.drawer1.visible = false;
             this.dialogue.visible = false;
             this.line1.visible = false;
+            this.line2.visible = false;
         }
         else if(this.drawer2.visible) {
             this.drawer2.visible = false;

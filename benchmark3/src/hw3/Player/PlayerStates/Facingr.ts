@@ -17,7 +17,6 @@ export default class Facingr extends PlayerState {
 	//Shows if clock2 is visible
 	protected clock2: Boolean = false;
 	protected phone: Boolean = false;
-	protected key: Boolean = false;
 	protected keyShow: Boolean = false;
 	protected timer: Timer = new Timer(100);
 	protected whatLevel: number = -1;
@@ -46,7 +45,7 @@ export default class Facingr extends PlayerState {
 	}
 
 	public update(deltaT: number): void {
-		//Level 1
+		//Level 1 - keyshow, clock2, phone
         if(this.whatLevel == 1) {
 			// Adjust anything needed
         
@@ -59,7 +58,7 @@ export default class Facingr extends PlayerState {
 				this.finished(PlayerStates.FACINGB);
 			} 
 			
-			if (!this.clock2 && !this.phone && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 200 && Input.getMousePressPosition().y < 320) && (Input.getMousePressPosition().x > 925 && Input.getMousePressPosition().x < 1050)) {
+			if (!this.clock2 && !this.phone && !this.keyShow && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 200 && Input.getMousePressPosition().y < 320) && (Input.getMousePressPosition().x > 925 && Input.getMousePressPosition().x < 1050)) {
 				this.emitter.fireEvent(Level1Events.CLOCK2);
 				this.clock2 = true;
 				this.timer.start(100);
@@ -68,23 +67,22 @@ export default class Facingr extends PlayerState {
 				this.clock2 = false;
 				this.emitter.fireEvent(Level1Events.CLOCK2HIDE);
 			}
-			if (!this.phone && !this.clock2 && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 329 && Input.getMousePressPosition().y < 447) && (Input.getMousePressPosition().x > 170 && Input.getMousePressPosition().x < 267)) {
+			if (!this.phone && !this.clock2 && !this.keyShow && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 329 && Input.getMousePressPosition().y < 447) && (Input.getMousePressPosition().x > 170 && Input.getMousePressPosition().x < 267)) {
 				this.emitter.fireEvent(Level1Events.PHONE);
 				this.phone = true;
 				this.timer.start(100);
 			}
-			if(this.timer.isStopped() && this.phone && !this.clock2 && Input.isMouseJustPressed()) {
+			if(this.timer.isStopped() && this.phone && Input.isMouseJustPressed()) {
 				this.phone = false;
 				this.emitter.fireEvent(Level1Events.PHONEHIDE);
 			}
 
-			if (!this.key && !this.keyShow && !this.phone && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 243 && Input.getMousePressPosition().y < 729) && (Input.getMousePressPosition().x > 337 && Input.getMousePressPosition().x < 529)) {
+			if (!this.keyShow && !this.phone && !this.clock2 && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 243 && Input.getMousePressPosition().y < 729) && (Input.getMousePressPosition().x > 337 && Input.getMousePressPosition().x < 529)) {
 				this.emitter.fireEvent(Level1Events.KEY);
 				this.keyShow = true;
-				this.key = true;
 				this.timer.start(100);
 			}
-			if(this.key && this.keyShow && this.timer.isStopped() && !this.clock2 && !this.phone && Input.isMouseJustPressed()) { //Hide Clock1
+			if(this.keyShow && this.timer.isStopped() && Input.isMouseJustPressed()) { //Hide Clock1
 				this.keyShow = false;
 				this.emitter.fireEvent(Level1Events.KEYHIDE);
 			}
