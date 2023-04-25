@@ -23,6 +23,7 @@ import { HW3Controls } from "../HW3Controls";
 import Level3 from "./Level3";
 import Level4 from "./Level4";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
+import MainMenu from "./MainMenu";
 
 export const Level1Events = {
     //Facing F
@@ -574,6 +575,7 @@ export default class Level1 extends HW3Level {
     protected handleKeypadPress(event: GameEvent): void {
         if(!this.dialogue.visible) {
             if(!this.hasId) {
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.INCORRECT_AUDIO_KEY, loop: false, holdReference: false});
                 this.dialogue.visible = true;
 
                 const text1 = "I don't have my ID on me. Maybe there's one lying around...";
@@ -583,6 +585,8 @@ export default class Level1 extends HW3Level {
             }
             else {
                 this.dialogue.visible = true;
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.CORRECT_AUDIO_KEY, loop: false, holdReference: false});
+
                 const text1 = "It worked! Now I can finally get to work.";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;

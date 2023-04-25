@@ -448,6 +448,8 @@ export default class Level2 extends HW3Level {
             this.dialogue.visible = true;
             const passcode = prompt("Enter the 4-digit passcode to enter the office.");
             if (passcode === "1222") {
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.CORRECT_AUDIO_KEY, loop: false, holdReference: false});
+
                 const text1 = "It worked! Time to clean the office.";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
@@ -455,6 +457,8 @@ export default class Level2 extends HW3Level {
                 this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END);
                 // You can add any additional logic here for what happens when the correct passcode is entered
             } else {
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.INCORRECT_AUDIO_KEY, loop: false, holdReference: false});
+
                 const text1 = "Yeah, that's not it. But hmm, what time is it? I might be off-schedule...";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;

@@ -498,12 +498,16 @@ export default class Level3 extends HW3Level {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
             if(!this.hasId){
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.INCORRECT_AUDIO_KEY, loop: false, holdReference: false});
+
                 const text1 = "[ACCESS DENIED] I really should've remembered my ID back at home...";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.visible = true;
             }
-            else{
+            else {
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.CORRECT_AUDIO_KEY, loop: false, holdReference: false});
+
                 const text1 = "[ACCESS APPROVED] This is such a hassle.";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
@@ -563,10 +567,12 @@ export default class Level3 extends HW3Level {
     }
 
     protected handleSafe(event: GameEvent): void {
-        if (!this.dialogue.visible){
+        if (!this.dialogue.visible && !this.hasId){
             this.dialogue.visible = true;
             const passcode = prompt("[PLEASE ENTER YOUR SIX-DIGIT PASSCODE]");
             if( (passcode === "CSE380") || (passcode === "cse380")){
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.CORRECT_AUDIO_KEY, loop: false, holdReference: false});
+
                 const text1 = "It opened! Oh, look! This ID will probably get me access.";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
@@ -575,13 +581,14 @@ export default class Level3 extends HW3Level {
                 this.hasId = true;
                 // You can add any additional logic here for what happens when the correct passcode is entered
             } else {
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.INCORRECT_AUDIO_KEY, loop: false, holdReference: false});
+
                 const text1 = "Should I really be snooping in here? (Hint: the order of the keys matter!)";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.visible = true;
             }
-    }
-
+        }
     }
     protected handleSafeHide(event: GameEvent): void {
         if (this.dialogue.visible) {

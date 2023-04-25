@@ -47,6 +47,11 @@ export default class MainMenu extends Scene {
     public static readonly LEFT_AUDIO_PATH: string = "Level_assets/sounds/Left.wav";
     public static readonly RIGHT_AUDIO_KEY: string = "RIGHT_SFX";
     public static readonly RIGHT_AUDIO_PATH: string = "Level_assets/sounds/Right.wav";
+    
+    public static readonly CORRECT_AUDIO_KEY: string = "CORRECT_SFX";
+    public static readonly CORRECT_AUDIO_PATH: string = "Level_assets/sounds/Correct.wav";
+    public static readonly INCORRECT_AUDIO_KEY: string = "INCORRECT_SFX";
+    public static readonly INCORRECT_AUDIO_PATH: string = "Level_assets/sounds/Wrong.wav";
 
     public loadScene(): void {
         // Load the menu song
@@ -64,6 +69,8 @@ export default class MainMenu extends Scene {
         this.load.spritesheet(MainMenu.RIGHT_KEY, MainMenu.RIGHT_PATH);
         this.load.audio(MainMenu.LEFT_AUDIO_KEY, MainMenu.LEFT_AUDIO_PATH);
         this.load.audio(MainMenu.RIGHT_AUDIO_KEY, MainMenu.RIGHT_AUDIO_PATH);
+        this.load.audio(MainMenu.CORRECT_AUDIO_KEY, MainMenu.CORRECT_AUDIO_PATH);
+        this.load.audio(MainMenu.INCORRECT_AUDIO_KEY, MainMenu.INCORRECT_AUDIO_PATH);
     }
 
     public startScene(): void {
@@ -291,6 +298,8 @@ export default class MainMenu extends Scene {
         this.load.keepSpritesheet(MainMenu.RIGHT_KEY);
         this.load.keepAudio(MainMenu.LEFT_AUDIO_KEY);
         this.load.keepAudio(MainMenu.RIGHT_AUDIO_KEY);
+        this.load.keepAudio(MainMenu.CORRECT_AUDIO_KEY);
+        this.load.keepAudio(MainMenu.INCORRECT_AUDIO_KEY);
     }
 }
 
