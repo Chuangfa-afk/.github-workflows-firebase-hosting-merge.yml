@@ -106,6 +106,7 @@ export default class Level3 extends HW3Level {
     public drawer2: Sprite;
     public sign1: Sprite;
     public sign2: Sprite;
+    public narration: Rect;
 
     //facingF
     public waterMachine: Sprite;
@@ -365,6 +366,7 @@ export default class Level3 extends HW3Level {
 
             case HW3Events.LEVEL_START: {
                 Input.enableInput();
+                this.handleLevelStart(event);
                 break;
             }
             case HW3Events.PLAYER_ENTERED_LEVEL_END: {
@@ -395,6 +397,14 @@ export default class Level3 extends HW3Level {
         }
         else if(Input.isJustPressed(HW3Controls.LEVEL_4,)) {
             this.sceneManager.changeToScene(Level4);
+        }
+
+        if(Input.isMouseJustPressed(0)) {
+            if(this.narration.visible) {
+                this.narration.visible = false;
+                this.line1.visible = false;
+                this.line2.visible = false;
+            }
         }
     }
 
@@ -439,6 +449,11 @@ export default class Level3 extends HW3Level {
         this.rat.position.set(350, 400);
         this.rat.scale = new Vec2(0.2, 0.2);
         this.rat.visible = false;
+
+        this.narration = <Rect>this.add.graphic(GraphicType.RECT, HW3Layers.PRIMARY, { position: new Vec2(400, 500), size: new Vec2(1000, 100) });
+        this.narration.scale = new Vec2(0.5, 0.5);
+        this.narration.color = new Color(0, 0, 0, 0.5);
+        this.narration.visible = false;
         
         
     }
@@ -762,6 +777,19 @@ export default class Level3 extends HW3Level {
             this.line1.visible = false;
             this.dialogue.visible = false;
         }
+    }
+
+    protected handleLevelStart(event: GameEvent): void {
+        this.narration.visible = true;
+
+        const text1 = "Why is the light turned on when there are no individuals present?";
+        const text2 = "hmmm... why is it smells bad";
+        this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
+        this.line1.textColor = Color.WHITE;
+        this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
+        this.line2.textColor = Color.WHITE;
+        this.line1.visible = true;
+        this.line2.visible = true;
     }
 
 }
