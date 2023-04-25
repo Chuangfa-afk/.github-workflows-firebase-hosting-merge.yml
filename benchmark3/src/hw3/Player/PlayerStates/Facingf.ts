@@ -13,6 +13,8 @@ import { Level2Events } from "../../Scenes/Level2";
 import Viewport from "../../../Wolfie2D/SceneGraph/Viewport";
 import { Level3Events } from "../../Scenes/Level3";
 import { Level4Events } from "../../Scenes/Level4";
+import MainMenu from "../../Scenes/MainMenu";
+import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 
 export default class Facingf extends PlayerState {
 	protected emitter: Emitter = new Emitter();
@@ -57,10 +59,12 @@ export default class Facingf extends PlayerState {
 		if(this.whatLevel == 1) {
 		// If the player clicks left, go to Facingl
 			if (!this.clock1 && !this.keypad && !this.elevator && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGL);
 			} 
 			// If the player clicks right, go to Facingr
 			else if (!this.clock1 && !this.keypad && !this.elevator && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGR);
 			} 
 			
@@ -99,10 +103,12 @@ export default class Facingf extends PlayerState {
 		//Level 2 - microwave, doorhand
 		else if(this.whatLevel == 2) {
 			if (!this.microwave && !this.doorHand && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGL);
 			} 
 			// If the player clicks right, go to Facingr
 			else if (!this.microwave && !this.doorHand && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGR);
 			} 
 
@@ -132,10 +138,12 @@ export default class Facingf extends PlayerState {
 		//Level 3 - elevator2, waterMachine, plant
 		else if(this.whatLevel == 3) {
 			if (!this.elevator2 && !this.waterMachine && !this.plant && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGL);
 			} 
 			// If the player clicks right, go to Facingr
 			else if (!this.elevator2 && !this.waterMachine && !this.plant &&Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGR);
 			} 
 			if(!this.elevator2 && !this.waterMachine && !this.plant &&Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 287 && Input.getMousePressPosition().y < 667) && (Input.getMousePressPosition().x > 400 && Input.getMousePressPosition().x < 806)) {
@@ -169,22 +177,17 @@ export default class Facingf extends PlayerState {
 				this.plant = false;
 				this.emitter.fireEvent(Level3Events.PLANTHIDE);
 			}
-
-			// if (Input.isMouseJustPressed()) {
-			// 	let mousePosition = Input.getMousePressPosition();
-			// 	console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
-			// }
-
-
 		}
 
 		//Level 4 - elevator3, sign, buttons
 		else if(this.whatLevel == 4) {
 			if (!this.elevator3 && !this.sign && !this.buttons && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGL);
 			} 
 			// If the player clicks right, go to Facingr
 			else if (!this.elevator3 && !this.sign && !this.buttons && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGR);
 			} 
 			if(!this.elevator3 && !this.sign && !this.buttons && Input.isJustPressed(HW3Controls.MOVE_UP)) {

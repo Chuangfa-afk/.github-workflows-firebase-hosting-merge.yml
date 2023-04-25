@@ -43,6 +43,11 @@ export default class MainMenu extends Scene {
     public static RIGHT_KEY: string = "RIGHT";
     public static RIGHT_PATH = "Level_assets/spritesheets/Right Button.json";
 
+    public static readonly LEFT_AUDIO_KEY: string = "LEFT_SFX";
+    public static readonly LEFT_AUDIO_PATH: string = "Level_assets/sounds/Left.wav";
+    public static readonly RIGHT_AUDIO_KEY: string = "RIGHT_SFX";
+    public static readonly RIGHT_AUDIO_PATH: string = "Level_assets/sounds/Right.wav";
+
     public loadScene(): void {
         // Load the menu song
         this.load.image("BACKGROUND", "MainMenu_assets/Splash_Screen.png");
@@ -57,6 +62,8 @@ export default class MainMenu extends Scene {
         this.load.audio(MainMenu.MUSIC_KEY, MainMenu.MUSIC_PATH);
         this.load.spritesheet(MainMenu.LEFT_KEY, MainMenu.LEFT_PATH);
         this.load.spritesheet(MainMenu.RIGHT_KEY, MainMenu.RIGHT_PATH);
+        this.load.audio(MainMenu.LEFT_AUDIO_KEY, MainMenu.LEFT_AUDIO_PATH);
+        this.load.audio(MainMenu.RIGHT_AUDIO_KEY, MainMenu.RIGHT_AUDIO_PATH);
     }
 
     public startScene(): void {
@@ -282,6 +289,8 @@ export default class MainMenu extends Scene {
         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: MainMenu.MUSIC_KEY});
         this.load.keepSpritesheet(MainMenu.LEFT_KEY);
         this.load.keepSpritesheet(MainMenu.RIGHT_KEY);
+        this.load.keepAudio(MainMenu.LEFT_AUDIO_KEY);
+        this.load.keepAudio(MainMenu.RIGHT_AUDIO_KEY);
     }
 }
 

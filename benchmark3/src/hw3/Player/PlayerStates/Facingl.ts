@@ -8,6 +8,8 @@ import Timer from "../../../Wolfie2D/Timing/Timer";
 import { Level2Events } from "../../Scenes/Level2";
 import { Level3Events } from "../../Scenes/Level3";
 import { Level4Events } from "../../Scenes/Level4";
+import MainMenu from "../../Scenes/MainMenu";
+import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 
 export default class Facingl extends PlayerState {
     protected emitter: Emitter = new Emitter();
@@ -48,10 +50,12 @@ export default class Facingl extends PlayerState {
         
 			// If the player clicks left, go to Facingb
 			if (!this.drawer && !this.checkInSign && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGB);
 			} 
 			// If the player clicks right, go to Facingf
 			else if (!this.drawer && !this.checkInSign && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGF);
 			} 
 			
@@ -82,10 +86,12 @@ export default class Facingl extends PlayerState {
 		//Level 2 - coffee, picture
 		else if(this.whatLevel == 2) {
 			if (!this.coffee && !this.picture && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGB);
 			} 
 			// If the player clicks right, go to Facingr
 			else if (!this.coffee && !this.picture && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGF);
 			} 
 
@@ -113,10 +119,12 @@ export default class Facingl extends PlayerState {
 		//Level 3 - light, diploma, trash, computer, flower, exit
 		else if(this.whatLevel == 3) {
 			if (!this.light && !this.diploma && !this.trash && !this.computer && !this.flower && !this.exit && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGB);
 			} 
 			// If the player clicks right, go to Facingr
 			else if (!this.light && !this.diploma && !this.trash && !this.computer && !this.flower && !this.exit && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGF);
 			} 
 
@@ -179,10 +187,12 @@ export default class Facingl extends PlayerState {
 		//Level 4 - stock
 		else if(this.whatLevel == 4) {
 			if (!this.stock && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGB);
 			} 
 			// If the player clicks right, go to Facingr
 			else if (!this.stock && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGF);
 			} 
 			if(!this.stock && Input.isJustPressed(HW3Controls.MOVE_UP)) {
