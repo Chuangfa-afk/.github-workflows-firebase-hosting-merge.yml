@@ -783,7 +783,7 @@ export default class Level3 extends HW3Level {
         this.narration.visible = true;
 
         const text1 = "Why is the light turned on when there are no individuals present?";
-        const text2 = "hmmm... why is it smells bad";
+        const text2 = "hmmm... nvm ops! why is it smells that bad!";
         this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
         this.line1.textColor = Color.WHITE;
         this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
