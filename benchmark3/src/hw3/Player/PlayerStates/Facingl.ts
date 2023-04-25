@@ -110,17 +110,17 @@ export default class Facingl extends PlayerState {
 			}
 		}
 
-		//Level 3
+		//Level 3 - light, diploma, trash, computer, flower, exit
 		else if(this.whatLevel == 3) {
-			if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+			if (!this.light && !this.diploma && !this.trash && !this.computer && !this.flower && !this.exit && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
 				this.finished(PlayerStates.FACINGB);
 			} 
 			// If the player clicks right, go to Facingr
-			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+			else if (!this.light && !this.diploma && !this.trash && !this.computer && !this.flower && !this.exit && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.finished(PlayerStates.FACINGF);
 			} 
 
-			if (!this.light && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 211 && Input.getMousePressPosition().y < 430) && (Input.getMousePressPosition().x > 562 && Input.getMousePressPosition().x < 722)) { //coffee
+			if (!this.light && !this.diploma && !this.trash && !this.computer && !this.flower && !this.exit && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 211 && Input.getMousePressPosition().y < 430) && (Input.getMousePressPosition().x > 562 && Input.getMousePressPosition().x < 722)) { //coffee
 				this.emitter.fireEvent(Level3Events.LIGHT);
 				this.light = true;
 				this.timer.start(100);
@@ -129,7 +129,7 @@ export default class Facingl extends PlayerState {
 				this.emitter.fireEvent(Level3Events.LIGHTHIDE);
 				this.light = false;
 			}
-			if (!this.diploma && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 391 && Input.getMousePressPosition().y < 472) && (Input.getMousePressPosition().x > 418 && Input.getMousePressPosition().x < 518)) { //coffee
+			if (!this.diploma && !this.light && !this.trash && !this.computer && !this.flower && !this.exit && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 391 && Input.getMousePressPosition().y < 472) && (Input.getMousePressPosition().x > 418 && Input.getMousePressPosition().x < 518)) { //coffee
 				this.emitter.fireEvent(Level3Events.DIPLOMA);
 				this.diploma = true;
 				this.timer.start(100);
@@ -138,7 +138,7 @@ export default class Facingl extends PlayerState {
 				this.emitter.fireEvent(Level3Events.DIPLOMAHIDE);
 				this.diploma = false;
 			}
-			if (!this.trash && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 607 && Input.getMousePressPosition().y < 768) && (Input.getMousePressPosition().x > 291 && Input.getMousePressPosition().x < 420)) { //coffee
+			if (!this.trash && !this.light && !this.diploma && !this.computer && !this.flower && !this.exit && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 607 && Input.getMousePressPosition().y < 768) && (Input.getMousePressPosition().x > 291 && Input.getMousePressPosition().x < 420)) { //coffee
 				this.emitter.fireEvent(Level3Events.TRASH);
 				this.trash = true;
 				this.timer.start(100);
@@ -147,7 +147,7 @@ export default class Facingl extends PlayerState {
 				this.emitter.fireEvent(Level3Events.TRASHHIDE);
 				this.trash = false;
 			}
-			if (!this.computer && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 221 && Input.getMousePressPosition().y < 386) && (Input.getMousePressPosition().x > 750 && Input.getMousePressPosition().x < 940)) { //coffee
+			if (!this.computer && !this.light && !this.diploma && !this.trash && !this.flower && !this.exit && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 221 && Input.getMousePressPosition().y < 386) && (Input.getMousePressPosition().x > 750 && Input.getMousePressPosition().x < 940)) { //coffee
 				this.emitter.fireEvent(Level3Events.COMPUTERL);
 				this.computer = true;
 				this.timer.start(100);
@@ -156,16 +156,16 @@ export default class Facingl extends PlayerState {
 				this.emitter.fireEvent(Level3Events.COMPUTERLHIDE);
 				this.computer = false;
 			}
-			if (!this.flower && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 203 && Input.getMousePressPosition().y < 412) && (Input.getMousePressPosition().x > 1013 && Input.getMousePressPosition().x < 1085)) { //coffee
+			if (!this.flower && !this.light && !this.diploma && !this.trash && !this.computer && !this.exit && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 203 && Input.getMousePressPosition().y < 412) && (Input.getMousePressPosition().x > 1013 && Input.getMousePressPosition().x < 1085)) { //coffee
 				this.emitter.fireEvent(Level3Events.FLOWER);
 				this.flower = true;
-				this.timer.start(100);
+				this.timer.start(100); 
 			}
 			if(this.timer.isStopped() && this.flower && Input.isMouseJustPressed()) {
 				this.emitter.fireEvent(Level3Events.FLOWERHIDE);
 				this.flower = false;
 			}
-			if (!this.exit && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 79 && Input.getMousePressPosition().y < 165) && (Input.getMousePressPosition().x > 915 && Input.getMousePressPosition().x < 1106)) { //coffee
+			if (!this.exit && !this.light && !this.diploma && !this.trash && !this.computer && !this.flower && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 79 && Input.getMousePressPosition().y < 165) && (Input.getMousePressPosition().x > 915 && Input.getMousePressPosition().x < 1106)) { //coffee
 				this.emitter.fireEvent(Level3Events.EXIT);
 				this.exit = true;
 				this.timer.start(100);

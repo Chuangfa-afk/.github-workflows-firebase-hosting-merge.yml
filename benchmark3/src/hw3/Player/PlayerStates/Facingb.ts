@@ -136,26 +136,19 @@ export default class Facingb extends PlayerState {
 				this.emitter.fireEvent(Level2Events.REFRIGERATORHIDE);
 				this.refrigerator = false;
 			}
-			
-
-			// if (Input.isMouseJustPressed()) {
-			// 	let mousePosition = Input.getMousePressPosition();
-			// 	console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
-			// }
-
 		}
 		
-		//Level 3
+		//Level 3 - clock2, lockers
 		else if(this.whatLevel == 3) {
-			if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+			if (!this.clock2 && !this.lockers && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
 				this.finished(PlayerStates.FACINGR);
 			} 
 			// If the player clicks right, go to Facingr
-			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+			else if (!this.clock2 && !this.lockers && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.finished(PlayerStates.FACINGL);
 			} 
 
-			if (!this.clock2 && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 208 && Input.getMousePressPosition().y < 269) && (Input.getMousePressPosition().x > 805 && Input.getMousePressPosition().x < 855)) { //Refri
+			if (!this.clock2 && !this.lockers && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 208 && Input.getMousePressPosition().y < 269) && (Input.getMousePressPosition().x > 805 && Input.getMousePressPosition().x < 855)) { //Refri
 				this.emitter.fireEvent(Level3Events.CLOCK);
 				this.clock2 = true;
 				this.timer.start(100);
@@ -165,7 +158,7 @@ export default class Facingb extends PlayerState {
 				this.clock2 = false;
 			}
 
-			if (!this.lockers && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 369 && Input.getMousePressPosition().y < 632) && (Input.getMousePressPosition().x > 131 && Input.getMousePressPosition().x < 426)) { //Refri
+			if (!this.lockers && !this.clock2 && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 369 && Input.getMousePressPosition().y < 632) && (Input.getMousePressPosition().x > 131 && Input.getMousePressPosition().x < 426)) { //Refri
 				this.emitter.fireEvent(Level3Events.LOCKERS);
 				this.lockers = true;
 				this.timer.start(100);
@@ -174,11 +167,6 @@ export default class Facingb extends PlayerState {
 				this.emitter.fireEvent(Level3Events.LOCKERSHIDE);
 				this.lockers = false;
 			}
-
-			// if (Input.isMouseJustPressed()) {
-			// 	let mousePosition = Input.getMousePressPosition();
-			// 	console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
-			// }
 		}
 
 		//Level 4 - hole

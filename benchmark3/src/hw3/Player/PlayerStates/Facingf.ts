@@ -129,16 +129,16 @@ export default class Facingf extends PlayerState {
 			}
 		}
 
-		//Level 3
+		//Level 3 - elevator2, waterMachine, plant
 		else if(this.whatLevel == 3) {
-			if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+			if (!this.elevator2 && !this.waterMachine && !this.plant && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
 				this.finished(PlayerStates.FACINGL);
 			} 
 			// If the player clicks right, go to Facingr
-			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+			else if (!this.elevator2 && !this.waterMachine && !this.plant &&Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.finished(PlayerStates.FACINGR);
 			} 
-			if(!this.elevator2 && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 287 && Input.getMousePressPosition().y < 667) && (Input.getMousePressPosition().x > 400 && Input.getMousePressPosition().x < 806)) {
+			if(!this.elevator2 && !this.waterMachine && !this.plant &&Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 287 && Input.getMousePressPosition().y < 667) && (Input.getMousePressPosition().x > 400 && Input.getMousePressPosition().x < 806)) {
 				this.emitter.fireEvent(Level3Events.ELEVATOR);
 				this.elevator2 = true;
 				this.timer.start(100);
@@ -149,7 +149,7 @@ export default class Facingf extends PlayerState {
 				this.emitter.fireEvent(Level3Events.ELEVATORHIDE);
 			}
 
-			if(!this.waterMachine && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 352 && Input.getMousePressPosition().y < 693) && (Input.getMousePressPosition().x > 234 && Input.getMousePressPosition().x < 363)) {
+			if(!this.waterMachine && !this.elevator2 && !this.plant && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 352 && Input.getMousePressPosition().y < 693) && (Input.getMousePressPosition().x > 234 && Input.getMousePressPosition().x < 363)) {
 				this.emitter.fireEvent(Level3Events.WATERMACHINE);
 				this.waterMachine = true;
 				this.timer.start(100);
@@ -159,7 +159,7 @@ export default class Facingf extends PlayerState {
 				this.waterMachine = false;
 				this.emitter.fireEvent(Level3Events.WATERMACHINEHIDE);
 			}
-			if(!this.plant && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 472 && Input.getMousePressPosition().y < 691) && (Input.getMousePressPosition().x > 837 && Input.getMousePressPosition().x < 940)) {
+			if(!this.plant && !this.elevator2 && !this.waterMachine && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 472 && Input.getMousePressPosition().y < 691) && (Input.getMousePressPosition().x > 837 && Input.getMousePressPosition().x < 940)) {
 				this.emitter.fireEvent(Level3Events.PLANT);
 				this.plant = true;
 				this.timer.start(100);
