@@ -96,17 +96,17 @@ export default class Facingf extends PlayerState {
 			}
 		}
 
-		//Level 2
+		//Level 2 - microwave, doorhand
 		else if(this.whatLevel == 2) {
-			if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+			if (!this.microwave && !this.doorHand && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
 				this.finished(PlayerStates.FACINGL);
 			} 
 			// If the player clicks right, go to Facingr
-			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+			else if (!this.microwave && !this.doorHand && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.finished(PlayerStates.FACINGR);
 			} 
 
-			if(!this.microwave && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 369 && Input.getMousePressPosition().y < 477) && (Input.getMousePressPosition().x > 770 && Input.getMousePressPosition().x < 970)) {
+			if(!this.microwave && !this.doorHand && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 369 && Input.getMousePressPosition().y < 477) && (Input.getMousePressPosition().x > 770 && Input.getMousePressPosition().x < 970)) {
 				this.emitter.fireEvent(Level2Events.MICROWAVE);
 				this.microwave = true;
 				this.timer.start(100);
@@ -117,7 +117,7 @@ export default class Facingf extends PlayerState {
 				this.emitter.fireEvent(Level2Events.MICROWAVEHIDE);
 			}
 
-			if(!this.doorHand && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 380 && Input.getMousePressPosition().y < 450) && (Input.getMousePressPosition().x > 300 && Input.getMousePressPosition().x < 420)) {
+			if(!this.doorHand && !this.microwave && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 380 && Input.getMousePressPosition().y < 450) && (Input.getMousePressPosition().x > 300 && Input.getMousePressPosition().x < 420)) {
 				this.emitter.fireEvent(Level2Events.DOORHAND);
 				this.doorHand = true;
 				this.timer.start(100);
@@ -127,17 +127,6 @@ export default class Facingf extends PlayerState {
 				this.doorHand = false;
 				this.emitter.fireEvent(Level2Events.DOORHANDHIDE);
 			}
-
-			
-
-
-
-
-			// if (Input.isMouseJustPressed()) {
-			// 	let mousePosition = Input.getMousePressPosition();
-			// 	console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
-			// }
-			
 		}
 
 		//Level 3

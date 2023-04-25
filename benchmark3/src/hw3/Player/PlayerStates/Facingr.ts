@@ -90,17 +90,17 @@ export default class Facingr extends PlayerState {
 			}
 		}
 
-		//Level 2
+		//Level 2 - refrigerator2, faucet, lock
 		else if(this.whatLevel == 2) {
-			if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+			if (!this.refrigerator2 && !this.faucet && !this.lock && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
 				this.finished(PlayerStates.FACINGF);
 			} 
 			// If the player clicks right, go to Facingr
-			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+			else if (!this.refrigerator2 && !this.faucet && !this.lock && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.finished(PlayerStates.FACINGB);
 			} 
 
-			if (!this.refrigerator2 && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 155 && Input.getMousePressPosition().y < 681) && (Input.getMousePressPosition().x > 700 && Input.getMousePressPosition().x < 1000)) { //refri2
+			if (!this.refrigerator2 && !this.faucet && !this.lock && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 155 && Input.getMousePressPosition().y < 681) && (Input.getMousePressPosition().x > 700 && Input.getMousePressPosition().x < 1000)) { //refri2
 				this.emitter.fireEvent(Level2Events.REFRIGERATOR2);
 				this.refrigerator2 = true;
 				this.timer.start(100);
@@ -109,7 +109,7 @@ export default class Facingr extends PlayerState {
 				this.emitter.fireEvent(Level2Events.REFRIGERATOR2HIDE);
 				this.refrigerator2 = false;
 			}
-			if (!this.faucet && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 347 && Input.getMousePressPosition().y < 493) && (Input.getMousePressPosition().x > 392 && Input.getMousePressPosition().x < 550)) { //faucet
+			if (!this.faucet && !this.refrigerator2 && !this.lock && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 347 && Input.getMousePressPosition().y < 493) && (Input.getMousePressPosition().x > 392 && Input.getMousePressPosition().x < 550)) { //faucet
 				this.emitter.fireEvent(Level2Events.FAUCET);
 				this.faucet = true;
 				this.timer.start(100);
@@ -118,7 +118,7 @@ export default class Facingr extends PlayerState {
 				this.emitter.fireEvent(Level2Events.FAUCETHIDE);
 				this.faucet = false;
 			}
-			if (!this.lock && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 161 && Input.getMousePressPosition().y < 308) && (Input.getMousePressPosition().x > 243 && Input.getMousePressPosition().x < 340)) { //faucet
+			if (!this.lock && !this.refrigerator2 && !this.faucet && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 161 && Input.getMousePressPosition().y < 308) && (Input.getMousePressPosition().x > 243 && Input.getMousePressPosition().x < 340)) { //faucet
 				this.emitter.fireEvent(Level2Events.LOCK);
 				this.lock = true;
 				this.timer.start(100);
@@ -127,11 +127,6 @@ export default class Facingr extends PlayerState {
 				this.emitter.fireEvent(Level2Events.LOCKHIDE);
 				this.lock = false;
 			}
-
-			// if (Input.isMouseJustPressed()) {
-			// 	let mousePosition = Input.getMousePressPosition();
-			// 	console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
-			// }
 		}
 
 		//Level 3

@@ -79,17 +79,17 @@ export default class Facingl extends PlayerState {
 			}
 		}
 
-		//Level 2
+		//Level 2 - coffee, picture
 		else if(this.whatLevel == 2) {
-			if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+			if (!this.coffee && !this.picture && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
 				this.finished(PlayerStates.FACINGB);
 			} 
 			// If the player clicks right, go to Facingr
-			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+			else if (!this.coffee && !this.picture && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.finished(PlayerStates.FACINGF);
 			} 
 
-			if (!this.coffee && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 335 && Input.getMousePressPosition().y < 537) && (Input.getMousePressPosition().x > 663 && Input.getMousePressPosition().x < 888)) { //coffee
+			if (!this.coffee && !this.picture && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 335 && Input.getMousePressPosition().y < 537) && (Input.getMousePressPosition().x > 663 && Input.getMousePressPosition().x < 888)) { //coffee
 				this.emitter.fireEvent(Level2Events.COFFEE);
 				this.coffee = true;
 				this.timer.start(100);
@@ -99,7 +99,7 @@ export default class Facingl extends PlayerState {
 				this.coffee = false;
 			}
 
-			if (!this.picture && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 224 && Input.getMousePressPosition().y < 423) && (Input.getMousePressPosition().x > 240 && Input.getMousePressPosition().x < 577)) { //coffee
+			if (!this.picture && !this.coffee && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 224 && Input.getMousePressPosition().y < 423) && (Input.getMousePressPosition().x > 240 && Input.getMousePressPosition().x < 577)) { //coffee
 				this.emitter.fireEvent(Level2Events.PICTURE);
 				this.picture = true;
 				this.timer.start(100);
@@ -108,11 +108,6 @@ export default class Facingl extends PlayerState {
 				this.emitter.fireEvent(Level2Events.PICTUREHIDE);
 				this.picture = false;
 			}
-
-			// if (Input.isMouseJustPressed()) {
-			// 	let mousePosition = Input.getMousePressPosition();
-			// 	console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
-			// }
 		}
 
 		//Level 3
