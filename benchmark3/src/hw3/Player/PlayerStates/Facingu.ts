@@ -22,11 +22,9 @@ export default class Facingu extends PlayerState {
 		this.prevState = options.currState;
 	}
 
-	public update(deltaT: number): void {
-        // Adjust anything needed
-        
+	public update(deltaT: number): void {        
         // If the player clicks left, go to Facingb
-		if (Input.isJustPressed(HW3Controls.MOVE_DOWN)){
+		if (!this.trapdoor && Input.isJustPressed(HW3Controls.MOVE_DOWN)){
 			this.finished(this.prevState);
 		} 
 
@@ -38,15 +36,7 @@ export default class Facingu extends PlayerState {
 		if(this.timer.isStopped() && this.trapdoor && Input.isMouseJustPressed()) {
 			this.emitter.fireEvent(Level4Events.TRAPDOORHIDE);
 			this.trapdoor = false;
-		}
-
-		if (Input.isMouseJustPressed()) {
-			let mousePosition = Input.getMousePressPosition();
-			console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
-		}
-        
-        // Otherwise, do nothing (keep idling)
-		
+		}		
 	}
 
 	public onExit(): Record<string, any> {

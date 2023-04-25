@@ -199,16 +199,16 @@ export default class Facingr extends PlayerState {
 			// }
 		}
 
-		//Level 4
+		//Level 4 - helpsign
 		else if(this.whatLevel == 4) {
-			if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+			if (!this.helpsign && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
 				this.finished(PlayerStates.FACINGF);
 			} 
 			// If the player clicks right, go to Facingr
-			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+			else if (!this.helpsign && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.finished(PlayerStates.FACINGB);
 			} 
-			if(Input.isJustPressed(HW3Controls.MOVE_UP)) {
+			if(!this.helpsign && Input.isJustPressed(HW3Controls.MOVE_UP)) {
 				this.finished(PlayerStates.FACINGU);
 			}
 
@@ -221,19 +221,7 @@ export default class Facingr extends PlayerState {
 				this.emitter.fireEvent(Level4Events.HELPSIGNHIDE);
 				this.helpsign = false;
 			}
-
-
-			// if (Input.isMouseJustPressed()) {
-			// 	let mousePosition = Input.getMousePressPosition();
-			// 	console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
-			// }
 		}
-		/*
-		if(!this.clock2 && !this.phone && Input.isMouseJustPressed()) {
-			console.log(Input.getMousePressPosition());
-		}
-
-		*/
 	}
 
 	public onExit(): Record<string, any> {

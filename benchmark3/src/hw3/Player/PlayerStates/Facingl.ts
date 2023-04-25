@@ -179,26 +179,18 @@ export default class Facingl extends PlayerState {
 				this.emitter.fireEvent(Level3Events.EXITHIDE);
 				this.exit = false;
 			}
-			
-
-
-
-			// if (Input.isMouseJustPressed()) {
-			// 	let mousePosition = Input.getMousePressPosition();
-			// 	console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
-			// }
 		}
 
-		//Level 4
+		//Level 4 - stock
 		else if(this.whatLevel == 4) {
-			if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+			if (!this.stock && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
 				this.finished(PlayerStates.FACINGB);
 			} 
 			// If the player clicks right, go to Facingr
-			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+			else if (!this.stock && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.finished(PlayerStates.FACINGF);
 			} 
-			if(Input.isJustPressed(HW3Controls.MOVE_UP)) {
+			if(!this.stock && Input.isJustPressed(HW3Controls.MOVE_UP)) {
 				this.finished(PlayerStates.FACINGU);
 			}
 
@@ -210,11 +202,6 @@ export default class Facingl extends PlayerState {
 			if(this.timer.isStopped() && this.stock && Input.isMouseJustPressed()) {
 				this.emitter.fireEvent(Level4Events.STOCKHIDE);
 				this.stock = false;
-			}
-
-			if (Input.isMouseJustPressed()) {
-				let mousePosition = Input.getMousePressPosition();
-				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
 			}
 		}
         // Otherwise, do nothing (keep idling)

@@ -14,9 +14,6 @@ import Viewport from "../../../Wolfie2D/SceneGraph/Viewport";
 import { Level3Events } from "../../Scenes/Level3";
 import { Level4Events } from "../../Scenes/Level4";
 
-
-
-
 export default class Facingf extends PlayerState {
 	protected emitter: Emitter = new Emitter();
 	//Shows if clock1 is visible
@@ -40,10 +37,8 @@ export default class Facingf extends PlayerState {
 	protected sign: Boolean = false;
 	protected buttons: Boolean = false;
 
+	//Check what level you're on
 	protected whatLevel: number = -1;
-	//Check if Level 4
-	private isFacingUp: Boolean = false;
-
 	
 	public onEnter(options: Record<string, any>): void {
 		if(!this.receiver) {
@@ -194,20 +189,20 @@ export default class Facingf extends PlayerState {
 
 		}
 
-		//Level 4
+		//Level 4 - elevator3, sign, buttons
 		else if(this.whatLevel == 4) {
-			if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+			if (!this.elevator3 && !this.sign && !this.buttons && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
 				this.finished(PlayerStates.FACINGL);
 			} 
 			// If the player clicks right, go to Facingr
-			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+			else if (!this.elevator3 && !this.sign && !this.buttons && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.finished(PlayerStates.FACINGR);
 			} 
-			if(Input.isJustPressed(HW3Controls.MOVE_UP)) {
+			if(!this.elevator3 && !this.sign && !this.buttons && Input.isJustPressed(HW3Controls.MOVE_UP)) {
 				this.finished(PlayerStates.FACINGU);
 			}
 
-			if(!this.sign && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 321 && Input.getMousePressPosition().y < 562) && (Input.getMousePressPosition().x > 184 && Input.getMousePressPosition().x < 304)) {
+			if(!this.sign && !this.elevator3 && !this.buttons && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 321 && Input.getMousePressPosition().y < 562) && (Input.getMousePressPosition().x > 184 && Input.getMousePressPosition().x < 304)) {
 				this.emitter.fireEvent(Level4Events.SIGN);
 				this.sign = true;
 				this.timer.start(100);
@@ -217,7 +212,7 @@ export default class Facingf extends PlayerState {
 				this.sign = false;
 				this.emitter.fireEvent(Level4Events.SIGNHIDE);
 			}
-			if(!this.elevator3 && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 173 && Input.getMousePressPosition().y < 722) && (Input.getMousePressPosition().x > 364 && Input.getMousePressPosition().x < 844)) {
+			if(!this.elevator3 && !this.sign && !this.buttons && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 173 && Input.getMousePressPosition().y < 722) && (Input.getMousePressPosition().x > 364 && Input.getMousePressPosition().x < 844)) {
 				this.emitter.fireEvent(Level4Events.ELEVATOR);
 				this.elevator3 = true;
 				this.timer.start(100);
@@ -227,7 +222,7 @@ export default class Facingf extends PlayerState {
 				this.elevator3 = false;
 				this.emitter.fireEvent(Level4Events.ELEVATORHIDE);
 			}
-			if(!this.buttons && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 325 && Input.getMousePressPosition().y < 560) && (Input.getMousePressPosition().x > 896 && Input.getMousePressPosition().x < 1014)) {
+			if(!this.buttons && !this.elevator3 && !this.sign && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 325 && Input.getMousePressPosition().y < 560) && (Input.getMousePressPosition().x > 896 && Input.getMousePressPosition().x < 1014)) {
 				this.emitter.fireEvent(Level4Events.BUTTONS);
 				this.buttons = true;
 				this.timer.start(100);
@@ -236,12 +231,6 @@ export default class Facingf extends PlayerState {
 			if(this.timer.isStopped() && this.buttons && Input.isMouseJustPressed()) { 
 				this.buttons = false;
 				this.emitter.fireEvent(Level4Events.BUTTONSHIDE);
-			}
-
-
-			if (Input.isMouseJustPressed()) {
-				let mousePosition = Input.getMousePressPosition();
-				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
 			}
 		}
 

@@ -181,16 +181,16 @@ export default class Facingb extends PlayerState {
 			// }
 		}
 
-		//Level 4
+		//Level 4 - hole
 		else if(this.whatLevel == 4) {
-			if (Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+			if (!this.hole && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
 				this.finished(PlayerStates.FACINGR);
 			} 
 			// If the player clicks right, go to Facingr
-			else if (Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+			else if (!this.hole && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.finished(PlayerStates.FACINGL);
 			} 
-			if(Input.isJustPressed(HW3Controls.MOVE_UP)) {
+			if(!this.hole && Input.isJustPressed(HW3Controls.MOVE_UP)) {
 				this.finished(PlayerStates.FACINGU);
 			}
 
@@ -202,12 +202,6 @@ export default class Facingb extends PlayerState {
 			if(this.timer.isStopped() && this.hole && Input.isMouseJustPressed()) {
 				this.emitter.fireEvent(Level4Events.HOLEHIDE);
 				this.hole = false;
-			}
-
-
-			if (Input.isMouseJustPressed()) {
-				let mousePosition = Input.getMousePressPosition();
-				console.log("Mouse clicked at X:", mousePosition.x, " Y:", mousePosition.y);
 			}
 		}
 	}
