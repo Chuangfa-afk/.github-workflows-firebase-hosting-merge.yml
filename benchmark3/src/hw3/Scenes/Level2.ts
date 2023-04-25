@@ -405,7 +405,7 @@ export default class Level2 extends HW3Level {
             this.clock.visible = true;
             this.dialogue.visible = true;
             
-            const text1 = "ops! no battery. It stucks in 12:22";
+            const text1 = "It looks like the clock's stuck at 12:22.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.fontSize = 50;
@@ -427,7 +427,7 @@ export default class Level2 extends HW3Level {
             this.microwave.visible = true;
             this.dialogue.visible = true;
             
-            const text1 = "It is locked... and smell something bad";
+            const text1 = "I don't wanna open that...it smells pretty bad.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -446,16 +446,16 @@ export default class Level2 extends HW3Level {
     protected handleDoorHand(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const passcode = prompt("Enter the 4 magic digits to get out of here.");
+            const passcode = prompt("Enter the 4-digit passcode to enter the office.");
             if (passcode === "1222") {
-                const text1 = "You are Correct! heading to the Office Room.";
+                const text1 = "It worked! Time to clean the office.";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.visible = true;
                 this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END);
                 // You can add any additional logic here for what happens when the correct passcode is entered
             } else {
-                const text1 = "Beep, this is not the 4 magic digits. Hint: Clock";
+                const text1 = "Yeah, that's not it. But hmm, what time is it? I might be off-schedule...";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.visible = true;
@@ -473,7 +473,7 @@ export default class Level2 extends HW3Level {
     protected handleBoiler(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "The water is still warm...";
+            const text1 = "Oh, the water's still warm.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -490,7 +490,7 @@ export default class Level2 extends HW3Level {
     protected handlePlant(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "The plant seems to be healthy";
+            const text1 = "What a nice plant.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -516,7 +516,7 @@ export default class Level2 extends HW3Level {
             this.refrigerator.visible = true;
             this.dialogue.visible = true;
             
-            const text1 = "Fresh! No need to clean";
+            const text1 = "At least the fridge is fine. No need to clean it.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -535,7 +535,7 @@ export default class Level2 extends HW3Level {
             this.refrigerator2.visible = true;
             this.dialogue.visible = true;
             
-            const text1 = "Fresh! No need to clean";
+            const text1 = "At least the fridge is fine. No need to clean it.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -552,7 +552,7 @@ export default class Level2 extends HW3Level {
     protected handleFaucet(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "No more water to clean.";
+            const text1 = "Looks like the water's out.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -569,16 +569,21 @@ export default class Level2 extends HW3Level {
     protected handleLock(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "Ups! It seems to be locked";
-            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            const text1 = "Who on earth locks a break room cabinet?"; 
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
+            const text2 = "Eh...they don't pay me enough to know the answer.";
+            this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
+            this.line2.textColor = Color.WHITE;
+            this.line2.visible = true;
         }
 
     }
     protected handleLockHide(event: GameEvent): void {
         if (this.dialogue.visible) {
             this.line1.visible = false;
+            this.line2.visible = false;
             this.dialogue.visible = false;
         }
     }
@@ -587,7 +592,7 @@ export default class Level2 extends HW3Level {
     protected handlePicture(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "Just a picture";
+            const text1 = "I don't have time to look at this picture.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -604,7 +609,7 @@ export default class Level2 extends HW3Level {
     protected handleCoffee(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "Why is it still warm?";
+            const text1 = "Oh, wow. The coffee's still warm?";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -621,8 +626,8 @@ export default class Level2 extends HW3Level {
     protected handleLevelStart(event: GameEvent): void {
         this.narration.visible = true;
 
-        const text1 = "That's so weird... No one in the break room?";
-        const text2 = "aww what a shame, let's start cleaning";
+        const text1 = "Oh, the break room's actually not that dirty.";
+        const text2 = "But lemme just do a quick sweep around the place.";
         this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
         this.line1.textColor = Color.WHITE;
         this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
