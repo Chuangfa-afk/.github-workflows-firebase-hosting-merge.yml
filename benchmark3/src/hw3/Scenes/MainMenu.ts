@@ -60,8 +60,6 @@ export default class MainMenu extends Scene {
     }
 
     public startScene(): void {
-
-        let center = this.viewport.getCenter();
         this.splashScreen = this.addUILayer("splashScreen");
         this.addParallaxLayer("bg", new Vec2(0.5, 1), -1);
         let bg = this.add.sprite("BACKGROUND", "splashScreen");
@@ -70,13 +68,13 @@ export default class MainMenu extends Scene {
         //Main Menu
         this.mainMenu = this.addUILayer("mainMenu");
         let mm = this.add.sprite("MAIN_MENU", "mainMenu");
-        mm.position.set(center.x, center.y);
+        mm.position.set(600, 400);
         this.mainMenu.setHidden(true);
         //LEVEL SELECT
         //Level 1
         this.levelSelect = this.addUILayer("levelSelect");
         let l = this.add.sprite("LEVEL_SELECT", "levelSelect");
-        l.position.set(center.x, center.y);
+        l.position.set(600, 400);
         
         let l1 = this.add.sprite("LEVEL_1", "levelSelect");
         l1.position.set(225, 300);
@@ -146,12 +144,12 @@ export default class MainMenu extends Scene {
         //Controls
         this.controls = this.addUILayer("controls");
         let c = this.add.sprite("CONTROLS", "controls");
-        c.position.set(center.x, center.y);
+        c.position.set(600, 400);
         this.controls.setHidden(true);
         //Help
         this.help = this.addUILayer("help");
         let h = this.add.sprite("HELP", "help");
-        h.position.set(center.x, center.y);
+        h.position.set(600, 400);
         this.help.setHidden(true);
 
         // Center the viewport

@@ -633,7 +633,7 @@ export default class Level3 extends HW3Level {
             const text1 = "All the lockers here are locked. (Why are they even in an office?)";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
-            this.line1.fontSize = 36;
+            this.line1.fontSize = 30;
             this.line1.visible = true;
         }
 
@@ -749,7 +749,7 @@ export default class Level3 extends HW3Level {
     protected handleFlower(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "It's got a pleasant aroma.";
+            const text1 = "These flowers have a pleasant aroma.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
