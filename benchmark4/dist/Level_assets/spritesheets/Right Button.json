@@ -1,0 +1,19 @@
+{
+    "name": "Right Button",
+    "spriteSheetImage": "Right Button.png",
+    "spriteWidth": 100,
+    "spriteHeight": 800,
+    "columns": 1,
+    "rows": 2,
+    "durationType": "time",
+    "animations": [
+        { 
+            "name": "IDLE",
+            "frames": [ {"index": 0, "duration": 540} ]
+        },
+        {
+            "name": "CLICK",
+            "frames": [ {"index": 0, "duration": 1}, {"index": 1, "duration": 8} ]
+        }
+    ]
+}
