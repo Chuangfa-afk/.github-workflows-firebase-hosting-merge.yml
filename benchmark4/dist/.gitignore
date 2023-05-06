@@ -1,0 +1,25 @@
+# Exclude node modules
+node_modules
+
+# Exclude the compiled project
+dist/*
+
+.vscode
+
+bundle.js
+
+# Include the demo_assets folder
+!dist/demo_assets/
+
+# Include the built-in asset folder
+!dist/builtin/
+
+# Include the hw4 assets
+!dist/hw4_assets/
+
+# Include Level1_assets folder
+!dist/Level_assets/
+!dist/Level1_assets/
+!dist/Level2_assets/
+!dist/Level3_assets/
+!dist/Level4_assets/
