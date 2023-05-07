@@ -49,6 +49,8 @@ export default class Facingf extends PlayerState {
 			this.receiver.subscribe(LevelEvents.LEVEL_2);
 			this.receiver.subscribe(LevelEvents.LEVEL_3);
 			this.receiver.subscribe(LevelEvents.LEVEL_4);
+			this.receiver.subscribe(LevelEvents.LEVEL_5);
+			this.receiver.subscribe(LevelEvents.LEVEL_6);
 		}
         this.owner.animation.play(PlayerAnimations.FACINGF);
 
@@ -262,6 +264,14 @@ export default class Facingf extends PlayerState {
 			}
 			case LevelEvents.LEVEL_4: {
 				this.whatLevel = 4;
+				break;
+			}
+			case LevelEvents.LEVEL_5: {
+				this.whatLevel = 5;
+				break;
+			}
+			case LevelEvents.LEVEL_6: {
+				this.whatLevel = 6;
 				break;
 			}
 			default: {

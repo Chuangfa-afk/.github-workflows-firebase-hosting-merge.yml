@@ -78,7 +78,7 @@ export default class Level5 extends HW3Level {
     }
 
     public startScene(): void {
-        this.emitter.fireEvent(LevelEvents.LEVEL_4);
+        this.emitter.fireEvent(LevelEvents.LEVEL_5);
         //Subscribe to event
         //FF
         
@@ -144,17 +144,20 @@ export default class Level5 extends HW3Level {
 
     public updateScene(deltaT: number): void {
         super.updateScene(deltaT);
-        if(Input.isJustPressed(HW3Controls.LEVEL_1,)) {
+        if(Input.isJustPressed(HW3Controls.LEVEL_1)) {
             this.sceneManager.changeToScene(Level1);
         }
-        else if(Input.isJustPressed(HW3Controls.LEVEL_2,)) {
+        else if(Input.isJustPressed(HW3Controls.LEVEL_2)) {
             this.sceneManager.changeToScene(Level2);
         }
-        else if(Input.isJustPressed(HW3Controls.LEVEL_3,)) {
+        else if(Input.isJustPressed(HW3Controls.LEVEL_3)) {
             this.sceneManager.changeToScene(Level3);
         }
-        else if(Input.isJustPressed(HW3Controls.LEVEL_4,)) {
+        else if(Input.isJustPressed(HW3Controls.LEVEL_4)) {
             this.sceneManager.changeToScene(Level4);
+        }
+        else if(Input.isJustPressed(HW3Controls.LEVEL_5)) {
+            this.sceneManager.changeToScene(Level5);
         }
         if(Input.isMouseJustPressed(0)) {
             this.narration.visible = false;

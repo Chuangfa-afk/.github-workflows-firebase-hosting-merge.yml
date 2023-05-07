@@ -269,6 +269,9 @@ export default class Level4 extends HW3Level {
         else if(Input.isJustPressed(HW3Controls.LEVEL_4,)) {
             this.sceneManager.changeToScene(Level4);
         }
+        else if(Input.isJustPressed(HW3Controls.LEVEL_5)) {
+            this.sceneManager.changeToScene(Level5);
+        }
         if(Input.isMouseJustPressed(0)) {
             this.narration.visible = false;
             this.line1.visible = false;

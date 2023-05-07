@@ -17,11 +17,11 @@
         },
         {
             "name": "FACINGB",
-            "frames": [ {"index": 3, "duration": 540} ]
+            "frames": [ {"index": 4, "duration": 540} ]
         },
         {
             "name": "FACINGL",
-            "frames": [ {"index": 4, "duration": 540} ]
+            "frames": [ {"index": 3, "duration": 540} ]
         }
     ]
 }
