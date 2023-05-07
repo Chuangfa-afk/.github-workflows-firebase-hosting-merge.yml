@@ -10,6 +10,7 @@ import { Level3Events } from "../../Scenes/Level3";
 import { Level4Events } from "../../Scenes/Level4";
 import MainMenu from "../../Scenes/MainMenu";
 import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
+import { HW3Events } from "../../HW3Events";
 
 export default class Facingl extends PlayerState {
     protected emitter: Emitter = new Emitter();
@@ -40,14 +41,12 @@ export default class Facingl extends PlayerState {
 			this.whatLevel = options.whatLevel;
 		}
         this.owner.animation.play(PlayerAnimations.FACINGL);
-		console.log(this.whatLevel);
 	}
 
 	public update(deltaT: number): void {
 		//Level 1
         if(this.whatLevel ==1) {
 			// Adjust anything needed
-        
 			// If the player clicks left, go to Facingb
 			if (!this.drawer && !this.checkInSign && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
@@ -58,6 +57,17 @@ export default class Facingl extends PlayerState {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGF);
 			} 
+
+			if(!this.drawer && !this.checkInSign && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.LEFT);
+				this.finished(PlayerStates.FACINGB);
+			}
+			else if(!this.drawer && !this.checkInSign && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.RIGHT);
+				this.finished(PlayerStates.FACINGF);
+			}
 			
 			if(!this.drawer && !this.checkInSign && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 440 && Input.getMousePressPosition().y < 800) && (Input.getMousePressPosition().x > 300 && Input.getMousePressPosition().x < 900)) { //Drawer 
 				this.emitter.fireEvent(Level1Events.DRAWER);
@@ -95,6 +105,17 @@ export default class Facingl extends PlayerState {
 				this.finished(PlayerStates.FACINGF);
 			} 
 
+			if(!this.coffee && !this.picture && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.LEFT);
+				this.finished(PlayerStates.FACINGB);
+			}
+			else if(!this.coffee && !this.picture && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.RIGHT);
+				this.finished(PlayerStates.FACINGF);
+			}
+
 			if (!this.coffee && !this.picture && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 335 && Input.getMousePressPosition().y < 537) && (Input.getMousePressPosition().x > 663 && Input.getMousePressPosition().x < 888)) { //coffee
 				this.emitter.fireEvent(Level2Events.COFFEE);
 				this.coffee = true;
@@ -127,6 +148,17 @@ export default class Facingl extends PlayerState {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGF);
 			} 
+
+			if(!this.light && !this.diploma && !this.trash && !this.computer && !this.flower && !this.exit && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.LEFT);
+				this.finished(PlayerStates.FACINGB);
+			}
+			else if(!this.light && !this.diploma && !this.trash && !this.computer && !this.flower && !this.exit && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.RIGHT);
+				this.finished(PlayerStates.FACINGF);
+			}
 
 			if (!this.light && !this.diploma && !this.trash && !this.computer && !this.flower && !this.exit && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 211 && Input.getMousePressPosition().y < 430) && (Input.getMousePressPosition().x > 562 && Input.getMousePressPosition().x < 722)) { //coffee
 				this.emitter.fireEvent(Level3Events.LIGHT);
@@ -195,6 +227,18 @@ export default class Facingl extends PlayerState {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGF);
 			} 
+
+			if(!this.stock && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.LEFT);
+				this.finished(PlayerStates.FACINGB);
+			}
+			else if(!this.stock && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.RIGHT);
+				this.finished(PlayerStates.FACINGF);
+			}
+
 			if(!this.stock && Input.isJustPressed(HW3Controls.MOVE_UP)) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGU);
@@ -210,20 +254,51 @@ export default class Facingl extends PlayerState {
 				this.stock = false;
 			}
 		}
-		//LEVEL 5
+		//Level 5
 		else if(this.whatLevel == 5) {
 			if(Input.isJustPressed(HW3Controls.MOVE_LEFT)) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
-
 				this.finished(PlayerStates.FACINGB);
 			}
 			else if(Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
+				this.finished(PlayerStates.FACINGF);
+			}
 
+			if(Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.LEFT);
+				this.finished(PlayerStates.FACINGB);
+			}
+			else if(Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.RIGHT);
 				this.finished(PlayerStates.FACINGF);
 			}
 		}
-        // Otherwise, do nothing (keep idling)
+
+		//Level 6
+		else if(this.whatLevel == 6) {
+			if(Input.isJustPressed(HW3Controls.MOVE_LEFT)) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
+				this.finished(PlayerStates.FACINGB);
+			}
+			else if(Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
+				this.finished(PlayerStates.FACINGF);
+			}
+
+			if(Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.LEFT);
+				this.finished(PlayerStates.FACINGB);
+			}
+			else if(Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.RIGHT);
+				this.finished(PlayerStates.FACINGF);
+			}
+		}
 		
 	}
 

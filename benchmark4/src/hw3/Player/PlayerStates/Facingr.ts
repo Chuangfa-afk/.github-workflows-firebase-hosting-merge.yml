@@ -43,7 +43,6 @@ export default class Facingr extends PlayerState {
 			this.whatLevel = options.whatLevel;
 		}
 		this.owner.animation.play(PlayerAnimations.FACINGR);
-		console.log(this.whatLevel);
 	}
 
 	public update(deltaT: number): void {
@@ -61,6 +60,17 @@ export default class Facingr extends PlayerState {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGB);
 			} 
+
+			if(!this.keyShow && !this.clock2 && !this.phone && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.LEFT);
+				this.finished(PlayerStates.FACINGF);
+			}
+			else if(!this.keyShow && !this.clock2 && !this.phone && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.RIGHT);
+				this.finished(PlayerStates.FACINGB);
+			}
 			
 			if (!this.clock2 && !this.phone && !this.keyShow && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 200 && Input.getMousePressPosition().y < 320) && (Input.getMousePressPosition().x > 925 && Input.getMousePressPosition().x < 1050)) {
 				this.emitter.fireEvent(Level1Events.CLOCK2);
@@ -104,6 +114,17 @@ export default class Facingr extends PlayerState {
 				this.finished(PlayerStates.FACINGB);
 			} 
 
+			if(!this.refrigerator2 && !this.faucet && !this.lock && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.LEFT);
+				this.finished(PlayerStates.FACINGF);
+			}
+			else if(!this.refrigerator2 && !this.faucet && !this.lock && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.RIGHT);
+				this.finished(PlayerStates.FACINGB);
+			}
+
 			if (!this.refrigerator2 && !this.faucet && !this.lock && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 155 && Input.getMousePressPosition().y < 681) && (Input.getMousePressPosition().x > 700 && Input.getMousePressPosition().x < 1000)) { //refri2
 				this.emitter.fireEvent(Level2Events.REFRIGERATOR2);
 				this.refrigerator2 = true;
@@ -144,6 +165,17 @@ export default class Facingr extends PlayerState {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGB);
 			} 
+
+			if(!this.keyboard && !this.paper && !this.computer && !this.cup && !this.safe && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.LEFT);
+				this.finished(PlayerStates.FACINGF);
+			}
+			else if(!this.keyboard && !this.paper && !this.computer && !this.cup && !this.safe && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.RIGHT);
+				this.finished(PlayerStates.FACINGB);
+			}
 
 			if (!this.keyboard && !this.paper && !this.computer && !this.cup && !this.safe && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 434 && Input.getMousePressPosition().y < 512) && (Input.getMousePressPosition().x > 253 && Input.getMousePressPosition().x < 425)) { //keyboard
 				this.emitter.fireEvent(Level3Events.KEYBOARD);
@@ -204,6 +236,18 @@ export default class Facingr extends PlayerState {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGB);
 			} 
+
+			if(!this.helpsign && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.LEFT);
+				this.finished(PlayerStates.FACINGF);
+			}
+			else if(!this.helpsign && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.RIGHT);
+				this.finished(PlayerStates.FACINGB);
+			}
+
 			if(!this.helpsign && Input.isJustPressed(HW3Controls.MOVE_UP)) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGU);
@@ -219,15 +263,48 @@ export default class Facingr extends PlayerState {
 				this.helpsign = false;
 			}
 		}
-		//LEVEL 5
+		//Level 5
 		else if(this.whatLevel == 5) {
 			if(Input.isJustPressed(HW3Controls.MOVE_LEFT)) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
-
 				this.finished(PlayerStates.FACINGF);
 			}
 			else if(Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
+				this.finished(PlayerStates.FACINGB);
+			}
+
+			if(Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.LEFT);
+				this.finished(PlayerStates.FACINGF);
+			}
+			else if(Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.RIGHT);
+				this.finished(PlayerStates.FACINGB);
+			}
+		}
+
+		//Level 6
+		else if(this.whatLevel == 6) {
+			if(Input.isJustPressed(HW3Controls.MOVE_LEFT)) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
+				this.finished(PlayerStates.FACINGF);
+			}
+			else if(Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
+				this.finished(PlayerStates.FACINGB);
+			}
+
+			if(Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.LEFT);
+				this.finished(PlayerStates.FACINGF);
+			}
+			else if(Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
+				this.emitter.fireEvent(HW3Events.RIGHT);
 				this.finished(PlayerStates.FACINGB);
 			}
 		}
