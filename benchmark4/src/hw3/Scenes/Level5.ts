@@ -39,10 +39,8 @@ export const Level5Events = {
 
 export default class Level5 extends HW3Level {
 
-    /*
-    public static readonly MUSIC_KEY = "LEVEL_4_MUSIC";
-    public static readonly MUSIC_PATH = "Level4_assets/music/Level_4.wav";
-    */
+    public static readonly MUSIC_KEY = "LEVEL_5_MUSIC";
+    public static readonly MUSIC_PATH = "Level5_assets/music/Level_5.wav";
 
     public static readonly BACKGROUND_KEY = "BACKGROUND";
     public static readonly BACKGROUND_PATH = "Level5_assets/Level_5.json";
@@ -68,6 +66,7 @@ export default class Level5 extends HW3Level {
      */
     public loadScene(): void {
         this.load.spritesheet(Level5.BACKGROUND_KEY, Level5.BACKGROUND_PATH);
+        this.load.audio(Level5.MUSIC_KEY, Level5.MUSIC_PATH);
     }
 
     /**
@@ -106,6 +105,7 @@ export default class Level5 extends HW3Level {
         this.initializeUserInterface();
         this.nextLevel = MainMenu;
 
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: Level5.MUSIC_KEY, loop: true, holdReference: true});
     }
 
     /**
