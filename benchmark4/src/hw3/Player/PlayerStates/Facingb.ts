@@ -202,6 +202,14 @@ export default class Facingb extends PlayerState {
 				this.hole = false;
 			}
 		}
+		else if(this.whatLevel == 5) {
+			if(Input.isJustPressed(HW3Controls.MOVE_LEFT)) {
+				this.finished(PlayerStates.FACINGR);
+			}
+			else if(Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.finished(PlayerStates.FACINGL);
+			}
+		}
 	}
 
 	public onExit(): Record<string, any> {
