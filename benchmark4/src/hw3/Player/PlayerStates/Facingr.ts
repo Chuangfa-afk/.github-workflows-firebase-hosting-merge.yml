@@ -205,6 +205,7 @@ export default class Facingr extends PlayerState {
 				this.finished(PlayerStates.FACINGB);
 			} 
 			if(!this.helpsign && Input.isJustPressed(HW3Controls.MOVE_UP)) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGU);
 			}
 
@@ -218,12 +219,15 @@ export default class Facingr extends PlayerState {
 				this.helpsign = false;
 			}
 		}
-
+		//LEVEL 5
 		else if(this.whatLevel == 5) {
 			if(Input.isJustPressed(HW3Controls.MOVE_LEFT)) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
+
 				this.finished(PlayerStates.FACINGF);
 			}
 			else if(Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGB);
 			}
 		}

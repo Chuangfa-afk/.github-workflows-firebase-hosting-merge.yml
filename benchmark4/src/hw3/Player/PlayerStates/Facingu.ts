@@ -6,6 +6,8 @@ import Emitter from "../../../Wolfie2D/Events/Emitter";
 import { Level1Events } from "../../Scenes/Level1";
 import Timer from "../../../Wolfie2D/Timing/Timer";
 import { Level4Events } from "../../Scenes/Level4";
+import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
+import MainMenu from "../../Scenes/MainMenu";
 
 export default class Facingu extends PlayerState {
     protected emitter: Emitter = new Emitter();
@@ -25,6 +27,7 @@ export default class Facingu extends PlayerState {
 	public update(deltaT: number): void {        
         // If the player clicks left, go to Facingb
 		if (!this.trapdoor && Input.isJustPressed(HW3Controls.MOVE_DOWN)){
+			this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 			this.finished(this.prevState);
 		} 
 
