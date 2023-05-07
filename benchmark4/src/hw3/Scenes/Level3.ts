@@ -425,7 +425,7 @@ export default class Level3 extends HW3Level {
 
         this.keyboard = this.add.sprite(Level3.KEYBOARD_KEY, HW3Layers.PRIMARY);
         this.keyboard.position.set(350, 400);
-        this.keyboard.scale = new Vec2(0.12, 0.1);
+        this.keyboard.scale = new Vec2(0.25, 0.25);
         this.keyboard.visible = false;
 
         this.paper = this.add.sprite(Level3.PAPER_KEY, HW3Layers.PRIMARY);
