@@ -334,7 +334,7 @@ export default class Level4 extends HW3Level {
             this.sign.visible = true;
             this.dialogue.visible = true;
             
-            const text1 = "This is just the floor directory.";
+            const text1 = "Wait, this floor isn't anywhere on the floor directory...what's going on here?";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.fontSize = 30;
