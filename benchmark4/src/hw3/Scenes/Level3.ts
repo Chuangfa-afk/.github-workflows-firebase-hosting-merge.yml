@@ -450,7 +450,7 @@ export default class Level3 extends HW3Level {
 
         this.rat = this.add.sprite(Level3.RAT_KEY, HW3Layers.PRIMARY);
         this.rat.position.set(350, 400);
-        this.rat.scale = new Vec2(0.2, 0.2);
+        this.rat.scale = new Vec2(0.5, 0.5);
         this.rat.visible = false;
 
         this.narration = <Rect>this.add.graphic(GraphicType.RECT, HW3Layers.PRIMARY, { position: new Vec2(400, 500), size: new Vec2(1000, 100) });
