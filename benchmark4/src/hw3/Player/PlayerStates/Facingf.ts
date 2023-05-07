@@ -52,7 +52,7 @@ export default class Facingf extends PlayerState {
 			this.receiver.subscribe(LevelEvents.LEVEL_5);
 			this.receiver.subscribe(LevelEvents.LEVEL_6);
 		}
-        this.owner.animation.play(PlayerAnimations.FACINGF);
+        this.owner.animation.play(PlayerAnimations.FACINGF, true);
 
 	}
 

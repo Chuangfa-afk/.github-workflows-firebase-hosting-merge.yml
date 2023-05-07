@@ -9,7 +9,7 @@
     "animations": [
         { 
             "name": "FACINGF",
-            "frames": [ {"index": 0, "duration": 540}, {"index": 1, "duration": 200}, {"index": 0, "duration": 100}, {"index": 1, "duration": 50} ]
+            "frames": [ {"index": 0, "duration": 200}, {"index": 1, "duration": 5}, {"index": 0, "duration": 50}, {"index": 1, "duration": 5}, {"index": 0, "duration": 30}, {"index": 1, "duration": 10} ]
         },
         {
             "name": "FACINGR",
