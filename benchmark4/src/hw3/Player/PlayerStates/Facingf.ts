@@ -226,15 +226,6 @@ export default class Facingf extends PlayerState {
 			}
 		}
 
-		else if(this.whatLevel == 5) {
-			if(Input.isJustPressed(HW3Controls.MOVE_LEFT)) {
-				this.finished(PlayerStates.FACINGL);
-			}
-			else if(Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
-				this.finished(PlayerStates.FACINGR);
-			}
-		}
-
         // Otherwise, do nothing (keep idling)
 		/*
 		if(!this.clock1 && !this.keypad && Input.isMouseJustPressed()) {

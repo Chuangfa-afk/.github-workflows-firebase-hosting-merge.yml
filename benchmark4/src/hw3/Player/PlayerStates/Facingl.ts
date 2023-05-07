@@ -209,15 +209,6 @@ export default class Facingl extends PlayerState {
 				this.stock = false;
 			}
 		}
-
-		else if(this.whatLevel == 5) {
-			if(Input.isJustPressed(HW3Controls.MOVE_LEFT)) {
-				this.finished(PlayerStates.FACINGB);
-			}
-			else if(Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
-				this.finished(PlayerStates.FACINGF);
-			}
-		}
         // Otherwise, do nothing (keep idling)
 		
 	}

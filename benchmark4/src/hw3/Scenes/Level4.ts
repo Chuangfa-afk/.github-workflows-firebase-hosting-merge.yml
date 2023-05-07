@@ -22,7 +22,6 @@ import { HW3Controls } from "../HW3Controls";
 import Level1 from "./Level1";
 import Level2 from "./Level2";
 import Level3 from "./Level3";
-import Level5 from "./Level5";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export const Level4Events = {
@@ -157,7 +156,7 @@ export default class Level4 extends HW3Level {
 
         super.startScene();
         this.initializeUserInterface();
-        this.nextLevel = Level5;
+        this.nextLevel = MainMenu;
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: Level4.MUSIC_KEY, loop: true, holdReference: true});
 
     }
