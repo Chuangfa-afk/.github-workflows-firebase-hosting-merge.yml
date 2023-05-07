@@ -298,7 +298,7 @@ export default class Level4 extends HW3Level {
 
         this.sign = this.add.sprite(Level4.SIGN_KEY, HW3Layers.PRIMARY);
         this.sign.position.set(350, 380);
-        this.sign.scale = new Vec2(0.2, 0.2);
+        this.sign.scale = new Vec2(0.3, 0.3);
         this.sign.visible = false;
 
         this.hammer = this.add.sprite(Level4.HAMMER_KEY, HW3Layers.PRIMARY);
@@ -334,10 +334,10 @@ export default class Level4 extends HW3Level {
             this.sign.visible = true;
             this.dialogue.visible = true;
             
-            const text1 = "Warning Sign";
+            const text1 = "This is just the floor directory.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
-            this.line1.fontSize = 50;
+            this.line1.fontSize = 30;
             this.line1.visible = true;
         }
 
