@@ -38,6 +38,7 @@ export default class Facingf extends PlayerState {
 	protected elevator3: Boolean = false;
 	protected sign: Boolean = false;
 	protected buttons: Boolean = false;
+	protected railing: Boolean = false;
 
 	//Check what level you're on
 	protected whatLevel: number = -1;
@@ -52,8 +53,11 @@ export default class Facingf extends PlayerState {
 			this.receiver.subscribe(LevelEvents.LEVEL_5);
 			this.receiver.subscribe(LevelEvents.LEVEL_6);
 		}
+		if(options) {
+			this.railing = options.checkedRailing;
+			console.log(this.railing);
+		}
         this.owner.animation.play(PlayerAnimations.FACINGF, true);
-
 	}
 
 	public update(deltaT: number): void {
@@ -363,6 +367,9 @@ export default class Facingf extends PlayerState {
 
 	public onExit(): Record<string, any> {
 		this.owner.animation.stop();
+		if(this.whatLevel == 4) {
+			return {whatLevel: this.whatLevel, currState: "FACINGF", checkedRailing: this.railing};
+		}
 		return {whatLevel: this.whatLevel, currState: "FACINGF"};
 	}
 }

@@ -34,10 +34,15 @@ export default class Facingb extends PlayerState {
 
 	//Level4
 	protected hole: Boolean = false;
+	protected railing: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
 		if(options) {
 			this.whatLevel = options.whatLevel;
+		}
+		if(options.checkedRailing) {
+			this.railing = options.checkedRailing;
+			console.log(this.railing);
 		}
         this.owner.animation.play(PlayerAnimations.FACINGB);
 	}
@@ -302,6 +307,9 @@ export default class Facingb extends PlayerState {
 
 	public onExit(): Record<string, any> {
 		this.owner.animation.stop();
+		if(this.whatLevel == 4) {
+			return {whatLevel: this.whatLevel, currState: "FACINGB", checkedRailing: this.railing};
+		}
 		return {whatLevel: this.whatLevel, currState: "FACINGB"};
 	}
 }

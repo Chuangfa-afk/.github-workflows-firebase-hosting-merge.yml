@@ -35,10 +35,17 @@ export default class Facingl extends PlayerState {
 
 	//Level4
 	protected stock: Boolean = false;
+	protected hammer: Boolean = false;
+	protected railing: Boolean = false;
+	protected checkedRailing: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
 		if(options) {
 			this.whatLevel = options.whatLevel;
+		}
+		if(options.checkedRailing) {
+			this.checkedRailing = options.checkedRailing;
+			console.log(this.checkedRailing);
 		}
         this.owner.animation.play(PlayerAnimations.FACINGL);
 	}
@@ -218,40 +225,50 @@ export default class Facingl extends PlayerState {
 
 		//Level 4 - stock
 		else if(this.whatLevel == 4) {
-			if (!this.stock && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+			if (!this.stock && !this.railing && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGB);
 			} 
 			// If the player clicks right, go to Facingr
-			else if (!this.stock && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+			else if (!this.stock && !this.railing && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGF);
 			} 
 
-			if(!this.stock && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
+			if(!this.stock && !this.railing && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.emitter.fireEvent(HW3Events.LEFT);
 				this.finished(PlayerStates.FACINGB);
 			}
-			else if(!this.stock && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
+			else if(!this.stock && !this.railing && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.emitter.fireEvent(HW3Events.RIGHT);
 				this.finished(PlayerStates.FACINGF);
 			}
 
-			if(!this.stock && Input.isJustPressed(HW3Controls.MOVE_UP)) {
+			if(!this.stock && !this.railing && Input.isJustPressed(HW3Controls.MOVE_UP)) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGU);
 			}
 
-			if (!this.stock && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 145 && Input.getMousePressPosition().y < 566) && (Input.getMousePressPosition().x > 283 && Input.getMousePressPosition().x < 560)) { //coffee
+			if (!this.stock && !this.railing && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 145 && Input.getMousePressPosition().y < 566) && (Input.getMousePressPosition().x > 283 && Input.getMousePressPosition().x < 560)) {
 				this.emitter.fireEvent(Level4Events.STOCK);
 				this.stock = true;
 				this.timer.start(100);
 			}
-			if(this.timer.isStopped() && this.stock && Input.isMouseJustPressed()) {
+			if(this.timer.isStopped() && this.stock && !this.railing && Input.isMouseJustPressed()) {
 				this.emitter.fireEvent(Level4Events.STOCKHIDE);
 				this.stock = false;
+			}
+			if (!this.checkedRailing && !this.railing && !this.stock && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 567 && Input.getMousePressPosition().y < 740) && (Input.getMousePressPosition().x > 565 && Input.getMousePressPosition().x < 1059)) {
+				this.emitter.fireEvent(Level4Events.RAILING);
+				this.railing = true;
+				this.timer.start(100);
+			}
+			if(!this.checkedRailing && this.timer.isStopped() && this.railing && !this.stock && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level4Events.RAILINGHIDE);
+				this.railing = false;
+				this.checkedRailing = true;
 			}
 		}
 		//Level 5
@@ -299,11 +316,14 @@ export default class Facingl extends PlayerState {
 				this.finished(PlayerStates.FACINGF);
 			}
 		}
-		
+
 	}
 
 	public onExit(): Record<string, any> {
 		this.owner.animation.stop();
+		if(this.whatLevel == 4) {
+			return {whatLevel: this.whatLevel, currState: "FACINGL", checkedRailing: this.checkedRailing};
+		}
 		return {whatLevel: this.whatLevel, currState: "FACINGL"};
 	}
 }

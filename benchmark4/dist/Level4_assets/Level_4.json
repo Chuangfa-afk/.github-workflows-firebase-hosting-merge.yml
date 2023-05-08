@@ -3,7 +3,7 @@
     "spriteSheetImage": "Level_4.png",
     "spriteWidth": 1200,
     "spriteHeight": 800,
-    "columns": 6,
+    "columns": 8,
     "rows": 1,
     "durationType": "time",
     "animations": [
@@ -24,8 +24,16 @@
             "frames": [ {"index": 4, "duration": 540} ]
         },
         {
-            "name": "FACINGU",
+            "name": "FACINGL2",
             "frames": [ {"index": 5, "duration": 540} ]
+        },
+        {
+            "name": "FACINGU",
+            "frames": [ {"index": 6, "duration": 540} ]
+        },
+        {
+            "name": "FACINGU2",
+            "frames": [ {"index": 7, "duration": 540} ]
         }
     ]
 }

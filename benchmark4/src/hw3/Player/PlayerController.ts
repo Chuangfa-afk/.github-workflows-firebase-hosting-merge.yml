@@ -23,9 +23,11 @@ import Dead from "./PlayerStates/Dead";
 export const PlayerAnimations = {
     FACINGF: "FACINGF",
     FACINGL: "FACINGL",
+    FACINGL2: "FACINGL2",
     FACINGR: "FACINGR",
     FACINGB: "FACINGB",
-    FACINGU: "FACINGU"
+    FACINGU: "FACINGU",
+    FACINGU2: "FACINGU2"
 } as const
 
 /**

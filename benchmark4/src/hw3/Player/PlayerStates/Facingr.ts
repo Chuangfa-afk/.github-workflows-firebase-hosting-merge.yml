@@ -37,10 +37,15 @@ export default class Facingr extends PlayerState {
 
 	//Level4
 	protected helpsign: Boolean = false;
+	protected railing: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
         if(options) {
 			this.whatLevel = options.whatLevel;
+		}
+		if(options.checkedRailing) {
+			this.railing = options.checkedRailing;
+			console.log(this.railing);
 		}
 		this.owner.animation.play(PlayerAnimations.FACINGR);
 	}
@@ -312,6 +317,9 @@ export default class Facingr extends PlayerState {
 
 	public onExit(): Record<string, any> {
 		this.owner.animation.stop();
+		if(this.whatLevel == 4) {
+			return {whatLevel: this.whatLevel, currState: "FACINGR", checkedRailing: this.railing};
+		}
 		return {whatLevel: this.whatLevel, currState: "FACINGR"};
 	}
 }

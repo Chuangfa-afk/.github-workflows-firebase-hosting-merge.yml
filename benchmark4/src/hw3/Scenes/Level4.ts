@@ -36,6 +36,8 @@ export const Level4Events = {
     //Facing L
     STOCK: "STOCK",
     STOCKHIDE: "STOCKHIDE",
+    RAILING: "RAILING",
+    RAILINGHIDE: "RAILINGHIDE",
     //Facing R
     HELPSIGN: "HELPSIGN",
     HELPSIGNHIDE: "HELPSIGNHIDE",
@@ -66,6 +68,12 @@ export default class Level4 extends HW3Level {
     public static readonly GOODJOB_KEY = "GOODJOB";
     public static readonly GOODJOB_PATH = "Level4_assets/goodjob.png";
 
+    public static readonly NOTE_KEY = "NOTE";
+    public static readonly NOTE_PATH = "Level4_assets/Note.png";
+
+    public static readonly STOCKS_KEY = "STOCKS";
+    public static readonly STOCKS_PATH = "Level4_assets/Stocks.png";
+
     protected background: Layer;
     public ui: Layer;
     public bg: HW3AnimatedSprite;
@@ -84,12 +92,16 @@ export default class Level4 extends HW3Level {
     //FacingF
     public sign: Sprite;
     public hammer: Sprite;
+    public stocks: Sprite;
+    public note: Sprite;
     public goodjob: Sprite;
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
     public hasKey: Boolean = false;
     public hasHammer: Boolean = false;
+    public hasNote: Boolean = false;
+    protected checkedRailing: Boolean = false;
 
     public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, options);
@@ -105,7 +117,8 @@ export default class Level4 extends HW3Level {
         this.load.image(Level4.SIGN_KEY, Level4.SIGN_PATH);
         this.load.image(Level4.HAMMER_KEY, Level4.HAMMER_PATH);
         this.load.image(Level4.GOODJOB_KEY, Level4.GOODJOB_PATH);
-
+        this.load.image(Level4.NOTE_KEY, Level4.NOTE_PATH);
+        this.load.image(Level4.STOCKS_KEY, Level4.STOCKS_PATH);
     }
 
     /**
@@ -134,6 +147,8 @@ export default class Level4 extends HW3Level {
         //FL
         this.receiver.subscribe(Level4Events.STOCK);
         this.receiver.subscribe(Level4Events.STOCKHIDE);
+        this.receiver.subscribe(Level4Events.RAILING);
+        this.receiver.subscribe(Level4Events.RAILINGHIDE);
         
         //FR
         this.receiver.subscribe(Level4Events.HELPSIGN);
@@ -203,7 +218,14 @@ export default class Level4 extends HW3Level {
                 this.handleStockHide(event);
                 break;
             }
-            
+            case Level4Events.RAILING: {
+                this.handleRailing(event);
+                break;
+            }
+            case Level4Events.RAILINGHIDE: {
+                this.handleHideRailing(event);
+                break;
+            }
 
             //FR
             case Level4Events.HELPSIGN: {
@@ -311,7 +333,15 @@ export default class Level4 extends HW3Level {
         this.goodjob.scale = new Vec2(0.2, 0.2);
         this.goodjob.visible = false;
         
+        this.stocks = this.add.sprite(Level4.STOCKS_KEY, HW3Layers.PRIMARY);
+        this.stocks.position.set(350, 380);
+        this.stocks.scale = new Vec2(0.11, 0.11);
+        this.stocks.visible = false;
         
+        this.note = this.add.sprite(Level4.NOTE_KEY, HW3Layers.PRIMARY);
+        this.note.position.set(350, 380);
+        this.note.scale = new Vec2(0.11, 0.11);
+        this.note.visible = false;
     }
 
     protected handleLevelStart(event: GameEvent): void {
@@ -385,7 +415,7 @@ export default class Level4 extends HW3Level {
     protected handleHelpSign(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "Try to look for Help? ";
+            const text1 = "Try to look for Help?";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -405,46 +435,102 @@ export default class Level4 extends HW3Level {
         }
     }
 
-    protected handleHole(event: GameEvent): void {
-        if(!this.hammer.visible) {
-            this.hammer.visible = true;
+    protected handleRailing(event: GameEvent): void {
+        if(!this.checkedRailing) {
+            this.checkedRailing = true;
+
             this.dialogue.visible = true;
-            
-            const text1 = "Someone stuffed a hammer in the cracks here!";
-            const text2 = "Maybe it could break something open?";
-            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
+            const text1 = "I think I can knock down this railing with a tool of some sort...";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
-            this.line1.fontSize = 30;
-            this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
-            this.line2.textColor = Color.WHITE;
+            this.line1.fontSize = 24;
             this.line1.visible = true;
-            this.line2.visible = true;
-            this.hasHammer = true;
         }
     }
 
-    protected handleHoleHide(event: GameEvent): void {
-        if(this.hammer.visible) {
-            this.hammer.visible = false;
+    protected handleHideRailing(event: GameEvent): void {
+        if(this.dialogue.visible) {
             this.dialogue.visible = false;
             this.line1.visible = false;
         }
     }
 
+    protected handleHole(event: GameEvent): void {
+        if(!this.note.visible && !this.hammer.visible) {
+            if(!this.hasNote) {
+                this.note.visible = true;
+                this.dialogue.visible = true;
+
+                const text1 = "Someone stuffed a note in here!";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.fontSize = 40;
+                this.line1.visible = true;
+                this.hasNote = true;
+            }
+            else if(this.hasNote && this.checkedRailing){
+                if(!this.hasHammer){
+                    this.hammer.visible = true;
+                    this.dialogue.visible = true;
+                    
+                    const text1 = "Someone stuffed a hammer in the cracks here!";
+                    const text2 = "Maybe it could break something open?";
+                    this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
+                    this.line1.textColor = Color.WHITE;
+                    this.line1.fontSize = 30;
+                    this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
+                    this.line2.textColor = Color.WHITE;
+                    this.line1.visible = true;
+                    this.line2.visible = true;
+                    this.hasHammer = true;
+                }
+                else {
+                    this.dialogue.visible = true;
+                    
+                    const text1 = "It doesn't look like there's anything else in here.";
+                    this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
+                    this.line1.textColor = Color.WHITE;
+                    this.line1.fontSize = 30;
+                    this.line1.visible = true;
+                }
+            }
+            else if(this.hasNote && !this.checkedRailing) {
+                this.dialogue.visible = true;
+
+                const text1 = "Is there something shiny there in the cracks?";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.fontSize = 30;
+                this.line1.visible = true;
+                this.hasNote = true;
+            }
+        }
+    }
+
+    protected handleHoleHide(event: GameEvent): void {
+        if(this.dialogue.visible) {
+            this.hammer.visible = false;
+            this.note.visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+            this.line2.visible = false;
+        }
+    }
 
     protected handleStock(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "Yeah, this graphic is old. Company stocks haven't been lower.";
+            this.stocks.visible = true;
+            const text1 = "I don't see how stocks will help me right now.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
         }
-
     }
     protected handleStockHide(event: GameEvent): void {
         if (this.dialogue.visible) {
             this.line1.visible = false;
+            this.stocks.visible = false;
             this.dialogue.visible = false;
         }
     }
