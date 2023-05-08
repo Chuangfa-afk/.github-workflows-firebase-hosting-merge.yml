@@ -38,6 +38,7 @@ export const Level4Events = {
     STOCKHIDE: "STOCKHIDE",
     RAILING: "RAILING",
     RAILINGHIDE: "RAILINGHIDE",
+    TAKERAILING: "TAKERAILING",
     //Facing R
     HELPSIGN: "HELPSIGN",
     HELPSIGNHIDE: "HELPSIGNHIDE",
@@ -102,6 +103,9 @@ export default class Level4 extends HW3Level {
     public hasHammer: Boolean = false;
     public hasNote: Boolean = false;
     protected checkedRailing: Boolean = false;
+    protected hasRailing: Boolean = false;
+    protected checkedLadder: Boolean = false;
+    protected checkedTrapdoor: Boolean = false;
 
     public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, options);
@@ -415,12 +419,12 @@ export default class Level4 extends HW3Level {
     protected handleHelpSign(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "Try to look for Help?";
+            const text1 = "It's one of those phones they install inside elevators!";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
 
-            const text2 = "Hint: The possible directions to look at are not just left and right! :)"
+            const text2 = "Unfortunately, it's not working since the power's really intermittent.";
             this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 485), text: text2});
             this.line2.textColor = Color.WHITE;
             this.line2.visible = true;
@@ -436,15 +440,23 @@ export default class Level4 extends HW3Level {
     }
 
     protected handleRailing(event: GameEvent): void {
-        if(!this.checkedRailing) {
-            this.checkedRailing = true;
-
+        if(!this.hasHammer) {
             this.dialogue.visible = true;
             const text1 = "I think I can knock down this railing with a tool of some sort...";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.fontSize = 24;
             this.line1.visible = true;
+            this.checkedRailing = true;
+        }
+        else if(this.hasHammer) {
+            this.dialogue.visible = true;
+            const text1 = "That's it! I can use this hammer to pry off this railing!";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.fontSize = 24;
+            this.line1.visible = true;
+            this.hasRailing = true;
         }
     }
 
@@ -473,8 +485,8 @@ export default class Level4 extends HW3Level {
                     this.hammer.visible = true;
                     this.dialogue.visible = true;
                     
-                    const text1 = "Someone stuffed a hammer in the cracks here!";
-                    const text2 = "Maybe it could break something open?";
+                    const text1 = "There's also a hammer hidden in the cracks!";
+                    const text2 = "Maybe it could be used to hit something down?";
                     this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
                     this.line1.textColor = Color.WHITE;
                     this.line1.fontSize = 30;
@@ -538,18 +550,40 @@ export default class Level4 extends HW3Level {
     protected handleTrapDoor(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            if (this.hasHammer) {
+            if (this.hasRailing && this.checkedTrapdoor && this.checkedLadder) {
                 const text1 = "I'm out! I hope management doesn't sue me for property damage...";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.visible = true;
                 this.goodjob.visible = true;
                 this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END);
-                // You can add any additional logic here for what happens when the correct passcode is entered
-            } else {
-                const text1 = "It won't budge. Maybe there's something that can push it open?";
+            } 
+            else if(this.hasRailing && this.checkedLadder && !this.checkedTrapdoor) {
+                const text1 = "The trapdoor won't budge, but I think I can push it open with this railing pole!";
+                const text2 = "Let me try hitting the trapdoor open!";
+
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.fontSize = 24;
+                this.line1.visible = true;
+
+                this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
+                this.line2.textColor = Color.WHITE;
+                this.line2.fontSize = 24;
+                this.line2.visible = true;
+            }
+            else if(!this.hasRailing && this.checkedLadder && this.checkedTrapdoor){
+                const text1 = "It won't budge. Maybe if I had a rod or something that can bash it open...";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
+                this.line1.fontSize = 24;
+                this.line1.visible = true;
+            }
+            else if(!this.checkedTrapdoor) {
+                const text1 = "I can't reach whatever that is. Is there something here that can get me up there?";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.fontSize = 24;
                 this.line1.visible = true;
             }
     }

@@ -16,6 +16,7 @@ import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 
 export default class Facingr extends PlayerState {
 	protected emitter: Emitter = new Emitter();
+	//Level 1
 	//Shows if clock2 is visible
 	protected clock2: Boolean = false;
 	protected phone: Boolean = false;
@@ -38,6 +39,7 @@ export default class Facingr extends PlayerState {
 	//Level4
 	protected helpsign: Boolean = false;
 	protected railing: Boolean = false;
+	protected hammer: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
         if(options) {
@@ -45,6 +47,7 @@ export default class Facingr extends PlayerState {
 		}
 		if(options.checkedRailing) {
 			this.railing = options.checkedRailing;
+			this.hammer = options.hammer;
 			console.log(this.railing);
 		}
 		this.owner.animation.play(PlayerAnimations.FACINGR);
@@ -318,7 +321,7 @@ export default class Facingr extends PlayerState {
 	public onExit(): Record<string, any> {
 		this.owner.animation.stop();
 		if(this.whatLevel == 4) {
-			return {whatLevel: this.whatLevel, currState: "FACINGR", checkedRailing: this.railing};
+			return {whatLevel: this.whatLevel, currState: "FACINGR", checkedRailing: this.railing, hammer: this.hammer};
 		}
 		return {whatLevel: this.whatLevel, currState: "FACINGR"};
 	}

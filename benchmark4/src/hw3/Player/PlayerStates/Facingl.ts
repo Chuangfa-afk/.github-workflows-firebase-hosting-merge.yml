@@ -11,6 +11,8 @@ import { Level4Events } from "../../Scenes/Level4";
 import MainMenu from "../../Scenes/MainMenu";
 import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 import { HW3Events } from "../../HW3Events";
+import Receiver from "../../../Wolfie2D/Events/Receiver";
+import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 
 export default class Facingl extends PlayerState {
     protected emitter: Emitter = new Emitter();
@@ -37,17 +39,28 @@ export default class Facingl extends PlayerState {
 	protected stock: Boolean = false;
 	protected hammer: Boolean = false;
 	protected railing: Boolean = false;
+	//Has the railing in possession
 	protected checkedRailing: Boolean = false;
+	protected takeRailing: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
 		if(options) {
 			this.whatLevel = options.whatLevel;
 		}
-		if(options.checkedRailing) {
-			this.checkedRailing = options.checkedRailing;
-			console.log(this.checkedRailing);
+		if(this.whatLevel == 4) {
+			if(options.checkedRailing) {
+				this.checkedRailing = options.checkedRailing;
+				this.hammer = options.hammer;
+				console.log(this.checkedRailing);
+				console.log(this.hammer);
+			}
 		}
-        this.owner.animation.play(PlayerAnimations.FACINGL);
+		if(this.takeRailing) {
+			this.owner.animation.play(PlayerAnimations.FACINGL2);
+		}
+        else {
+			this.owner.animation.play(PlayerAnimations.FACINGL);
+		}
 	}
 
 	public update(deltaT: number): void {
@@ -251,7 +264,7 @@ export default class Facingl extends PlayerState {
 				this.finished(PlayerStates.FACINGU);
 			}
 
-			if (!this.stock && !this.railing && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 145 && Input.getMousePressPosition().y < 566) && (Input.getMousePressPosition().x > 283 && Input.getMousePressPosition().x < 560)) {
+			if(!this.stock && !this.railing && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 145 && Input.getMousePressPosition().y < 566) && (Input.getMousePressPosition().x > 283 && Input.getMousePressPosition().x < 560)) {
 				this.emitter.fireEvent(Level4Events.STOCK);
 				this.stock = true;
 				this.timer.start(100);
@@ -260,15 +273,29 @@ export default class Facingl extends PlayerState {
 				this.emitter.fireEvent(Level4Events.STOCKHIDE);
 				this.stock = false;
 			}
-			if (!this.checkedRailing && !this.railing && !this.stock && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 567 && Input.getMousePressPosition().y < 740) && (Input.getMousePressPosition().x > 565 && Input.getMousePressPosition().x < 1059)) {
+
+			//Maybe checked railing, no hammer
+			if(!this.takeRailing && !this.hammer && !this.railing && !this.stock && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 567 && Input.getMousePressPosition().y < 740) && (Input.getMousePressPosition().x > 565 && Input.getMousePressPosition().x < 1059)) {
 				this.emitter.fireEvent(Level4Events.RAILING);
 				this.railing = true;
+				this.checkedRailing = true;
 				this.timer.start(100);
 			}
-			if(!this.checkedRailing && this.timer.isStopped() && this.railing && !this.stock && Input.isMouseJustPressed()) {
+			//Checked, has hammer
+			if(!this.takeRailing && this.checkedRailing && this.hammer && !this.railing && !this.stock && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 567 && Input.getMousePressPosition().y < 740) && (Input.getMousePressPosition().x > 565 && Input.getMousePressPosition().x < 1059)) {
+				this.emitter.fireEvent(Level4Events.RAILING);
+				this.railing = true;
+				this.takeRailing = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && !this.takeRailing && this.railing && !this.stock && Input.isMouseJustPressed()) {
 				this.emitter.fireEvent(Level4Events.RAILINGHIDE);
 				this.railing = false;
-				this.checkedRailing = true;
+			}
+			else if(this.timer.isStopped() && this.takeRailing && this.railing && !this.stock && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level4Events.RAILINGHIDE);
+				this.railing = false;
+				this.owner.animation.play(PlayerAnimations.FACINGL2);
 			}
 		}
 		//Level 5
@@ -322,7 +349,7 @@ export default class Facingl extends PlayerState {
 	public onExit(): Record<string, any> {
 		this.owner.animation.stop();
 		if(this.whatLevel == 4) {
-			return {whatLevel: this.whatLevel, currState: "FACINGL", checkedRailing: this.checkedRailing};
+			return {whatLevel: this.whatLevel, currState: "FACINGL", checkedRailing: this.checkedRailing, hammer: this.hammer};
 		}
 		return {whatLevel: this.whatLevel, currState: "FACINGL"};
 	}

@@ -33,8 +33,10 @@ export default class Facingb extends PlayerState {
 	protected lockers: Boolean = false;
 
 	//Level4
-	protected hole: Boolean = false;
+	protected note: Boolean = false;
 	protected railing: Boolean = false;
+	protected hole: Boolean = false;
+	protected hammer: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
 		if(options) {
@@ -42,6 +44,7 @@ export default class Facingb extends PlayerState {
 		}
 		if(options.checkedRailing) {
 			this.railing = options.checkedRailing;
+			this.hammer = options.hammer;
 			console.log(this.railing);
 		}
         this.owner.animation.play(PlayerAnimations.FACINGB);
@@ -219,7 +222,7 @@ export default class Facingb extends PlayerState {
 			}
 		}
 
-		//Level 4 - hole
+		//Level 4 - note, hole, hammer
 		else if(this.whatLevel == 4) {
 			if (!this.hole && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
@@ -248,7 +251,28 @@ export default class Facingb extends PlayerState {
 				this.finished(PlayerStates.FACINGU);
 			}
 
-			if (!this.hole && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 586 && Input.getMousePressPosition().y < 728) && (Input.getMousePressPosition().x > 955 && Input.getMousePressPosition().x < 1111)) { //Hole
+			//No note, no railing, no hammer
+			if (!this.hole && !this.note && !this.hammer && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 586 && Input.getMousePressPosition().y < 728) && (Input.getMousePressPosition().x > 955 && Input.getMousePressPosition().x < 1111)) { //note
+				this.emitter.fireEvent(Level4Events.HOLE);
+				this.note = true;
+				this.hole = true;
+				this.timer.start(100);
+			}
+			//Saw note w/o seeing railing and w/o hammer --> "seeing something shiny in cracks"
+			else if(!this.hole && !this.railing && this.note && !this.hammer && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 586 && Input.getMousePressPosition().y < 728) && (Input.getMousePressPosition().x > 955 && Input.getMousePressPosition().x < 1111)) { //note
+				this.emitter.fireEvent(Level4Events.HOLE);
+				this.hole = true;
+				this.timer.start(100);
+			}
+			//Saw note, saw railing, no hammer --> now will get hammer
+			else if (this.note && this.railing && !this.hammer && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 586 && Input.getMousePressPosition().y < 728) && (Input.getMousePressPosition().x > 955 && Input.getMousePressPosition().x < 1111)) { //note
+				this.emitter.fireEvent(Level4Events.HOLE);
+				this.hammer = true;
+				this.hole = true;
+				this.timer.start(100);
+			}
+			//Saw note, saw railing, obtained hammer already --> "there's nothing else here"
+			else if (this.railing && this.hammer && this.note && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 586 && Input.getMousePressPosition().y < 728) && (Input.getMousePressPosition().x > 955 && Input.getMousePressPosition().x < 1111)) { //note
 				this.emitter.fireEvent(Level4Events.HOLE);
 				this.hole = true;
 				this.timer.start(100);
@@ -257,6 +281,7 @@ export default class Facingb extends PlayerState {
 				this.emitter.fireEvent(Level4Events.HOLEHIDE);
 				this.hole = false;
 			}
+
 		}
 		//Level 5
 		else if(this.whatLevel == 5) {
@@ -308,7 +333,7 @@ export default class Facingb extends PlayerState {
 	public onExit(): Record<string, any> {
 		this.owner.animation.stop();
 		if(this.whatLevel == 4) {
-			return {whatLevel: this.whatLevel, currState: "FACINGB", checkedRailing: this.railing};
+			return {whatLevel: this.whatLevel, currState: "FACINGB", checkedRailing: this.railing, hammer: this.hammer};
 		}
 		return {whatLevel: this.whatLevel, currState: "FACINGB"};
 	}
