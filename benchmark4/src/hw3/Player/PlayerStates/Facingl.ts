@@ -51,8 +51,6 @@ export default class Facingl extends PlayerState {
 			if(options.checkedRailing) {
 				this.checkedRailing = options.checkedRailing;
 				this.hammer = options.hammer;
-				console.log(this.checkedRailing);
-				console.log(this.hammer);
 			}
 		}
 		if(this.takeRailing) {

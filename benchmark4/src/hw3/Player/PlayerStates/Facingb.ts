@@ -47,7 +47,6 @@ export default class Facingb extends PlayerState {
 			this.railing = options.checkedRailing;
 			this.hammer = options.hammer;
 			this.ladder = options.ladder;
-			console.log(this.railing);
 		}
         this.owner.animation.play(PlayerAnimations.FACINGB);
 	}

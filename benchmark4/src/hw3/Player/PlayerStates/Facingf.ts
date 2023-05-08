@@ -57,7 +57,6 @@ export default class Facingf extends PlayerState {
 		if(options) {
 			this.railing = options.checkedRailing;
 			this.hammer = options.hammer;
-			console.log(this.railing);
 		}
         this.owner.animation.play(PlayerAnimations.FACINGF, true);
 	}

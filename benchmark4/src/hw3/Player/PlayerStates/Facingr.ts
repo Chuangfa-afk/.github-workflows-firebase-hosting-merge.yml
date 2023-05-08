@@ -41,6 +41,9 @@ export default class Facingr extends PlayerState {
 	protected railing: Boolean = false;
 	protected hammer: Boolean = false;
 
+	//Level 5
+	
+
 	public onEnter(options: Record<string, any>): void {
         if(options) {
 			this.whatLevel = options.whatLevel;
@@ -48,7 +51,6 @@ export default class Facingr extends PlayerState {
 		if(options.checkedRailing) {
 			this.railing = options.checkedRailing;
 			this.hammer = options.hammer;
-			console.log(this.railing);
 		}
 		this.owner.animation.play(PlayerAnimations.FACINGR);
 	}
