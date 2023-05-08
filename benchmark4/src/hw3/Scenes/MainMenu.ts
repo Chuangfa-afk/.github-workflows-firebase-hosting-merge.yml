@@ -12,6 +12,8 @@ import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import Level2 from "./Level2";
 import Level3 from "./Level3";
 import Level4 from "./Level4";
+import Level5 from "./Level5";
+import Level6 from "./Level6";
 
 // Layers for the main menu scene
 export const MenuLayers = {
@@ -64,6 +66,7 @@ export default class MainMenu extends Scene {
         this.load.image("LEVEL_2", "MainMenu_assets/Level_2.png");
         this.load.image("LEVEL_3", "MainMenu_assets/Level_3.png");
         this.load.image("LEVEL_4", "MainMenu_assets/Level_4.png");
+        this.load.image("LEVEL_5", "MainMenu_assets/Level_5.png");
         this.load.audio(MainMenu.MUSIC_KEY, MainMenu.MUSIC_PATH);
         this.load.spritesheet(MainMenu.LEFT_KEY, MainMenu.LEFT_PATH);
         this.load.spritesheet(MainMenu.RIGHT_KEY, MainMenu.RIGHT_PATH);
@@ -139,19 +142,51 @@ export default class MainMenu extends Scene {
 
         //Level 4
         let l4 = this.add.sprite("LEVEL_4", "levelSelect");
-        l4.position.set(600, 550);
+        l4.position.set(225, 550);
         l4.scale = new Vec2(0.07, 0.07);
 
         const text4 = "Level 4";
-        let line4 = <Label>this.add.uiElement(UIElementType.LABEL, "levelSelect", {position: new Vec2(600, 660), text: text4});
+        let line4 = <Label>this.add.uiElement(UIElementType.LABEL, "levelSelect", {position: new Vec2(225, 660), text: text4});
         line4.textColor = Color.WHITE;
 
-        let lb4 = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(600, 550), text: ""});
+        let lb4 = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(225, 550), text: ""});
         lb4.backgroundColor = Color.TRANSPARENT;
         lb4.borderColor = Color.TRANSPARENT;
         lb4.borderRadius = 0;
         lb4.setPadding(new Vec2(125, 70));
         lb4.font = "PixelSimple";
+
+        //Level 5
+        let l5 = this.add.sprite("LEVEL_5", "levelSelect");
+        l5.position.set(600, 550);
+        l5.scale = new Vec2(0.215, 0.215);
+
+        let line5 = <Label>this.add.uiElement(UIElementType.LABEL, "levelSelect", {position: new Vec2(600, 660), text: "Level 5"});
+        line5.textColor = Color.WHITE;
+
+        let lb5 = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(600, 550), text: ""});
+        lb5.backgroundColor = Color.TRANSPARENT;
+        lb5.borderColor = Color.TRANSPARENT;
+        lb5.borderRadius = 0;
+        lb5.setPadding(new Vec2(125, 70));
+        lb5.font = "PixelSimple";
+
+        //Level 6
+        /*
+        let l6 = this.add.sprite("LEVEL_6", "levelSelect");
+        l6.position.set(975, 550);
+        l6.scale = new Vec2(0.5, 0.5);
+        */
+
+        let line6 = <Label>this.add.uiElement(UIElementType.LABEL, "levelSelect", {position: new Vec2(975, 660), text: "Level 6"});
+        line6.textColor = Color.WHITE;
+
+        let lb6 = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(975, 550), text: ""});
+        lb6.backgroundColor = Color.TRANSPARENT;
+        lb6.borderColor = Color.TRANSPARENT;
+        lb6.borderRadius = 0;
+        lb6.setPadding(new Vec2(125, 70));
+        lb6.font = "PixelSimple";
         
         this.levelSelect.setHidden(true);
 
@@ -217,7 +252,7 @@ export default class MainMenu extends Scene {
         backBtn2.setPadding(new Vec2(50, 10));
         backBtn2.font = "PixelSimple";
 
-        let backBtn3 = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(size.x+400, size.y+279), text: "Back"});
+        let backBtn3 = <Button>this.add.uiElement(UIElementType.BUTTON, "levelSelect", {position: new Vec2(size.x+400, 100), text: "Back"});
         backBtn3.backgroundColor = Color.TRANSPARENT;
         backBtn3.borderColor = Color.WHITE;
         backBtn3.borderRadius = 0;
@@ -265,6 +300,12 @@ export default class MainMenu extends Scene {
         }
         lb4.onClick = () => {
             this.sceneManager.changeToScene(Level4);
+        }
+        lb5.onClick = () => {
+            this.sceneManager.changeToScene(Level5);
+        }
+        lb6.onClick = () => {
+            this.sceneManager.changeToScene(Level6);
         }
         
         //Change splash screen to main menu
