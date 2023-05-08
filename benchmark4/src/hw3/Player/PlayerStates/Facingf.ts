@@ -15,10 +15,11 @@ import { Level3Events } from "../../Scenes/Level3";
 import { Level4Events } from "../../Scenes/Level4";
 import MainMenu from "../../Scenes/MainMenu";
 import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
+import { Level5Events } from "../../Scenes/Level5";
 
 export default class Facingf extends PlayerState {
 	protected emitter: Emitter = new Emitter();
-	//Shows if clock1 is visible
+	//Level1
 	protected clock1: Boolean = false;
 	protected keypad: Boolean = false;
 	protected timer: Timer = new Timer(100);
@@ -40,6 +41,11 @@ export default class Facingf extends PlayerState {
 	protected buttons: Boolean = false;
 	protected railing: Boolean = false;
 	protected hammer: Boolean = false;
+
+	//Level5
+	protected door: Boolean = false;
+	protected puddle: Boolean = false;
+	protected light: Boolean = false;
 
 	//Check what level you're on
 	protected whatLevel: number = -1;
@@ -283,24 +289,51 @@ export default class Facingf extends PlayerState {
 		}
 		//Level 5
 		else if(this.whatLevel == 5) {
-			if(Input.isJustPressed(HW3Controls.MOVE_LEFT)) {
+			if(!this.door && !this.puddle && !this.light && Input.isJustPressed(HW3Controls.MOVE_LEFT)) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGL);
 			}
-			else if(Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+			else if(!this.door && !this.puddle && !this.light && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGR);
 			}
 
-			if(Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
+			if(!this.door && !this.puddle && !this.light && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.emitter.fireEvent(HW3Events.LEFT);
 				this.finished(PlayerStates.FACINGL);
 			}
-			else if(Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
+			else if(!this.door && !this.puddle && !this.light && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.emitter.fireEvent(HW3Events.RIGHT);
 				this.finished(PlayerStates.FACINGR);
+			}
+
+			//Door
+			if(!this.door && !this.puddle && !this.light && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 289 && Input.getMousePressPosition().y < 496) && (Input.getMousePressPosition().x > 508 && Input.getMousePressPosition().x < 695)) {
+				this.emitter.fireEvent(Level5Events.DOOR);
+				this.door = true;
+				this.timer.start(100);
+			}
+			//Light
+			if(!this.door && !this.puddle && !this.light && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 189 && Input.getMousePressPosition().y < 248) && (Input.getMousePressPosition().x > 675 && Input.getMousePressPosition().x < 779)) {
+				this.emitter.fireEvent(Level5Events.LIGHT);
+				this.light = true;
+				this.timer.start(100);
+			}
+			//Puddle
+			if(!this.door && !this.puddle && !this.light && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 608 && Input.getMousePressPosition().y < 658) && (Input.getMousePressPosition().x > 925 && Input.getMousePressPosition().x < 996)) {
+				this.emitter.fireEvent(Level5Events.PUDDLE);
+				this.puddle = true;
+				this.timer.start(100);
+			}
+
+			//Hide dialogue
+			if(this.timer.isStopped() && (this.door || this.puddle || this.light) && Input.isMouseJustPressed()) { 
+				this.door = false;
+				this.puddle = false;
+				this.light = false;
+				this.emitter.fireEvent(Level5Events.DIALOGUEHIDE);
 			}
 		}
 

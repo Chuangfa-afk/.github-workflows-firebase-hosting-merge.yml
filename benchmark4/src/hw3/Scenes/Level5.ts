@@ -29,7 +29,8 @@ export const Level5Events = {
     DIALOGUEHIDE: "DIALOGUEHIDE",
     //Facing F
     DOOR: "DOOR",
-
+    LIGHT: "LIGHT",
+    PUDDLE: "PUDDLE",
     //Facing L
     PLIERS: "PLIERS",
     PLIERSHIDE: "PLIERSHIDE",
@@ -41,6 +42,8 @@ export const Level5Events = {
     //Facing R
     WIRES: "WIRES",
     WIRESHIDE: "WIRESHIDE",
+    SPEAKER: "SPEAKER",
+    PIPE: "PIPE",
 
     //Facing B
     ELEVATOR: "ELEVATOR",
@@ -56,16 +59,16 @@ export default class Level5 extends HW3Level {
     public static readonly BACKGROUND_PATH = "Level5_assets/Level_5.json";
 
     public static readonly PLIERS_KEY = "BACKGROUND";
-    public static readonly PLIERS_PATH = "Level5_assets/Pliers.json";
+    public static readonly PLIERS_PATH = "Level5_assets/Pliers.png";
 
     public static readonly KEY_KEY = "KEY_KEY";
-    public static readonly KEY_PATH = "Level5_assets/Key.json";
+    public static readonly KEY_PATH = "Level5_assets/Key.png";
 
     public static readonly WIRES_KEY = "WIRES_KEY";
-    public static readonly WIRES_PATH = "Level5_assets/Broken_Wires.json";
+    public static readonly WIRES_PATH = "Level5_assets/Broken_Wires.png";
 
     public static readonly WARNING_KEY = "WARNING";
-    public static readonly WARNING_PATH = "Level5_assets/Warning.json";
+    public static readonly WARNING_PATH = "Level5_assets/Warning.png";
 
     protected background: Layer;
     public ui: Layer;
@@ -120,6 +123,8 @@ export default class Level5 extends HW3Level {
         this.receiver.subscribe(Level5Events.DIALOGUEHIDE);
         //FF
         this.receiver.subscribe(Level5Events.DOOR);
+        this.receiver.subscribe(Level5Events.LIGHT);
+        this.receiver.subscribe(Level5Events.PUDDLE);
         
         //FL
         this.receiver.subscribe(Level5Events.PLIERS);
@@ -131,6 +136,8 @@ export default class Level5 extends HW3Level {
         //FR
         this.receiver.subscribe(Level5Events.WIRES);
         this.receiver.subscribe(Level5Events.WIRESHIDE);
+        this.receiver.subscribe(Level5Events.SPEAKER);
+        this.receiver.subscribe(Level5Events.PIPE);
 
         //FB
         this.receiver.subscribe(Level5Events.ELEVATOR);
@@ -162,6 +169,14 @@ export default class Level5 extends HW3Level {
             //FF
             case Level5Events.DOOR: {
                 this.handleDoor(event);
+                break;
+            }
+            case Level5Events.LIGHT: {
+                this.handleLight(event);
+                break;
+            }
+            case Level5Events.PUDDLE: {
+                this.handlePuddle(event);
                 break;
             }
             //FL
@@ -197,6 +212,14 @@ export default class Level5 extends HW3Level {
             }
             case Level5Events.WIRESHIDE: {
                 this.handleWiresHide(event);
+                break;
+            }
+            case Level5Events.SPEAKER: {
+                this.handleSpeaker(event);
+                break;
+            }
+            case Level5Events.PIPE: {
+                this.handlePipe(event);
                 break;
             }
 
@@ -273,22 +296,22 @@ export default class Level5 extends HW3Level {
 
         this.wires = this.add.sprite(Level5.WIRES_KEY, HW3Layers.PRIMARY);
         this.wires.position.set(350, 380);
-        this.wires.scale = new Vec2(0.3, 0.3);
+        this.wires.scale = new Vec2(0.15, 0.15);
         this.wires.visible = false;
         
         this.warning = this.add.sprite(Level5.WARNING_KEY, HW3Layers.PRIMARY);
         this.warning.position.set(350, 380);
-        this.warning.scale = new Vec2(0.3, 0.3);
+        this.warning.scale = new Vec2(0.125, 0.125);
         this.warning.visible = false;
 
         this.key = this.add.sprite(Level5.KEY_KEY, HW3Layers.PRIMARY);
         this.key.position.set(350, 380);
-        this.key.scale = new Vec2(0.3, 0.3);
+        this.key.scale = new Vec2(0.35, 0.35);
         this.key.visible = false;
 
         this.pliers = this.add.sprite(Level5.PLIERS_KEY, HW3Layers.PRIMARY);
         this.pliers.position.set(350, 380);
-        this.pliers.scale = new Vec2(0.3, 0.3);
+        this.pliers.scale = new Vec2(0.325, 0.325);
         this.pliers.visible = false;
     }
 
@@ -297,9 +320,9 @@ export default class Level5 extends HW3Level {
 
         const text1 = "I just climbed myself out of the nearest elevator door, but I";
         const text2 = "don't know where I am. Is this the boiler room?";
-        this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 465), text: text1});
+        this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
         this.line1.textColor = Color.WHITE;
-        this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text2});
+        this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
         this.line2.textColor = Color.WHITE;
         this.line1.visible = true;
         this.line2.visible = true;
@@ -313,9 +336,9 @@ export default class Level5 extends HW3Level {
             
             const text1 = "Wh-! Who keeps dropping their useful items in the";
             const text2 = "strangest of places?";
-            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 465), text: text1});
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
             this.line1.textColor = Color.WHITE;
-            this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text2});
+            this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
             this.line2.textColor = Color.WHITE;
             this.line1.visible = true;
             this.line2.visible = true;
@@ -336,9 +359,9 @@ export default class Level5 extends HW3Level {
             
             const text1 = "A key? Stuck in the cracks of the wall? What";
             const text2 = "a weird place to hide one's keys...";
-            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 465), text: text1});
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
             this.line1.textColor = Color.WHITE;
-            this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text2});
+            this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
             this.line2.textColor = Color.WHITE;
             this.line1.visible = true;
             this.line2.visible = true;
@@ -361,9 +384,9 @@ export default class Level5 extends HW3Level {
             
             const text1 = "Hm...these warnings seem pretty serious...I";
             const text2 = "should probably follow them for my own safety.";
-            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 465), text: text1});
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
             this.line1.textColor = Color.WHITE;
-            this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text2});
+            this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
             this.line2.textColor = Color.WHITE;
             this.line1.visible = true;
             this.line2.visible = true;
@@ -385,29 +408,38 @@ export default class Level5 extends HW3Level {
                 this.wires.visible = true;
                 
                 const text1 = "I'm not an electrician, but those wires are clearly disconnected.";
-                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 465), text: text1});
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.fontSize = 26;
                 this.line1.visible = true;
                 this.checkedWires = true;
             }
-            else if(this.hasPliers && this.checkedWires){
+            else if(this.hasPliers && this.checkedWires && !this.powerUp){
                 this.dialogue.visible = true;
                 this.wires.visible = true;
 
                 const text1 = "Right! I'll use these insulated pliers to connect these wires.";
-                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 465), text: text1});
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.fontSize = 26;
                 this.line1.visible = true;
                 this.powerUp = true;
+            }
+            else if(this.powerUp) {
+                this.dialogue.visible = true;
+
+                const text1 = "The power's up and running now. I wonder what works now?";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.fontSize = 30;
+                this.line1.visible = true;
             }
             else {
                 this.dialogue.visible = true;
                 this.wires.visible = true;
 
                 const text1 = "Should I really mess with these wires?";
-                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 465), text: text1});
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.fontSize = 26;
                 this.line1.visible = true;
@@ -432,22 +464,61 @@ export default class Level5 extends HW3Level {
         }
     }
 
+    protected handleLight(event: GameEvent): void {
+        if(!this.dialogue.visible) {
+            this.dialogue.visible = true;
+            const text1 = "The light's flickering.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+    protected handlePuddle(event: GameEvent): void {
+        if(!this.dialogue.visible) {
+            this.dialogue.visible = true;
+            const text1 = "I wasn't assigned to this floor, so there's no way I'm cleaning that.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+
+    protected handleSpeaker(event: GameEvent): void {
+        if(!this.dialogue.visible) {
+            this.dialogue.visible = true;
+            const text1 = "It's an old speaker. The only sound coming from it is static.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+
+    protected handlePipe(event: GameEvent): void {
+        if(!this.dialogue.visible) {
+            this.dialogue.visible = true;
+            const text1 = "I'm not a repairman, so I'm definitely not fixing what happened there.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+
     protected handleDoor(event: GameEvent): void {
         if(!this.dialogue.visible) {
             this.dialogue.visible = true;
             if(!this.hasKey) {
                 const text1 = "The door's locked. Typical. But it looks like it needs a";
                 const text2 = "physical key rather than a key card this time.";
-                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 465), text: text1});
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
                 this.line1.textColor = Color.WHITE;
-                this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text2});
+                this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
                 this.line2.textColor = Color.WHITE;
                 this.line1.visible = true;
                 this.line2.visible = true;
             }
             else if(this.hasKey && this.canProgress) {
                 const text1 = "Who cares! I wanna see what lies behind this door...";
-                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 465), text: text1});
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.visible = true;
                 this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END);
@@ -455,9 +526,9 @@ export default class Level5 extends HW3Level {
             else {
                 const text1 = "The key I found fits into the lock here perfectly!";
                 const text2 = "Do I really want to go into this room, though?";
-                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 465), text: text1});
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
                 this.line1.textColor = Color.WHITE;
-                this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text2});
+                this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
                 this.line2.textColor = Color.WHITE;
                 this.line1.visible = true;
                 this.line2.visible = true;
@@ -472,9 +543,9 @@ export default class Level5 extends HW3Level {
             if(!this.powerUp) {
                 const text1 = "The elevator's still not working. Seems like";
                 const text2 = "there's something wrong with the electricity.";
-                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 465), text: text1});
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
                 this.line1.textColor = Color.WHITE;
-                this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text2});
+                this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
                 this.line2.textColor = Color.WHITE;
                 this.line1.visible = true;
                 this.line2.visible = true;

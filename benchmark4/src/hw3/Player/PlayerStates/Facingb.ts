@@ -12,6 +12,7 @@ import { Level4Events } from "../../Scenes/Level4";
 import MainMenu from "../../Scenes/MainMenu";
 import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 import { HW3Events } from "../../HW3Events";
+import { Level5Events } from "../../Scenes/Level5";
 
 export default class Facingb extends PlayerState {
     protected emitter: Emitter = new Emitter();
@@ -38,6 +39,9 @@ export default class Facingb extends PlayerState {
 	protected hole: Boolean = false;
 	protected hammer: Boolean = false;
 	protected ladder: Boolean = false;
+
+	//Level5
+	protected elevator: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
 		if(options) {
@@ -298,26 +302,39 @@ export default class Facingb extends PlayerState {
 			}
 
 		}
-		//Level 5
+		//Level 5 - elevator
 		else if(this.whatLevel == 5) {
-			if(Input.isJustPressed(HW3Controls.MOVE_LEFT)) {
+			if(!this.elevator && Input.isJustPressed(HW3Controls.MOVE_LEFT)) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGR);
 			}
-			else if(Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+			else if(!this.elevator && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGL);
 			}
 
-			if(Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
+			if(!this.elevator && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.emitter.fireEvent(HW3Events.LEFT);
 				this.finished(PlayerStates.FACINGR);
 			}
-			else if(Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
+			else if(!this.elevator && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.emitter.fireEvent(HW3Events.RIGHT);
 				this.finished(PlayerStates.FACINGL);
+			}
+			if (!this.elevator && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 151 && Input.getMousePressPosition().y < 721) && (Input.getMousePressPosition().x > 331 && Input.getMousePressPosition().x < 872)) { //note
+				this.emitter.fireEvent(Level5Events.ELEVATOR);
+				this.elevator = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.elevator && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level5Events.DIALOGUEHIDE);
+				this.elevator = false;
+			}
+
+			if(Input.isMouseJustPressed(0)) {
+				console.log(Input.getMousePressPosition());
 			}
 		}
 

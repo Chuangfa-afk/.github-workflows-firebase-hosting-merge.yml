@@ -13,6 +13,7 @@ import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 import { HW3Events } from "../../HW3Events";
 import Receiver from "../../../Wolfie2D/Events/Receiver";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
+import { Level5Events } from "../../Scenes/Level5";
 
 export default class Facingl extends PlayerState {
     protected emitter: Emitter = new Emitter();
@@ -42,6 +43,11 @@ export default class Facingl extends PlayerState {
 	//Has the railing in possession
 	protected checkedRailing: Boolean = false;
 	protected takeRailing: Boolean = false;
+
+	//Level5
+	protected warning: Boolean = false;
+	protected pliers: Boolean = false;
+	protected key: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
 		if(options) {
@@ -298,24 +304,58 @@ export default class Facingl extends PlayerState {
 		}
 		//Level 5
 		else if(this.whatLevel == 5) {
-			if(Input.isJustPressed(HW3Controls.MOVE_LEFT)) {
+			if(!this.warning && !this.pliers && !this.key && Input.isJustPressed(HW3Controls.MOVE_LEFT)) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGB);
 			}
-			else if(Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+			else if(!this.warning && !this.pliers && !this.key && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGF);
 			}
 
-			if(Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
+			if(!this.warning && !this.pliers && !this.key && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.emitter.fireEvent(HW3Events.LEFT);
 				this.finished(PlayerStates.FACINGB);
 			}
-			else if(Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
+			else if(!this.warning && !this.pliers && !this.key && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.emitter.fireEvent(HW3Events.RIGHT);
 				this.finished(PlayerStates.FACINGF);
+			}
+			//Warning
+			if(!this.warning && !this.pliers && !this.key && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 217 && Input.getMousePressPosition().y < 420) && (Input.getMousePressPosition().x > 476 && Input.getMousePressPosition().x < 674)) {
+				this.emitter.fireEvent(Level5Events.WARNING);
+				this.warning = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.warning && !this.pliers && !this.key && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level5Events.WARNINGHIDE);
+				this.warning = false;
+			}
+			//Pliers
+			if(!this.warning && !this.pliers && !this.key && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 592 && Input.getMousePressPosition().y < 789) && (Input.getMousePressPosition().x > 379 && Input.getMousePressPosition().x < 525)) {
+				this.emitter.fireEvent(Level5Events.PLIERS);
+				this.pliers = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && !this.warning && this.pliers && !this.key && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level5Events.PLIERSHIDE);
+				this.pliers = false;
+			}
+			//Key
+			if(!this.warning && !this.pliers && !this.key && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 598 && Input.getMousePressPosition().y < 730) && (Input.getMousePressPosition().x > 972 && Input.getMousePressPosition().x < 1075)) {
+				this.emitter.fireEvent(Level5Events.KEY);
+				this.key = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && !this.warning && !this.pliers && this.key && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level5Events.KEYHIDE);
+				this.key = false;
+			}
+
+			if(Input.isMouseJustPressed(0)) {
+				console.log(Input.getMousePressPosition());
 			}
 		}
 
