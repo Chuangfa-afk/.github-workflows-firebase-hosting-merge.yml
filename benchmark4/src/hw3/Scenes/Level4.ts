@@ -45,7 +45,8 @@ export const Level4Events = {
     //Facing B
     HOLE: "HOLE",
     HOLEHIDE: "HOLEHIDE",
-
+    LADDER: "LADDER",
+    LADDERHIDE: "LADDERHIDE",
     //Facing U
     TRAPDOOR: "TRAPDOOR",
     TRAPDOORHIDE: "TRAPDOORHIDE",
@@ -129,13 +130,7 @@ export default class Level4 extends HW3Level {
      * Unload resources for level 1 - decide what to keep
      */
     public unloadScene(): void {
-        /*
-        this.load.keepAudio(this.levelMusicKey);
-        this.load.keepAudio(this.jumpAudioKey);
-        this.load.keepAudio(this.tileDestroyedAudioKey);
-        */
         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: Level4.MUSIC_KEY});
-
     }
 
     public startScene(): void {
@@ -161,6 +156,8 @@ export default class Level4 extends HW3Level {
         //FB
         this.receiver.subscribe(Level4Events.HOLE);
         this.receiver.subscribe(Level4Events.HOLEHIDE);
+        this.receiver.subscribe(Level4Events.LADDER);
+        this.receiver.subscribe(Level4Events.LADDERHIDE);
 
         //FU
         this.receiver.subscribe(Level4Events.TRAPDOOR);
@@ -249,7 +246,14 @@ export default class Level4 extends HW3Level {
                 this.handleHoleHide(event);
                 break;
             }
-
+            case Level4Events.LADDER: {
+                this.handleLadder(event);
+                break;
+            }
+            case Level4Events.LADDERHIDE: {
+                this.handleLadderHide(event);
+                break;
+            }
 
             //Facing Up (FU)
             case Level4Events.TRAPDOOR: {
@@ -361,29 +365,7 @@ export default class Level4 extends HW3Level {
         this.line2.visible = true;
     }
 
-    //Handle show dialogue with sprites
     //Handle show general dialogue boxes --> no images required
-    protected handleSign(event: GameEvent): void {
-        if(!this.sign.visible) {
-            this.sign.visible = true;
-            this.dialogue.visible = true;
-            
-            const text1 = "Wait, this floor isn't anywhere on the floor directory...what's going on here?";
-            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
-            this.line1.textColor = Color.WHITE;
-            this.line1.fontSize = 30;
-            this.line1.visible = true;
-        }
-
-    }
-    protected handleSignHide(event: GameEvent): void {
-        if(this.sign.visible) {
-            this.sign.visible = false;
-            this.dialogue.visible = false;
-            this.line1.visible = false;
-        }
-    }
-
     protected handleElevator(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
@@ -445,7 +427,7 @@ export default class Level4 extends HW3Level {
             const text1 = "I think I can knock down this railing with a tool of some sort...";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
-            this.line1.fontSize = 24;
+            this.line1.fontSize = 30;
             this.line1.visible = true;
             this.checkedRailing = true;
         }
@@ -462,6 +444,56 @@ export default class Level4 extends HW3Level {
 
     protected handleHideRailing(event: GameEvent): void {
         if(this.dialogue.visible) {
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+        }
+    }
+
+    protected handleLadder(event: GameEvent): void {
+        if(!this.dialogue.visible) {
+            if(!this.checkedLadder) {
+                this.dialogue.visible = true;
+                const text1 = "A ladder! I can use this to climb up anywhere.";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.fontSize = 36;
+                this.line1.visible = true;
+                this.checkedLadder = true;
+            }
+            else {
+                this.dialogue.visible = true;
+                const text1 = "This ladder's useful for climbing.";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.fontSize = 36;
+                this.line1.visible = true;
+            }
+        }
+    }
+    protected handleLadderHide(event: GameEvent): void {
+        if (this.dialogue.visible) {
+            this.line1.visible = false;
+            this.dialogue.visible = false;
+        }
+    }
+    //Handle show dialogue with sprites
+    
+    protected handleSign(event: GameEvent): void {
+        if(!this.sign.visible) {
+            this.sign.visible = true;
+            this.dialogue.visible = true;
+            
+            const text1 = "Wait, this floor isn't anywhere on the floor directory...what's going on here?";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.fontSize = 30;
+            this.line1.visible = true;
+        }
+
+    }
+    protected handleSignHide(event: GameEvent): void {
+        if(this.sign.visible) {
+            this.sign.visible = false;
             this.dialogue.visible = false;
             this.line1.visible = false;
         }
@@ -558,9 +590,10 @@ export default class Level4 extends HW3Level {
                 this.goodjob.visible = true;
                 this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END);
             } 
-            else if(this.hasRailing && this.checkedLadder && !this.checkedTrapdoor) {
+            else if(this.hasRailing && this.checkedLadder) {
                 const text1 = "The trapdoor won't budge, but I think I can push it open with this railing pole!";
                 const text2 = "Let me try hitting the trapdoor open!";
+                this.checkedTrapdoor = true;
 
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
                 this.line1.textColor = Color.WHITE;
@@ -572,14 +605,15 @@ export default class Level4 extends HW3Level {
                 this.line2.fontSize = 24;
                 this.line2.visible = true;
             }
-            else if(!this.hasRailing && this.checkedLadder && this.checkedTrapdoor){
+            else if(!this.hasRailing && this.checkedLadder){
                 const text1 = "It won't budge. Maybe if I had a rod or something that can bash it open...";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.fontSize = 24;
                 this.line1.visible = true;
+                this.checkedTrapdoor = true;
             }
-            else if(!this.checkedTrapdoor) {
+            else {
                 const text1 = "I can't reach whatever that is. Is there something here that can get me up there?";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
@@ -595,8 +629,4 @@ export default class Level4 extends HW3Level {
             this.dialogue.visible = false;
         }
     }
-
-    
-
-
 }

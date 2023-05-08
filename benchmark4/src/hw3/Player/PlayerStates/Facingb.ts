@@ -37,6 +37,7 @@ export default class Facingb extends PlayerState {
 	protected railing: Boolean = false;
 	protected hole: Boolean = false;
 	protected hammer: Boolean = false;
+	protected ladder: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
 		if(options) {
@@ -45,6 +46,7 @@ export default class Facingb extends PlayerState {
 		if(options.checkedRailing) {
 			this.railing = options.checkedRailing;
 			this.hammer = options.hammer;
+			this.ladder = options.ladder;
 			console.log(this.railing);
 		}
         this.owner.animation.play(PlayerAnimations.FACINGB);
@@ -222,33 +224,43 @@ export default class Facingb extends PlayerState {
 			}
 		}
 
-		//Level 4 - note, hole, hammer
+		//Level 4 - note, hole, hammer, ladder
 		else if(this.whatLevel == 4) {
-			if (!this.hole && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
+			if (!this.ladder && !this.hole && Input.isJustPressed(HW3Controls.MOVE_LEFT)){
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGR);
 			} 
 			// If the player clicks right, go to Facingr
-			else if (!this.hole && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
+			else if (!this.ladder && !this.hole && Input.isJustPressed(HW3Controls.MOVE_RIGHT)) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGL);
 			} 
 
-			if (!this.hole && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90){
+			if (!this.ladder && !this.hole && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x < 90){
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.emitter.fireEvent(HW3Events.LEFT);
 				this.finished(PlayerStates.FACINGR);
 			} 
 			// If the player clicks right, go to Facingr
-			else if (!this.hole && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
+			else if (!this.ladder && !this.hole && Input.isMouseJustPressed(0) && Input.getMousePressPosition().x > 1116) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.emitter.fireEvent(HW3Events.RIGHT);
 				this.finished(PlayerStates.FACINGL);
 			} 
 
-			if(!this.hole && Input.isJustPressed(HW3Controls.MOVE_UP)) {
+			if(!this.ladder && !this.hole && Input.isJustPressed(HW3Controls.MOVE_UP)) {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.LEFT_AUDIO_KEY, loop: false, holdReference: false});
 				this.finished(PlayerStates.FACINGU);
+			}
+
+			if (!this.ladder && !this.hole && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 131 && Input.getMousePressPosition().y < 746) && (Input.getMousePressPosition().x > 207 && Input.getMousePressPosition().x < 642)) { //ladder
+				this.emitter.fireEvent(Level4Events.LADDER);
+				this.ladder = true;
+				this.timer.start(100);
+			}
+			if(this.timer.isStopped() && this.ladder && Input.isMouseJustPressed()) {
+				this.emitter.fireEvent(Level4Events.LADDERHIDE);
+				this.ladder = false;
 			}
 
 			//No note, no railing, no hammer
@@ -280,6 +292,10 @@ export default class Facingb extends PlayerState {
 			if(this.timer.isStopped() && this.hole && Input.isMouseJustPressed()) {
 				this.emitter.fireEvent(Level4Events.HOLEHIDE);
 				this.hole = false;
+			}
+
+			if(Input.isMouseJustPressed(0)) {
+				console.log(Input.getMousePressPosition());
 			}
 
 		}
@@ -333,7 +349,7 @@ export default class Facingb extends PlayerState {
 	public onExit(): Record<string, any> {
 		this.owner.animation.stop();
 		if(this.whatLevel == 4) {
-			return {whatLevel: this.whatLevel, currState: "FACINGB", checkedRailing: this.railing, hammer: this.hammer};
+			return {whatLevel: this.whatLevel, currState: "FACINGB", checkedRailing: this.railing, hammer: this.hammer, ladder: this.ladder};
 		}
 		return {whatLevel: this.whatLevel, currState: "FACINGB"};
 	}

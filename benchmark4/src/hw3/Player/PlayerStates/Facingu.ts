@@ -15,13 +15,16 @@ export default class Facingu extends PlayerState {
 	protected whatLevel: number = -1;
 	protected timer: Timer = new Timer(100);
 
-
 	protected trapdoor: Boolean = false;
+	protected railing: Boolean = false;
+	protected hammer: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
 		this.owner.animation.play(PlayerAnimations.FACINGU);
 		this.whatLevel = options.whatLevel;
 		this.prevState = options.currState;
+		this.railing = options.railing;
+		this.hammer = options.hammer;
 	}
 
 	public update(deltaT: number): void {        
@@ -44,6 +47,6 @@ export default class Facingu extends PlayerState {
 
 	public onExit(): Record<string, any> {
 		this.owner.animation.stop();
-		return {whatLevel: this.whatLevel};
+		return {whatLevel: this.whatLevel, checkedRailing: this.railing, hammer: this.hammer};
 	}
 }
