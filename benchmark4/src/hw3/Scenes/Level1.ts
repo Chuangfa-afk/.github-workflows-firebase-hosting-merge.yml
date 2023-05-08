@@ -25,6 +25,7 @@ import Level4 from "./Level4";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import MainMenu from "./MainMenu";
 import Level5 from "./Level5";
+import Level6 from "./Level6";
 
 export const Level1Events = {
     //Facing F
@@ -317,6 +318,9 @@ export default class Level1 extends HW3Level {
         }
         else if(Input.isJustPressed(HW3Controls.LEVEL_5)) {
             this.sceneManager.changeToScene(Level5);
+        }
+        else if(Input.isJustPressed(HW3Controls.LEVEL_6)) {
+            this.sceneManager.changeToScene(Level6);
         }
         if(Input.isMouseJustPressed(0)) {
             if(this.narration.visible) {
