@@ -574,6 +574,7 @@ export default class Level5 extends HW3Level {
                 this.line2.visible = true;
 
                 this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END);
+                location.reload();
             }
         }
     }
