@@ -209,7 +209,7 @@ export default abstract class HW3Level extends Scene {
                 {
                     property: TweenableProperties.posX,
                     start: -300,
-                    end: 300,
+                    end: 150,
                     ease: EaseFunctionType.OUT_SINE
                 }
             ]

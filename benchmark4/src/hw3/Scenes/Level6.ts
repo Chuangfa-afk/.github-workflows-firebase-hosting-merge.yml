@@ -246,7 +246,7 @@ export default class Level6 extends HW3Level {
 
         super.startScene();
         this.initializeUserInterface();
-        this.nextLevel = Level5;
+        this.nextLevel = MainMenu;
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: Level6.MUSIC_KEY, loop: true, holdReference: true});
 
     }
@@ -400,6 +400,7 @@ export default class Level6 extends HW3Level {
             }
             case HW3Events.PLAYER_ENTERED_LEVEL_END: {
                 super.handleEnteredLevelEnd();
+                location.reload();
                 break;
             }
             case HW3Events.LEVEL_END: {
@@ -653,7 +654,7 @@ export default class Level6 extends HW3Level {
             this.line2.visible = true;
         } else if (!this.dialogue.visible && this.hasDarkRedBeaker){
             this.dialogue.visible = true;
-            const text1 = "Aha! the Red liquid got sent into the machine, I should check the diognostics.";
+            const text1 = "Aha! the Red liquid got sent into the machine, I should check the diagnostics.";
             this.beakerButton = true;
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
@@ -683,7 +684,7 @@ export default class Level6 extends HW3Level {
     //FF
     protected handleLockedCabinet(event: GameEvent): void {
         if(!this.dialogue.visible && !this.lockedcabinet.visible && !this.openedCabinet) { //4 digit combo: 2, 4, 8, 1 
-            const fourDigitCode = prompt("The cabinet is locked with a three digit padlock:");
+            const fourDigitCode = prompt("The cabinet is locked with a four digit padlock:");
             if (fourDigitCode == "2481" || fourDigitCode == "2 4 8 1") {
                 this.openedCabinet = true;
                 this.lockedcabinet.visible = true;
