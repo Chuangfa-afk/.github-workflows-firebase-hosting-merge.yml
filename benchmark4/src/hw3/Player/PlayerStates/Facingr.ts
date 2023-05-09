@@ -14,6 +14,7 @@ import { Level4Events } from "../../Scenes/Level4";
 import MainMenu from "../../Scenes/MainMenu";
 import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 import { Level5Events } from "../../Scenes/Level5";
+import { Level6Events } from "../../Scenes/Level6";
 
 export default class Facingr extends PlayerState {
 	protected emitter: Emitter = new Emitter();
@@ -51,7 +52,6 @@ export default class Facingr extends PlayerState {
 	//Level6
 	protected redbutton: Boolean = false;
 	protected board1: Boolean = false;
-	protected board2: Boolean = false;
 	protected window: Boolean = false;
 
 	public onEnter(options: Record<string, any>): void {
@@ -366,6 +366,35 @@ export default class Facingr extends PlayerState {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.emitter.fireEvent(HW3Events.RIGHT);
 				this.finished(PlayerStates.FACINGB);
+			}
+
+			if(Input.isMouseJustPressed(0)) {
+				console.log(Input.getMousePressPosition().x);
+				console.log(Input.getMousePressPosition().y);
+			}
+
+			if(!this.redbutton && !this.board1 && !this.window && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 461 && Input.getMousePressPosition().y < 788) && (Input.getMousePressPosition().x > 586 && Input.getMousePressPosition().x < 798)) {
+				this.emitter.fireEvent(Level6Events.REDBUTTON);
+				this.redbutton = true;
+				this.timer.start(100);
+			}
+			if(!this.redbutton && !this.board1 && !this.window && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 188 && Input.getMousePressPosition().y < 397) && (Input.getMousePressPosition().x > 646 && Input.getMousePressPosition().x < 981)) {
+				this.emitter.fireEvent(Level6Events.BOARD1);
+				this.board1 = true;
+				this.timer.start(100);
+			}
+			if(!this.redbutton && !this.board1 && !this.window && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 159 && Input.getMousePressPosition().y < 597) && (Input.getMousePressPosition().x > 93 && Input.getMousePressPosition().x < 575)) {
+				this.emitter.fireEvent(Level6Events.WINDOW);
+				this.window = true;
+				this.timer.start(100);
+			}
+
+			if(this.timer.isStopped() && (this.redbutton || this.board1 || this.window) && Input.isMouseJustPressed()) { 
+				this.redbutton = false;
+				this.board1 = false;
+				this.window = false;
+				this.emitter.fireEvent(Level6Events.DIALOGUEHIDE);
+				this.emitter.fireEvent(Level6Events.BOARD1HIDE);
 			}
 		}
 	}

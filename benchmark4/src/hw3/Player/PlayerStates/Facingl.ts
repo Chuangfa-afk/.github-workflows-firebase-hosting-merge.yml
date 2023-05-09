@@ -14,6 +14,7 @@ import { HW3Events } from "../../HW3Events";
 import Receiver from "../../../Wolfie2D/Events/Receiver";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import { Level5Events } from "../../Scenes/Level5";
+import { Level6Events } from "../../Scenes/Level6";
 
 export default class Facingl extends PlayerState {
     protected emitter: Emitter = new Emitter();
@@ -60,6 +61,7 @@ export default class Facingl extends PlayerState {
 	protected newtonscradle: Boolean = false;
 	protected labsupplies: Boolean = false;
 	protected databoard: Boolean = false;
+	protected lowercabinets: Boolean = false
 
 
 	public onEnter(options: Record<string, any>): void {
@@ -392,6 +394,88 @@ export default class Facingl extends PlayerState {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.emitter.fireEvent(HW3Events.RIGHT);
 				this.finished(PlayerStates.FACINGF);
+			}
+
+			if(Input.isMouseJustPressed(0)) {
+				console.log(Input.getMousePressPosition().x);
+				console.log(Input.getMousePressPosition().y);
+			}
+
+			if(!this.beaker && !this.beaker1 && !this.beaker2 && !this.beaker3 && !this.beaker4 && !this.beaker5 && !this.trophy && !this.newtonscradle && !this.labsupplies && !this.databoard && !this.lowercabinets && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 441 && Input.getMousePressPosition().y < 525) && (Input.getMousePressPosition().x > 486 && Input.getMousePressPosition().x < 569)) {
+				this.emitter.fireEvent(Level6Events.BEAKER);
+				this.beaker1 = true;
+				this.timer.start(100);
+			}
+			if(!this.beaker && !this.beaker1 && !this.beaker2 && !this.beaker3 && !this.beaker4 && !this.beaker5 && !this.trophy && !this.newtonscradle && !this.labsupplies && !this.databoard && !this.lowercabinets && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 209 && Input.getMousePressPosition().y < 283) && (Input.getMousePressPosition().x > 349 && Input.getMousePressPosition().x < 402)) {
+				this.emitter.fireEvent(Level6Events.BEAKER1);
+				this.beaker1 = true;
+				this.timer.start(100);
+			}
+			if(!this.beaker && !this.beaker1 && !this.beaker2 && !this.beaker3 && !this.beaker4 && !this.beaker5 && !this.trophy && !this.newtonscradle && !this.labsupplies && !this.databoard && !this.lowercabinets && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 338 && Input.getMousePressPosition().y < 403) && (Input.getMousePressPosition().x > 406 && Input.getMousePressPosition().x < 447)) {
+				this.emitter.fireEvent(Level6Events.BEAKER2);
+				this.beaker2 = true;
+				this.timer.start(100);
+			}
+			if(!this.beaker && !this.beaker1 && !this.beaker2 && !this.beaker3 && !this.beaker4 && !this.beaker5 && !this.trophy && !this.newtonscradle && !this.labsupplies && !this.databoard && !this.lowercabinets && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 334 && Input.getMousePressPosition().y < 406) && (Input.getMousePressPosition().x > 504 && Input.getMousePressPosition().x < 573)) {
+				this.emitter.fireEvent(Level6Events.BEAKER3);
+				this.beaker3 = true;
+				this.timer.start(100);
+			}
+			if(!this.beaker && !this.beaker1 && !this.beaker2 && !this.beaker3 && !this.beaker4 && !this.beaker5 && !this.trophy && !this.newtonscradle && !this.labsupplies && !this.databoard && !this.lowercabinets && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 340 && Input.getMousePressPosition().y < 400) && (Input.getMousePressPosition().x > 647 && Input.getMousePressPosition().x < 706)) {
+				this.emitter.fireEvent(Level6Events.BEAKER4);
+				this.beaker4 = true;
+				this.timer.start(100);
+			}
+			if(!this.beaker && !this.beaker1 && !this.beaker2 && !this.beaker3 && !this.beaker4 && !this.beaker5 && !this.trophy && !this.newtonscradle && !this.labsupplies && !this.databoard && !this.lowercabinets && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 448 && Input.getMousePressPosition().y < 529) && (Input.getMousePressPosition().x > 341 && Input.getMousePressPosition().x < 406)) {//
+				this.emitter.fireEvent(Level6Events.BEAKER5);
+				this.beaker5 = true;
+				this.timer.start(100);
+			}
+			if(!this.beaker && !this.beaker1 && !this.beaker2 && !this.beaker3 && !this.beaker4 && !this.beaker5 && !this.trophy && !this.newtonscradle && !this.labsupplies && !this.databoard && !this.lowercabinets && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 325 && Input.getMousePressPosition().y < 400) && (Input.getMousePressPosition().x > 574 && Input.getMousePressPosition().x < 642)) {
+				this.emitter.fireEvent(Level6Events.TROPHY);
+				this.trophy = true;
+				this.timer.start(100);
+			}
+			if(!this.beaker && !this.beaker1 && !this.beaker2 && !this.beaker3 && !this.beaker4 && !this.beaker5 && !this.trophy && !this.newtonscradle && !this.labsupplies && !this.databoard && !this.lowercabinets && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 461 && Input.getMousePressPosition().y < 521) && (Input.getMousePressPosition().x > 614 && Input.getMousePressPosition().x < 696)) {
+				this.emitter.fireEvent(Level6Events.NEWTONSCRADLE);
+				this.newtonscradle = true;
+				this.timer.start(100);
+			}
+			if(!this.beaker && !this.beaker1 && !this.beaker2 && !this.beaker3 && !this.beaker4 && !this.beaker5 && !this.trophy && !this.newtonscradle && !this.labsupplies && !this.databoard && !this.lowercabinets && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 196 && Input.getMousePressPosition().y < 279) && (Input.getMousePressPosition().x > 407 && Input.getMousePressPosition().x < 710)) {
+				this.emitter.fireEvent(Level6Events.LABSUPPLIES);
+				this.labsupplies = true;
+				this.timer.start(100);
+			}
+			if(!this.beaker && !this.beaker1 && !this.beaker2 && !this.beaker3 && !this.beaker4 && !this.beaker5 && !this.trophy && !this.newtonscradle && !this.labsupplies && !this.databoard && !this.lowercabinets && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 168 && Input.getMousePressPosition().y < 585) && (Input.getMousePressPosition().x > 890 && Input.getMousePressPosition().x < 1106)) {
+				this.emitter.fireEvent(Level6Events.DATABOARD);
+				this.databoard = true;
+				this.timer.start(100);
+			}
+			if(!this.beaker && !this.beaker1 && !this.beaker2 && !this.beaker3 && !this.beaker4 && !this.beaker5 && !this.trophy && !this.newtonscradle && !this.labsupplies && !this.databoard && !this.lowercabinets && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 554 && Input.getMousePressPosition().y < 735) && (Input.getMousePressPosition().x > 286 && Input.getMousePressPosition().x < 739)) {
+				this.emitter.fireEvent(Level6Events.LOWERCABINETS);
+				this.lowercabinets = true;
+				this.timer.start(100);
+			}
+
+			if(this.timer.isStopped() && (this.beaker || this.beaker1 || this.beaker2 || this.beaker3 || this.beaker4 || this.beaker5 || this.trophy || this.newtonscradle || this.labsupplies || this.databoard || this.lowercabinets) && Input.isMouseJustPressed()) { 
+				this.beaker = false;
+				this.beaker1 = false;
+				this.beaker2 = false;
+				this.beaker3 = false;
+				this.beaker4 = false;
+				this.beaker5 = false;
+				this.trophy = false;
+				this.newtonscradle = false;
+				this.labsupplies = false;
+				this.databoard = false;
+				this.lowercabinets = false;
+				this.emitter.fireEvent(Level6Events.DIALOGUEHIDE);
+				this.emitter.fireEvent(Level6Events.BEAKERHIDE);
+				this.emitter.fireEvent(Level6Events.BEAKER1HIDE);
+				this.emitter.fireEvent(Level6Events.BEAKER2HIDE);
+				this.emitter.fireEvent(Level6Events.BEAKER3HIDE);
+				this.emitter.fireEvent(Level6Events.BEAKER4HIDE);
+				this.emitter.fireEvent(Level6Events.BEAKER5HIDE);
 			}
 		}
 

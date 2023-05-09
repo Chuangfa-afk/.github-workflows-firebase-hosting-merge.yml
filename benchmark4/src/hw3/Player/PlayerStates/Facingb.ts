@@ -13,6 +13,7 @@ import MainMenu from "../../Scenes/MainMenu";
 import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 import { HW3Events } from "../../HW3Events";
 import { Level5Events } from "../../Scenes/Level5";
+import { Level6Events } from "../../Scenes/Level6";
 
 export default class Facingb extends PlayerState {
     protected emitter: Emitter = new Emitter();
@@ -363,6 +364,35 @@ export default class Facingb extends PlayerState {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.emitter.fireEvent(HW3Events.RIGHT);
 				this.finished(PlayerStates.FACINGL);
+			}
+			
+			if(Input.isMouseJustPressed(0)) {
+				console.log(Input.getMousePressPosition().x);
+				console.log(Input.getMousePressPosition().y);
+			}
+
+			if(!this.entrancedoor && !this.clockl2 && !this.notel1 && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 182 && Input.getMousePressPosition().y < 707) && (Input.getMousePressPosition().x > 337 && Input.getMousePressPosition().x < 890)) {
+				this.emitter.fireEvent(Level6Events.ENTRANCEDOOR);
+				this.entrancedoor = true;
+				this.timer.start(100);
+			}
+			if(!this.entrancedoor && !this.clockl2 && !this.notel1 && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 86 && Input.getMousePressPosition().y < 172) && (Input.getMousePressPosition().x > 506 && Input.getMousePressPosition().x < 737)) {
+				this.emitter.fireEvent(Level6Events.CLOCK2);
+				this.clockl2 = true;
+				this.timer.start(100);
+			}
+			if(!this.entrancedoor && !this.clockl2 && !this.notel1 && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 272 && Input.getMousePressPosition().y < 672) && (Input.getMousePressPosition().x > 176 && Input.getMousePressPosition().x < 327)) {
+				this.emitter.fireEvent(Level6Events.NOTE1);
+				this.notel1 = true;
+				this.timer.start(100);
+			}
+
+			if(this.timer.isStopped() && (this.entrancedoor || this.clockl2 || this.notel1) && Input.isMouseJustPressed()) { 
+				this.entrancedoor = false;
+				this.clockl2 = false;
+				this.notel1 = false;
+				this.emitter.fireEvent(Level6Events.DIALOGUEHIDE);
+				this.emitter.fireEvent(Level6Events.NOTE1HIDE);
 			}
 		}
 	}

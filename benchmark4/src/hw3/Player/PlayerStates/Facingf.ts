@@ -16,6 +16,7 @@ import { Level4Events } from "../../Scenes/Level4";
 import MainMenu from "../../Scenes/MainMenu";
 import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 import { Level5Events } from "../../Scenes/Level5";
+import { Level6Events } from "../../Scenes/Level6";
 
 export default class Facingf extends PlayerState {
 	protected emitter: Emitter = new Emitter();
@@ -363,6 +364,41 @@ export default class Facingf extends PlayerState {
 				this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.RIGHT_AUDIO_KEY, loop: false, holdReference: false});
 				this.emitter.fireEvent(HW3Events.RIGHT);
 				this.finished(PlayerStates.FACINGR);
+			}
+
+			/*if(Input.isMouseJustPressed(0)) {
+				console.log(Input.getMousePressPosition().x);
+				console.log(Input.getMousePressPosition().y);
+			}*/
+
+			if(!this.clockl1 && !this.stairway && !this.window && !this.cabinet && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 193 && Input.getMousePressPosition().y < 298) && (Input.getMousePressPosition().x > 517 && Input.getMousePressPosition().x < 591)) {
+				this.emitter.fireEvent(Level6Events.CLOCK1);
+				this.clockl1 = true;
+				this.timer.start(100);
+			}
+			if(!this.clockl1 && !this.stairway && !this.window && !this.cabinet && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 70 && Input.getMousePressPosition().y < 658) && (Input.getMousePressPosition().x > 592 && Input.getMousePressPosition().x < 844)) {
+				this.emitter.fireEvent(Level6Events.STAIRCASE);
+				this.stairway = true;
+				this.timer.start(100);
+			}
+			if(!this.clockl1 && !this.stairway && !this.window && !this.cabinet && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 241 && Input.getMousePressPosition().y < 616) && (Input.getMousePressPosition().x > 250 && Input.getMousePressPosition().x < 492)) {
+				this.emitter.fireEvent(Level6Events.LOCKEDCABINET);
+				this.cabinet = true;
+				this.timer.start(100);
+			}
+			if(!this.clockl1 && !this.stairway && !this.window && !this.cabinet && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 196 && Input.getMousePressPosition().y < 632) && (Input.getMousePressPosition().x > 869 && Input.getMousePressPosition().x < 1100)) {
+				this.emitter.fireEvent(Level6Events.WINDOW);
+				this.window = true;
+				this.timer.start(100);
+			}
+
+			if(this.timer.isStopped() && (this.clockl1 || this.stairway || this.window || this.cabinet) && Input.isMouseJustPressed()) { 
+				this.clockl1 = false;
+				this.stairway = false;
+				this.cabinet = false;
+				this.window = false;
+				this.emitter.fireEvent(Level6Events.DIALOGUEHIDE);
+				this.emitter.fireEvent(Level6Events.LOCKEDCABINETHIDE);
 			}
 		}
 

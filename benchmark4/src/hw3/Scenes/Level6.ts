@@ -42,6 +42,12 @@ export const Level6Events = {
     BEAKER3: "BEAKER3",
     BEAKER4: "BEAKER4",
     BEAKER5: "BEAKER5",
+    BEAKERHIDE: "BEAKERHIDE",
+    BEAKER1HIDE: "BEAKER1HIDE",
+    BEAKER2HIDE: "BEAKER2HIDE",
+    BEAKER3HIDE: "BEAKER3HIDE",
+    BEAKER4HIDE: "BEAKER4HIDE",
+    BEAKER5HIDE: "BEAKER5HIDE",
     NEWTONSCRADLE: "NEWTONSCRADLE", 
     TROPHY: "TROPHY",
     LOWERCABINETS: "LOWERCABINETS",
@@ -142,13 +148,7 @@ export default class Level6 extends HW3Level {
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
-    public hasKey: Boolean = false;
-    public hasHammer: Boolean = false;
-    public hasNote: Boolean = false;
-    protected checkedRailing: Boolean = false;
-    protected hasRailing: Boolean = false;
-    protected checkedLadder: Boolean = false;
-    protected checkedTrapdoor: Boolean = false;
+    protected hasCheckedStairs: Boolean = false;
     protected unlockedHatch: Boolean = false;
     protected openedCabinet: Boolean = false;
     protected hasBeaker: Boolean = false;
@@ -212,6 +212,12 @@ export default class Level6 extends HW3Level {
         this.receiver.subscribe(Level6Events.BEAKER3);
         this.receiver.subscribe(Level6Events.BEAKER4);
         this.receiver.subscribe(Level6Events.BEAKER5);
+        this.receiver.subscribe(Level6Events.BEAKERHIDE);
+        this.receiver.subscribe(Level6Events.BEAKER1HIDE);
+        this.receiver.subscribe(Level6Events.BEAKER2HIDE);
+        this.receiver.subscribe(Level6Events.BEAKER3HIDE);
+        this.receiver.subscribe(Level6Events.BEAKER4HIDE);
+        this.receiver.subscribe(Level6Events.BEAKER5HIDE);
         this.receiver.subscribe(Level6Events.NEWTONSCRADLE);
         this.receiver.subscribe(Level6Events.TROPHY);
         this.receiver.subscribe(Level6Events.LOWERCABINETS);
@@ -300,6 +306,30 @@ export default class Level6 extends HW3Level {
             }
             case Level6Events.BEAKER5: {
                 this.handleBeaker5(event);
+                break;
+            }
+            case Level6Events.BEAKERHIDE: {
+                this.handleBeakerHide(event);
+                break;
+            }
+            case Level6Events.BEAKER1HIDE: {
+                this.handleBeakerHide(event);
+                break;
+            }
+            case Level6Events.BEAKER2HIDE: {
+                this.handleBeakerHide(event);
+                break;
+            }
+            case Level6Events.BEAKER3HIDE: {
+                this.handleBeakerHide(event);
+                break;
+            }
+            case Level6Events.BEAKER4HIDE: {
+                this.handleBeakerHide(event);
+                break;
+            }
+            case Level6Events.BEAKER5HIDE: {
+                this.handleBeakerHide(event);
                 break;
             }
             case Level6Events.NEWTONSCRADLE: {
@@ -428,29 +458,73 @@ export default class Level6 extends HW3Level {
         this.narration.visible = false;   
 
         this.lockedcabinet = this.add.sprite(Level6.CLOCKCABINET_KEY, HW3Layers.PRIMARY);
-        this.lockedcabinet.position.set(350, 380);
+        this.lockedcabinet.position.set(350, 390);
         this.lockedcabinet.scale = new Vec2(0.3, 0.3);
         this.lockedcabinet.visible = false;
 
         this.board1 = this.add.sprite(Level6.BOARD1_KEY, HW3Layers.PRIMARY);
         this.board1.position.set(350, 380);
-        this.board1.scale = new Vec2(0.2, 0.2);
+        this.board1.scale = new Vec2(0.4, 0.4);
         this.board1.visible = false;
 
         this.board2 = this.add.sprite(Level6.BOARD2_KEY, HW3Layers.PRIMARY);
         this.board2.position.set(350, 380);
-        this.board2.scale = new Vec2(0.2, 0.2);
+        this.board2.scale = new Vec2(0.4, 0.4);
         this.board2.visible = false;
         
         this.note1 = this.add.sprite(Level6.NOTE1_KEY, HW3Layers.PRIMARY);
         this.note1.position.set(350, 380);
-        this.note1.scale = new Vec2(0.11, 0.11);
+        this.note1.scale = new Vec2(0.25, 0.25);
         this.note1.visible = false;
+
+        this.beaker = this.add.sprite(Level6.BEAKER_KEY, HW3Layers.PRIMARY);
+        this.beaker.position.set(350, 380);
+        this.beaker.scale = new Vec2(0.25, 0.25);
+        this.beaker.visible = false;
+
+        this.beakerGrey = this.add.sprite(Level6.BEAKERGREY_KEY, HW3Layers.PRIMARY);
+        this.beakerGrey.position.set(350, 380);
+        this.beakerGrey.scale = new Vec2(0.25, 0.25);
+        this.beakerGrey.visible = false;
+
+        this.beakerBlue = this.add.sprite(Level6.BEAKERBLUE_KEY, HW3Layers.PRIMARY);
+        this.beakerBlue.position.set(350, 380);
+        this.beakerBlue.scale = new Vec2(0.25, 0.25);
+        this.beakerBlue.visible = false;
+
+        this.beakerGreen = this.add.sprite(Level6.BEAKERGREEN_KEY, HW3Layers.PRIMARY);
+        this.beakerGreen.position.set(350, 380);
+        this.beakerGreen.scale = new Vec2(0.25, 0.25);
+        this.beakerGreen.visible = false;
+
+        this.beakerOrange = this.add.sprite(Level6.BEAKERORANGE_KEY, HW3Layers.PRIMARY);
+        this.beakerOrange.position.set(350, 380);
+        this.beakerOrange.scale = new Vec2(0.25, 0.25);
+        this.beakerOrange.visible = false;
+
+        this.beakerPurple = this.add.sprite(Level6.BEAKERPURPLE_KEY, HW3Layers.PRIMARY);
+        this.beakerPurple.position.set(350, 380);
+        this.beakerPurple.scale = new Vec2(0.25, 0.25);
+        this.beakerPurple.visible = false;
+
+        this.beakerRed = this.add.sprite(Level6.BEAKERRED_KEY, HW3Layers.PRIMARY);
+        this.beakerRed.position.set(350, 380);
+        this.beakerRed.scale = new Vec2(0.25, 0.25);
+        this.beakerRed.visible = false;
+
+        this.beakerDarkBlue = this.add.sprite(Level6.BEAKERDARKBLUE_KEY, HW3Layers.PRIMARY);
+        this.beakerDarkBlue.position.set(350, 380);
+        this.beakerDarkBlue.scale = new Vec2(0.25, 0.25);
+        this.beakerDarkBlue.visible = false;
+
+        this.beakerDarkRed = this.add.sprite(Level6.BEAKERDARKRED_KEY, HW3Layers.PRIMARY);
+        this.beakerDarkRed.position.set(350, 380);
+        this.beakerDarkRed.scale = new Vec2(0.25, 0.25);
+        this.beakerDarkRed.visible = false;
     }
 
     protected handleLevelStart(event: GameEvent): void {
         this.narration.visible = true;
-
         const text1 = "What the hell? This doesn't look like the office at all.";
         const text2 = "It seems I've stumbled upon some creepy laboratory...";
         this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
@@ -489,7 +563,8 @@ export default class Level6 extends HW3Level {
         }
     }
     protected handleStaircase(event: GameEvent): void { //How to finish level
-        if (!this.dialogue.visible && !this.unlockedHatch){
+        if (!this.dialogue.visible && !this.unlockedHatch && !this.hasCheckedStairs){
+            this.hasCheckedStairs = true;
             this.dialogue.visible = true;
             const text1 = "Spiral staircases always make me anxious. I usually fall.";
             const text2 = "But hey, perhaps the hatch leads to freedom.";
@@ -499,13 +574,30 @@ export default class Level6 extends HW3Level {
             this.line2.textColor = Color.WHITE;
             this.line1.visible = true;
             this.line2.visible = true;
-        } //3 digit combo: 5, 1, 8 
+        } else if (!this.dialogue.visible && !this.unlockedHatch && this.hasCheckedStairs){
+            const threeDigitCode = prompt("The hatch is locked with a three digit padlock:"); //3 digit combo: 5, 1, 8 
+            if(threeDigitCode == "518" || threeDigitCode == "5 1 8"){
+                this.unlockedHatch == true;
+                this.dialogue.visible = true;
+                const text1 = "I got it! Let's blow this popsicle stand.";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.visible = true;
+                this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END); //Level End
+            } else {
+                this.dialogue.visible = true;
+                const text1 = "I guess I'll have to keep looking for a way out.";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.visible = true;
+            }
+        }
     }
     //FL
     protected handleNewtonsCradle(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            const text1 = "A toy for nerds.";
+            const text1 = "Ah, Newton's Cradle: the gentleman's desk apparatus.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
@@ -590,15 +682,33 @@ export default class Level6 extends HW3Level {
     //Handle show dialogue with sprites
     //FF
     protected handleLockedCabinet(event: GameEvent): void {
-        if(!this.dialogue.visible && !this.lockedcabinet.visible && this.openedCabinet) {
+        if(!this.dialogue.visible && !this.lockedcabinet.visible && !this.openedCabinet) { //4 digit combo: 2, 4, 8, 1 
+            const fourDigitCode = prompt("The cabinet is locked with a three digit padlock:");
+            if (fourDigitCode == "2481" || fourDigitCode == "2 4 8 1") {
+                this.openedCabinet = true;
+                this.lockedcabinet.visible = true;
+                this.dialogue.visible = true;
+                const text1 = "Wha- why are there so many clocks in here?";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.fontSize = 30;
+                this.line1.visible = true;
+            } else {
+                this.dialogue.visible = true;
+                const text1 = "Aw jeez, what could be in here? ";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.visible = true;
+            }
+        } else if (!this.dialogue.visible && !this.lockedcabinet.visible && this.openedCabinet) {
             this.lockedcabinet.visible = true;
             this.dialogue.visible = true;
-            const text1 = "Wha- why are there so many clocks in here?";
+            const text1 = "The number of clocks is kind of starting to creep me out.";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.fontSize = 30;
             this.line1.visible = true;
-        } //4 digit combo: 2, 4, 8, 1 
+        } 
     }
     protected handleLockedCabinetHide(event: GameEvent): void {
         if(this.lockedcabinet.visible) {
@@ -675,21 +785,6 @@ export default class Level6 extends HW3Level {
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
-        }
-    }
-    protected handleBeakertHide(event: GameEvent): void {
-        if(this.beaker.visible || this.beakerGrey.visible || this.beakerBlue.visible || this.beakerGreen.visible || this.beakerOrange.visible || this.beakerPurple.visible || this.beakerRed.visible || this.beakerDarkBlue.visible || this.beakerDarkRed.visible) {
-            this.beaker.visible = false;
-            this.beakerGrey.visible = false;
-            this.beakerBlue.visible = false;
-            this.beakerGreen.visible = false;
-            this.beakerOrange.visible = false;
-            this.beakerPurple.visible = false;
-            this.beakerRed.visible = false;
-            this.beakerDarkBlue.visible = false;
-            this.beakerDarkRed.visible = false;
-            this.dialogue.visible = false;
-            this.line1.visible = false;
         }
     }
     protected handleBeaker1(event: GameEvent): void {
@@ -965,6 +1060,21 @@ export default class Level6 extends HW3Level {
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
         } 
+    }
+    protected handleBeakerHide(event: GameEvent): void {
+        if(this.beaker.visible || this.beakerGrey.visible || this.beakerBlue.visible || this.beakerGreen.visible || this.beakerOrange.visible || this.beakerPurple.visible || this.beakerRed.visible || this.beakerDarkBlue.visible || this.beakerDarkRed.visible) {
+            this.beaker.visible = false;
+            this.beakerGrey.visible = false;
+            this.beakerBlue.visible = false;
+            this.beakerGreen.visible = false;
+            this.beakerOrange.visible = false;
+            this.beakerPurple.visible = false;
+            this.beakerRed.visible = false;
+            this.beakerDarkBlue.visible = false;
+            this.beakerDarkRed.visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+        }
     }
     
 }
