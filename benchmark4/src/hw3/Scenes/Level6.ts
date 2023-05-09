@@ -990,8 +990,8 @@ export default class Level6 extends HW3Level {
             this.dialogue.visible = true;
             this.beakerDarkBlue.visible = true;
             const text1 = "Wow! They combined to be a dark mysterious blue hue. I feel like a cook!";
-            this.hasDarkBlueBeaker = false;
-            this.hasDarkRedBeaker = true;
+            this.hasBlueBeaker = false;
+            this.hasDarkBlueBeaker = true;
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
