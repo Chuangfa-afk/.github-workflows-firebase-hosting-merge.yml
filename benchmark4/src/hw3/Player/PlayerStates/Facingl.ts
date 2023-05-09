@@ -49,6 +49,19 @@ export default class Facingl extends PlayerState {
 	protected pliers: Boolean = false;
 	protected key: Boolean = false;
 
+	//Level6
+	protected beaker: Boolean = false;
+	protected beaker1: Boolean = false;
+	protected beaker2: Boolean = false;
+	protected beaker3: Boolean = false;
+	protected beaker4: Boolean = false;
+	protected beaker5: Boolean = false;
+	protected trophy: Boolean = false;
+	protected newtonscradle: Boolean = false;
+	protected labsupplies: Boolean = false;
+	protected databoard: Boolean = false;
+
+
 	public onEnter(options: Record<string, any>): void {
 		if(options) {
 			this.whatLevel = options.whatLevel;

@@ -48,6 +48,12 @@ export default class Facingr extends PlayerState {
 	protected speaker: Boolean = false;
 	protected wires: Boolean = false;
 
+	//Level6
+	protected redbutton: Boolean = false;
+	protected board1: Boolean = false;
+	protected board2: Boolean = false;
+	protected window: Boolean = false;
+
 	public onEnter(options: Record<string, any>): void {
         if(options) {
 			this.whatLevel = options.whatLevel;

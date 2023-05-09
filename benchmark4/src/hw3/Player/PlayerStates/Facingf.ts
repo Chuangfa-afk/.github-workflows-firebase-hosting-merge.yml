@@ -47,6 +47,12 @@ export default class Facingf extends PlayerState {
 	protected puddle: Boolean = false;
 	protected light: Boolean = false;
 
+	//Level6
+	protected stairway: Boolean = false;
+	protected clockl1: Boolean = false;
+	protected cabinet: Boolean = false;
+	protected window: Boolean = false;
+
 	//Check what level you're on
 	protected whatLevel: number = -1;
 	

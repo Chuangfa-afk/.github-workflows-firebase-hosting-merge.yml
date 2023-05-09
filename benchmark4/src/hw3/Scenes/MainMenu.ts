@@ -67,6 +67,7 @@ export default class MainMenu extends Scene {
         this.load.image("LEVEL_3", "MainMenu_assets/Level_3.png");
         this.load.image("LEVEL_4", "MainMenu_assets/Level_4.png");
         this.load.image("LEVEL_5", "MainMenu_assets/Level_5.png");
+        this.load.image("LEVEL_6", "MainMenu_assets/Level_6.png");
         this.load.audio(MainMenu.MUSIC_KEY, MainMenu.MUSIC_PATH);
         this.load.spritesheet(MainMenu.LEFT_KEY, MainMenu.LEFT_PATH);
         this.load.spritesheet(MainMenu.RIGHT_KEY, MainMenu.RIGHT_PATH);
@@ -172,11 +173,9 @@ export default class MainMenu extends Scene {
         lb5.font = "PixelSimple";
 
         //Level 6
-        /*
         let l6 = this.add.sprite("LEVEL_6", "levelSelect");
         l6.position.set(975, 550);
-        l6.scale = new Vec2(0.5, 0.5);
-        */
+        l6.scale = new Vec2(0.215, 0.215);
 
         let line6 = <Label>this.add.uiElement(UIElementType.LABEL, "levelSelect", {position: new Vec2(975, 660), text: "Level 6"});
         line6.textColor = Color.WHITE;

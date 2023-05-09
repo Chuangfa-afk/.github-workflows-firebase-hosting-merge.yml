@@ -27,6 +27,7 @@ import Level5 from "./Level5";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export const Level6Events = {
+    DIALOGUEHIDE: "DIALOGUEHIDE",
     //Facing F
     CLOCK1: "CLOCK1",
     LOCKEDCABINET: "LOCKEDCABINET",
@@ -43,6 +44,8 @@ export const Level6Events = {
     BEAKER5: "BEAKER5",
     NEWTONSCRADLE: "NEWTONSCRADLE", 
     TROPHY: "TROPHY",
+    LOWERCABINETS: "LOWERCABINETS",
+    LABSUPPLIES: "LABSUPPLIES",
     //Facing R
     BOARD1: "BOARD1",
     BOARD1HIDE: "BOARD1HIDE",
@@ -68,11 +71,35 @@ export default class Level6 extends HW3Level {
     public static readonly BEAKER_KEY = "Beaker";
     public static readonly BEAKER_PATH = "Level6_assets/Beaker.png";
 
+    public static readonly BEAKERGREY_KEY = "BeakerGrey";
+    public static readonly BEAKERGREY_PATH = "Level6_assets/BeakerGrey.png";
+
+    public static readonly BEAKERBLUE_KEY = "BeakerBlue";
+    public static readonly BEAKERBLUE_PATH = "Level6_assets/BeakerBlue.png";
+
+    public static readonly BEAKERGREEN_KEY = "BeakerGreen";
+    public static readonly BEAKERGREEN_PATH = "Level6_assets/BeakerGreen.png";
+
+    public static readonly BEAKERORANGE_KEY = "BeakerOrange";
+    public static readonly BEAKERORANGE_PATH = "Level6_assets/BeakerOrange.png";
+
+    public static readonly BEAKERPURPLE_KEY = "BeakerPurple";
+    public static readonly BEAKERPURPLE_PATH = "Level6_assets/BeakerPurple.png";
+
+    public static readonly BEAKERRED_KEY = "BeakerRed";
+    public static readonly BEAKERRED_PATH = "Level6_assets/BeakerRed.png";
+
+    public static readonly BEAKERDARKBLUE_KEY = "BeakerDarkBlue";
+    public static readonly BEAKERDARKBLUE_PATH = "Level6_assets/BeakerDarkBlue.png";
+
+    public static readonly BEAKERDARKRED_KEY = "BeakerDarkRed";
+    public static readonly BEAKERDARKRED_PATH = "Level6_assets/BeakerDarkRed.png";
+
     public static readonly BOARD1_KEY = "BOARD1";
     public static readonly BOARD1_PATH = "Level6_assets/Board1.png";
 
     public static readonly BOARD2_KEY = "BOARD2";
-    public static readonly BOARD2_PATH = "Level6_assets/Board2/.png";
+    public static readonly BOARD2_PATH = "Level6_assets/Board2.png";
 
     public static readonly NOTE1_KEY = "NOTE1";
     public static readonly NOTE1_PATH = "Level6_assets/Note1.png";
@@ -96,11 +123,22 @@ export default class Level6 extends HW3Level {
     public sign2: Sprite;
 
     //FacingF
-    public sign: Sprite;
-    public hammer: Sprite;
-    public stocks: Sprite;
-    public note: Sprite;
-    public goodjob: Sprite;
+    public lockedcabinet: Sprite;
+    //FacingL
+    public beaker: Sprite;
+    public beakerGrey: Sprite;
+    public beakerBlue: Sprite;
+    public beakerGreen: Sprite;
+    public beakerOrange: Sprite;
+    public beakerPurple: Sprite;
+    public beakerRed: Sprite;
+    public beakerDarkBlue: Sprite;
+    public beakerDarkRed: Sprite;
+    //FacingR
+    public board1: Sprite;
+    public board2: Sprite;
+    //FacingB
+    public note1: Sprite;
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
@@ -111,6 +149,17 @@ export default class Level6 extends HW3Level {
     protected hasRailing: Boolean = false;
     protected checkedLadder: Boolean = false;
     protected checkedTrapdoor: Boolean = false;
+    protected unlockedHatch: Boolean = false;
+    protected openedCabinet: Boolean = false;
+    protected hasBeaker: Boolean = false;
+    protected hasBlueBeaker: Boolean = false;
+    protected hasGreenBeaker: Boolean = false;
+    protected hasOrangeBeaker: Boolean = false;
+    protected hasPurpleBeaker: Boolean = false;
+    protected hasRedBeaker: Boolean = false;
+    protected hasDarkBlueBeaker: Boolean = false;
+    protected hasDarkRedBeaker: Boolean = false;
+    protected beakerButton: Boolean = false;
 
     public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, options);
@@ -124,6 +173,14 @@ export default class Level6 extends HW3Level {
         this.load.spritesheet(Level6.BACKGROUND_KEY, Level6.BACKGROUND_PATH);
         this.load.audio(Level6.MUSIC_KEY, Level6.MUSIC_PATH);
         this.load.image(Level6.BEAKER_KEY, Level6.BEAKER_PATH);
+        this.load.image(Level6.BEAKERGREY_KEY, Level6.BEAKERGREY_PATH);
+        this.load.image(Level6.BEAKERBLUE_KEY, Level6.BEAKERBLUE_PATH);
+        this.load.image(Level6.BEAKERGREEN_KEY, Level6.BEAKERGREEN_PATH);
+        this.load.image(Level6.BEAKERORANGE_KEY, Level6.BEAKERORANGE_PATH);
+        this.load.image(Level6.BEAKERPURPLE_KEY, Level6.BEAKERPURPLE_PATH);
+        this.load.image(Level6.BEAKERRED_KEY, Level6.BEAKERRED_PATH);
+        this.load.image(Level6.BEAKERDARKBLUE_KEY, Level6.BEAKERDARKBLUE_PATH);
+        this.load.image(Level6.BEAKERDARKRED_KEY, Level6.BEAKERDARKRED_PATH);
         this.load.image(Level6.BOARD1_KEY, Level6.BOARD1_PATH);
         this.load.image(Level6.BOARD2_KEY, Level6.BOARD2_PATH);
         this.load.image(Level6.NOTE1_KEY, Level6.NOTE1_PATH);
@@ -140,6 +197,7 @@ export default class Level6 extends HW3Level {
     public startScene(): void {
         this.emitter.fireEvent(LevelEvents.LEVEL_6);
         //Subscribe to event
+        this.receiver.subscribe(Level6Events.DIALOGUEHIDE);
         //FF
         this.receiver.subscribe(Level6Events.CLOCK1);
         this.receiver.subscribe(Level6Events.WINDOW);
@@ -156,6 +214,8 @@ export default class Level6 extends HW3Level {
         this.receiver.subscribe(Level6Events.BEAKER5);
         this.receiver.subscribe(Level6Events.NEWTONSCRADLE);
         this.receiver.subscribe(Level6Events.TROPHY);
+        this.receiver.subscribe(Level6Events.LOWERCABINETS);
+        this.receiver.subscribe(Level6Events.LABSUPPLIES);
         this.receiver.subscribe(Level6Events.DATABOARD);
         
         //FR
@@ -191,6 +251,10 @@ export default class Level6 extends HW3Level {
      */
     protected handleEvent(event: GameEvent): void {
         switch (event.type) {
+            case Level6Events.DIALOGUEHIDE: {
+                this.handleDialogueHide(event);
+                break;
+            }
             //FF
             case Level6Events.CLOCK1: {
                 this.handleClock1(event);
@@ -239,11 +303,19 @@ export default class Level6 extends HW3Level {
                 break;
             }
             case Level6Events.NEWTONSCRADLE: {
-                this.handlenewtonsCradle(event);
+                this.handleNewtonsCradle(event);
                 break;
             }
             case Level6Events.TROPHY: {
                 this.handleTrophy(event);
+                break;
+            }
+            case Level6Events.LOWERCABINETS: {
+                this.handleLowerCabinets(event);
+                break;
+            }
+            case Level6Events.LABSUPPLIES: {
+                this.handleLabSupplies(event);
                 break;
             }
             case Level6Events.DATABOARD: {
@@ -260,14 +332,14 @@ export default class Level6 extends HW3Level {
                 this.handleBoard1Hide(event);
                 break;
             }
-            case Level6Events.BOARD2: {
+            /*case Level6Events.BOARD2: {
                 this.handleBoard2(event);
                 break;
             }
             case Level6Events.BOARD2HIDE: {
                 this.handleBoard2Hide(event);
                 break;
-            }
+            }*/
             case Level6Events.REDBUTTON: {
                 this.handleRedButton(event);
                 break;
@@ -328,6 +400,9 @@ export default class Level6 extends HW3Level {
         else if(Input.isJustPressed(HW3Controls.LEVEL_5)) {
             this.sceneManager.changeToScene(Level5);
         }
+        else if(Input.isJustPressed(HW3Controls.LEVEL_6)) {
+            this.sceneManager.changeToScene(Level6);
+        }
         if(Input.isMouseJustPressed(0)) {
             this.narration.visible = false;
             this.line1.visible = false;
@@ -352,37 +427,32 @@ export default class Level6 extends HW3Level {
         this.narration.color = new Color(0, 0, 0, 0.5);
         this.narration.visible = false;   
 
-        this.sign = this.add.sprite(Level6.SIGN_KEY, HW3Layers.PRIMARY);
-        this.sign.position.set(350, 380);
-        this.sign.scale = new Vec2(0.3, 0.3);
-        this.sign.visible = false;
+        this.lockedcabinet = this.add.sprite(Level6.CLOCKCABINET_KEY, HW3Layers.PRIMARY);
+        this.lockedcabinet.position.set(350, 380);
+        this.lockedcabinet.scale = new Vec2(0.3, 0.3);
+        this.lockedcabinet.visible = false;
 
-        this.hammer = this.add.sprite(Level6.HAMMER_KEY, HW3Layers.PRIMARY);
-        this.hammer.position.set(350, 380);
-        this.hammer.scale = new Vec2(0.2, 0.2);
-        this.hammer.visible = false;
+        this.board1 = this.add.sprite(Level6.BOARD1_KEY, HW3Layers.PRIMARY);
+        this.board1.position.set(350, 380);
+        this.board1.scale = new Vec2(0.2, 0.2);
+        this.board1.visible = false;
 
-        this.goodjob = this.add.sprite(Level6.GOODJOB_KEY, HW3Layers.PRIMARY);
-        this.goodjob.position.set(350, 380);
-        this.goodjob.scale = new Vec2(0.2, 0.2);
-        this.goodjob.visible = false;
+        this.board2 = this.add.sprite(Level6.BOARD2_KEY, HW3Layers.PRIMARY);
+        this.board2.position.set(350, 380);
+        this.board2.scale = new Vec2(0.2, 0.2);
+        this.board2.visible = false;
         
-        this.stocks = this.add.sprite(Level6.STOCKS_KEY, HW3Layers.PRIMARY);
-        this.stocks.position.set(350, 380);
-        this.stocks.scale = new Vec2(0.11, 0.11);
-        this.stocks.visible = false;
-        
-        this.note = this.add.sprite(Level6.NOTE_KEY, HW3Layers.PRIMARY);
-        this.note.position.set(350, 380);
-        this.note.scale = new Vec2(0.11, 0.11);
-        this.note.visible = false;
+        this.note1 = this.add.sprite(Level6.NOTE1_KEY, HW3Layers.PRIMARY);
+        this.note1.position.set(350, 380);
+        this.note1.scale = new Vec2(0.11, 0.11);
+        this.note1.visible = false;
     }
 
     protected handleLevelStart(event: GameEvent): void {
         this.narration.visible = true;
 
-        const text1 = "The elevator just stopped! Tsk. Just my luck.";
-        const text2 = "Maybe there's something around here that can help me get out...";
+        const text1 = "What the hell? This doesn't look like the office at all.";
+        const text2 = "It seems I've stumbled upon some creepy laboratory...";
         this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
         this.line1.textColor = Color.WHITE;
         this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
@@ -391,268 +461,510 @@ export default class Level6 extends HW3Level {
         this.line2.visible = true;
     }
 
-    //Handle show general dialogue boxes --> no images required
-    protected handleElevator(event: GameEvent): void {
-        if (!this.dialogue.visible){
-            this.dialogue.visible = true;
-            const text1 = "It doesn't look like the elevator's gonna open any time soon.";
-            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
-            this.line1.textColor = Color.WHITE;
-            this.line1.visible = true;
-        }
-
-    }
-    protected handleElevatorHide(event: GameEvent): void {
-        if (this.dialogue.visible) {
-            this.line1.visible = false;
-            this.dialogue.visible = false;
-        }
-    }
-    protected handleButtons(event: GameEvent): void {
-        if (!this.dialogue.visible){
-            this.dialogue.visible = true;
-            const text1 = "None of the buttons are working--yeah, the elevator's shot.";
-            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
-            this.line1.textColor = Color.WHITE;
-            this.line1.visible = true;
-        }
-
-    }
-    protected handleButtonsHide(event: GameEvent): void {
-        if (this.dialogue.visible) {
-            this.line1.visible = false;
-            this.dialogue.visible = false;
-        }
-    }
-    protected handleHelpSign(event: GameEvent): void {
-        if (!this.dialogue.visible){
-            this.dialogue.visible = true;
-            const text1 = "It's one of those phones they install inside elevators!";
-            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
-            this.line1.textColor = Color.WHITE;
-            this.line1.visible = true;
-
-            const text2 = "Unfortunately, it's not working since the power's really intermittent.";
-            this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 485), text: text2});
-            this.line2.textColor = Color.WHITE;
-            this.line2.visible = true;
-        }
-
-    }
-    protected handleHelpSignHide(event: GameEvent): void {
-        if (this.dialogue.visible) {
-            this.line1.visible = false;
-            this.dialogue.visible = false;
-            this.line2.visible = false;
-        }
-    }
-
-    protected handleRailing(event: GameEvent): void {
-        if(!this.hasHammer) {
-            this.dialogue.visible = true;
-            const text1 = "I think I can knock down this railing with a tool of some sort...";
-            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
-            this.line1.textColor = Color.WHITE;
-            this.line1.fontSize = 30;
-            this.line1.visible = true;
-            this.checkedRailing = true;
-        }
-        else if(this.hasHammer) {
-            this.dialogue.visible = true;
-            const text1 = "That's it! I can use this hammer to pry off this railing!";
-            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
-            this.line1.textColor = Color.WHITE;
-            this.line1.fontSize = 24;
-            this.line1.visible = true;
-            this.hasRailing = true;
-        }
-    }
-
-    protected handleHideRailing(event: GameEvent): void {
+    //Handle general dialogue boxes without sprites
+    protected handleDialogueHide(event: GameEvent): void {
         if(this.dialogue.visible) {
             this.dialogue.visible = false;
             this.line1.visible = false;
+            this.line2.visible = false;
         }
     }
-
-    protected handleLadder(event: GameEvent): void {
-        if(!this.dialogue.visible) {
-            if(!this.checkedLadder) {
-                this.dialogue.visible = true;
-                const text1 = "A ladder! I can use this to climb up anywhere.";
-                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
-                this.line1.textColor = Color.WHITE;
-                this.line1.fontSize = 36;
-                this.line1.visible = true;
-                this.checkedLadder = true;
-            }
-            else {
-                this.dialogue.visible = true;
-                const text1 = "This ladder's useful for climbing.";
-                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
-                this.line1.textColor = Color.WHITE;
-                this.line1.fontSize = 36;
-                this.line1.visible = true;
-            }
+    //FF
+    protected handleClock1(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "Intresting choice for a clock in a lab...";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
         }
     }
-    protected handleLadderHide(event: GameEvent): void {
-        if (this.dialogue.visible) {
-            this.line1.visible = false;
-            this.dialogue.visible = false;
+    protected handleWindow(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "It appears to be some kind of command center on the other side of the glass.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+    protected handleStaircase(event: GameEvent): void { //How to finish level
+        if (!this.dialogue.visible && !this.unlockedHatch){
+            this.dialogue.visible = true;
+            const text1 = "Spiral staircases always make me anxious. I usually fall.";
+            const text2 = "But hey, perhaps the hatch leads to freedom.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
+            this.line2.textColor = Color.WHITE;
+            this.line1.visible = true;
+            this.line2.visible = true;
+        } //3 digit combo: 5, 1, 8 
+    }
+    //FL
+    protected handleNewtonsCradle(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "A toy for nerds.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+    protected handleTrophy(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "This trophy literally just says: Number One Science";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+    protected handleLowerCabinets(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "They're locked!";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+    protected handleLabSupplies(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "Looks like miscellaneous lab supplies to me.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+    protected handleDataboard(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "I must have skipped binary class becuase this looks like nonsense to me.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+    //FR
+    protected handleRedButton(event: GameEvent): void {
+        if (!this.dialogue.visible && !this.hasDarkRedBeaker){
+            this.dialogue.visible = true;
+            const text1 = "This button looks intimidating, but pressing it doesn't do anything.";
+            const text2 = "It looks like I could insert a beaker full of liquid here and try again.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
+            this.line2.textColor = Color.WHITE;
+            this.line1.visible = true;
+            this.line2.visible = true;
+        } else if (!this.dialogue.visible && this.hasDarkRedBeaker){
+            this.dialogue.visible = true;
+            const text1 = "Aha! the Red liquid got sent into the machine, I should check the diognostics.";
+            this.beakerButton = true;
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+    //FB
+    protected handleClock2(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "Finally, a digital one!";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        }
+    }
+    protected handleEntranceDoor(event: GameEvent): void {
+        if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            const text1 = "The door I entered through has clearly seen better days.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
         }
     }
     //Handle show dialogue with sprites
-    
-    protected handleSign(event: GameEvent): void {
-        if(!this.sign.visible) {
-            this.sign.visible = true;
+    //FF
+    protected handleLockedCabinet(event: GameEvent): void {
+        if(!this.dialogue.visible && !this.lockedcabinet.visible && this.openedCabinet) {
+            this.lockedcabinet.visible = true;
             this.dialogue.visible = true;
-            
-            const text1 = "Wait, this floor isn't anywhere on the floor directory...what's going on here?";
+            const text1 = "Wha- why are there so many clocks in here?";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.fontSize = 30;
+            this.line1.visible = true;
+        } //4 digit combo: 2, 4, 8, 1 
+    }
+    protected handleLockedCabinetHide(event: GameEvent): void {
+        if(this.lockedcabinet.visible) {
+            this.lockedcabinet.visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+        }
+    }
+    //FR
+    protected handleBoard1(event: GameEvent): void {
+        if(!this.dialogue.visible && !this.board1.visible && !this.beakerButton) {
+            this.board1.visible = true;
+            this.dialogue.visible = true;
+            const text1 = "Hmmm, looks like some kind of way to display data...";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.fontSize = 30;
+            this.line1.visible = true;
+        } else if(!this.dialogue.visible && !this.board1.visible && this.beakerButton) {
+            this.board2.visible = true;
+            this.dialogue.visible = true;
+            const text1 = "I guess that dark red liquid had some kind of affect of this machine!";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.fontSize = 30;
             this.line1.visible = true;
         }
-
     }
-    protected handleSignHide(event: GameEvent): void {
-        if(this.sign.visible) {
-            this.sign.visible = false;
+    protected handleBoard1Hide(event: GameEvent): void {
+        if(this.board1.visible || this.board2.visible) {
+            this.board1.visible = false;
+            this.board2.visible = false; 
             this.dialogue.visible = false;
             this.line1.visible = false;
         }
     }
-
-    protected handleHole(event: GameEvent): void {
-        if(!this.note.visible && !this.hammer.visible) {
-            if(!this.hasNote) {
-                this.note.visible = true;
-                this.dialogue.visible = true;
-
-                const text1 = "Someone stuffed a note in here!";
-                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
-                this.line1.textColor = Color.WHITE;
-                this.line1.fontSize = 40;
-                this.line1.visible = true;
-                this.hasNote = true;
-            }
-            else if(this.hasNote && this.checkedRailing){
-                if(!this.hasHammer){
-                    this.hammer.visible = true;
-                    this.dialogue.visible = true;
-                    
-                    const text1 = "There's also a hammer hidden in the cracks!";
-                    const text2 = "Maybe it could be used to hit something down?";
-                    this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
-                    this.line1.textColor = Color.WHITE;
-                    this.line1.fontSize = 30;
-                    this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
-                    this.line2.textColor = Color.WHITE;
-                    this.line1.visible = true;
-                    this.line2.visible = true;
-                    this.hasHammer = true;
-                }
-                else {
-                    this.dialogue.visible = true;
-                    
-                    const text1 = "It doesn't look like there's anything else in here.";
-                    this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
-                    this.line1.textColor = Color.WHITE;
-                    this.line1.fontSize = 30;
-                    this.line1.visible = true;
-                }
-            }
-            else if(this.hasNote && !this.checkedRailing) {
-                this.dialogue.visible = true;
-
-                const text1 = "Is there something shiny there in the cracks?";
-                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
-                this.line1.textColor = Color.WHITE;
-                this.line1.fontSize = 30;
-                this.line1.visible = true;
-                this.hasNote = true;
-            }
+    //FB
+    protected handleNote1(event: GameEvent): void {
+        if(!this.dialogue.visible && !this.note1.visible) {
+            this.note1.visible = true;
+            this.dialogue.visible = true;
+            const text1 = "Maybe I'll take a quick peek at this lab coat. Huh, there's only this note.";
+            const text2 = "Thats odd, I was expecting an elaborate equation or something.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
+            this.line2.textColor = Color.WHITE;
+            this.line1.visible = true;
+            this.line2.visible = true;
         }
     }
-
-    protected handleHoleHide(event: GameEvent): void {
-        if(this.dialogue.visible) {
-            this.hammer.visible = false;
-            this.note.visible = false;
+    protected handleNote1Hide(event: GameEvent): void {
+        if(this.note1.visible) {
+            this.note1.visible = false;
             this.dialogue.visible = false;
             this.line1.visible = false;
             this.line2.visible = false;
         }
     }
-
-    protected handleStock(event: GameEvent): void {
-        if (!this.dialogue.visible){
+    //FL
+    protected handleBeaker(event: GameEvent): void {
+        if (!this.dialogue.visible && !this.hasBeaker){
+            this.beaker.visible = true;
             this.dialogue.visible = true;
-            this.stocks.visible = true;
-            const text1 = "I don't see how stocks will help me right now.";
+            const text1 = "I Better hold onto this in case I want to pretend to be a scientist.";
+            this.hasBeaker = true;
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else {
+            this.dialogue.visible = true;
+            const text1 = "Ah, my trusty beaker.";
+            this.hasBeaker = true;
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
         }
     }
-    protected handleStockHide(event: GameEvent): void {
-        if (this.dialogue.visible) {
-            this.line1.visible = false;
-            this.stocks.visible = false;
+    protected handleBeakertHide(event: GameEvent): void {
+        if(this.beaker.visible || this.beakerGrey.visible || this.beakerBlue.visible || this.beakerGreen.visible || this.beakerOrange.visible || this.beakerPurple.visible || this.beakerRed.visible || this.beakerDarkBlue.visible || this.beakerDarkRed.visible) {
+            this.beaker.visible = false;
+            this.beakerGrey.visible = false;
+            this.beakerBlue.visible = false;
+            this.beakerGreen.visible = false;
+            this.beakerOrange.visible = false;
+            this.beakerPurple.visible = false;
+            this.beakerRed.visible = false;
+            this.beakerDarkBlue.visible = false;
+            this.beakerDarkRed.visible = false;
             this.dialogue.visible = false;
+            this.line1.visible = false;
         }
     }
-
-    protected handleTrapDoor(event: GameEvent): void {
-        if (!this.dialogue.visible){
+    protected handleBeaker1(event: GameEvent): void {
+        if (!this.dialogue.visible && !(this.hasBeaker || this.hasBlueBeaker || this.hasGreenBeaker || this.hasOrangeBeaker || this.hasPurpleBeaker || this.hasRedBeaker || this.hasDarkBlueBeaker || this.hasDarkRedBeaker)){
             this.dialogue.visible = true;
-            if (this.hasRailing && this.checkedTrapdoor && this.checkedLadder) {
-                const text1 = "I'm out! I hope management doesn't sue me for property damage...";
-                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
-                this.line1.textColor = Color.WHITE;
-                this.line1.visible = true;
-                this.goodjob.visible = true;
-                this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END);
-            } 
-            else if(this.hasRailing && this.checkedLadder) {
-                const text1 = "The trapdoor won't budge, but I think I can push it open with this railing pole!";
-                const text2 = "Let me try hitting the trapdoor open!";
-                this.checkedTrapdoor = true;
-
-                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 470), text: text1});
-                this.line1.textColor = Color.WHITE;
-                this.line1.fontSize = 24;
-                this.line1.visible = true;
-
-                this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 480), text: text2});
-                this.line2.textColor = Color.WHITE;
-                this.line2.fontSize = 24;
-                this.line2.visible = true;
-            }
-            else if(!this.hasRailing && this.checkedLadder){
-                const text1 = "It won't budge. Maybe if I had a rod or something that can bash it open...";
-                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
-                this.line1.textColor = Color.WHITE;
-                this.line1.fontSize = 24;
-                this.line1.visible = true;
-                this.checkedTrapdoor = true;
-            }
-            else {
-                const text1 = "I can't reach whatever that is. Is there something here that can get me up there?";
-                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
-                this.line1.textColor = Color.WHITE;
-                this.line1.fontSize = 24;
-                this.line1.visible = true;
-            }
+            const text1 = "It's filled with blue liquid.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasBeaker){
+            this.dialogue.visible = true;
+            this.beakerBlue.visible = true;
+            const text1 = "I can fill my beaker with some of this blue stuff";
+            this.hasBeaker = false;
+            this.hasBlueBeaker = true;
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasBlueBeaker){
+            this.dialogue.visible = true;
+            this.beakerBlue.visible = true;
+            const text1 = "My beaker already has blue liquid.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasGreenBeaker){
+            this.dialogue.visible = true;
+            this.beakerGrey.visible = true;
+            const text1 = "Poof, it turned grey! I better retry.";
+            this.hasGreenBeaker = false;
+            this.hasBeaker = true;
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasOrangeBeaker){
+            this.dialogue.visible = true;
+            this.beakerGrey.visible = true;
+            const text1 = "Poof, it turned grey! I better retry.";
+            this.hasOrangeBeaker = false;
+            this.hasBeaker = true;
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasPurpleBeaker){
+            this.dialogue.visible = true;
+            this.beakerGrey.visible = true;
+            const text1 = "Poof, it turned grey! I better retry.";
+            this.hasPurpleBeaker = false;
+            this.hasBeaker = true;
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasRedBeaker){
+            this.dialogue.visible = true;
+            this.beakerGrey.visible = true;
+            const text1 = "Poof, it turned grey! I better retry.";
+            this.hasRedBeaker = false;
+            this.hasBeaker = true;
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasDarkBlueBeaker){
+            this.dialogue.visible = true;
+            this.beakerGrey.visible = true;
+            const text1 = "Poof, it turned grey! I better retry.";
+            this.hasDarkBlueBeaker = false;
+            this.hasBeaker = true;
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasDarkRedBeaker){
+            this.dialogue.visible = true;
+            this.beakerDarkRed.visible = true;
+            const text1 = "My beaker's already full!";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } 
     }
-
+    protected handleBeaker2(event: GameEvent): void {
+        if (!this.dialogue.visible && !(this.hasBeaker || this.hasBlueBeaker || this.hasGreenBeaker || this.hasOrangeBeaker || this.hasPurpleBeaker || this.hasRedBeaker || this.hasDarkBlueBeaker || this.hasDarkRedBeaker)){
+            this.dialogue.visible = true;
+            const text1 = "It's filled with a green liquid.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasBeaker){
+            this.dialogue.visible = true;
+            this.beakerGreen.visible = true;
+            const text1 = "I can fill my beaker with some of this green liquid";
+            this.hasBeaker = false;
+            this.hasGreenBeaker = true;
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasGreenBeaker){
+            this.dialogue.visible = true;
+            this.beakerGreen.visible = true;
+            const text1 = "My beaker already has some green liquid.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasDarkBlueBeaker){
+            this.dialogue.visible = true;
+            this.beakerDarkRed.visible = true;
+            const text1 = "Aha!! The beaker is full of a deep rose colored liquid.";
+            this.hasDarkBlueBeaker = false;
+            this.hasDarkRedBeaker = true;
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasDarkRedBeaker){
+            this.dialogue.visible = true;
+            this.beakerDarkRed.visible = true;
+            const text1 = "My Beaker is full right now!";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            this.beakerGrey.visible = true;
+            const text1 = "Poof, it turned grey! I better retry.";
+            this.hasBlueBeaker = false;
+            this.hasOrangeBeaker = false;
+            this.hasPurpleBeaker = false;
+            this.hasRedBeaker = false;
+            this.hasDarkBlueBeaker = false;
+            this.hasBeaker = true;
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } 
+    } 
+    protected handleBeaker3(event: GameEvent): void {
+        if (!this.dialogue.visible && !(this.hasBeaker || this.hasBlueBeaker || this.hasGreenBeaker || this.hasOrangeBeaker || this.hasPurpleBeaker || this.hasRedBeaker || this.hasDarkBlueBeaker || this.hasDarkRedBeaker)){
+            this.dialogue.visible = true;
+            const text1 = "It's filled with some purple liquid.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasBeaker){
+            this.dialogue.visible = true;
+            this.beakerPurple.visible = true;
+            const text1 = "I've put some of this purple stuff in my beaker.";
+            this.hasBeaker = false;
+            this.hasPurpleBeaker = true;
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasPurpleBeaker){
+            this.dialogue.visible = true;
+            this.beakerPurple.visible = true;
+            const text1 = "My beaker already has a bit of purple liquid.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasDarkRedBeaker){
+            this.dialogue.visible = true;
+            this.beakerDarkRed.visible = true;
+            const text1 = "My Beaker is pretty full right now!";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            this.beakerGrey.visible = true;
+            const text1 = "Poof, it turned grey! I better retry.";
+            this.hasBlueBeaker = false;
+            this.hasOrangeBeaker = false;
+            this.hasGreenBeaker = false;
+            this.hasRedBeaker = false;
+            this.hasDarkBlueBeaker = false;
+            this.hasBeaker = true;
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } 
     }
-    protected handleTrapDoorHide(event: GameEvent): void {
-        if (this.dialogue.visible) {
-            this.line1.visible = false;
-            this.dialogue.visible = false;
-        }
+    protected handleBeaker4(event: GameEvent): void {
+        if (!this.dialogue.visible && !(this.hasBeaker || this.hasBlueBeaker || this.hasGreenBeaker || this.hasOrangeBeaker || this.hasPurpleBeaker || this.hasRedBeaker || this.hasDarkBlueBeaker || this.hasDarkRedBeaker)){
+            this.dialogue.visible = true;
+            const text1 = "It's seems to be filled with an orange liquid.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasBeaker){
+            this.dialogue.visible = true;
+            this.beakerOrange.visible = true;
+            const text1 = "I'll toss some of this orange liquid into my beaker";
+            this.hasBeaker = false;
+            this.hasOrangeBeaker = true;
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasOrangeBeaker){
+            this.dialogue.visible = true;
+            this.beakerOrange.visible = true;
+            const text1 = "My beaker already has some orange liquid.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasBlueBeaker){
+            this.dialogue.visible = true;
+            this.beakerDarkBlue.visible = true;
+            const text1 = "Wow! They combined to be a dark mysterious blue hue. I feel like a cook!";
+            this.hasDarkBlueBeaker = false;
+            this.hasDarkRedBeaker = true;
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasDarkRedBeaker){
+            this.dialogue.visible = true;
+            this.beakerDarkRed.visible = true;
+            const text1 = "My beaker is full right now, so I shouldn't try to add any more to it.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            this.beakerGrey.visible = true;
+            const text1 = "Poof, it turned grey! I better retry.";
+            this.hasGreenBeaker = false;
+            this.hasPurpleBeaker = false;
+            this.hasRedBeaker = false;
+            this.hasDarkBlueBeaker = false;
+            this.hasBeaker = true;
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } 
     }
+    protected handleBeaker5(event: GameEvent): void {
+        if (!this.dialogue.visible && !(this.hasBeaker || this.hasBlueBeaker || this.hasGreenBeaker || this.hasOrangeBeaker || this.hasPurpleBeaker || this.hasRedBeaker || this.hasDarkBlueBeaker || this.hasDarkRedBeaker)){
+            this.dialogue.visible = true;
+            const text1 = "It's filled with a red liquid.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasBeaker){
+            this.dialogue.visible = true;
+            this.beakerRed.visible = true;
+            const text1 = "I got a bit of the red liquid in my beaker.";
+            this.hasBeaker = false;
+            this.hasRedBeaker = true;
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasRedBeaker){
+            this.dialogue.visible = true;
+            this.beakerRed.visible = true;
+            const text1 = "My beaker already has some red liquid right now.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible && this.hasDarkRedBeaker){
+            this.dialogue.visible = true;
+            this.beakerDarkRed.visible = true;
+            const text1 = "My Beaker is currently full with a darker red liquid!";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } else if (!this.dialogue.visible){
+            this.dialogue.visible = true;
+            this.beakerGrey.visible = true;
+            const text1 = "Poof, it turned grey! I better retry.";
+            this.hasBlueBeaker = false;
+            this.hasOrangeBeaker = false;
+            this.hasGreenBeaker = false;
+            this.hasPurpleBeaker = false;
+            this.hasDarkBlueBeaker = false;
+            this.hasBeaker = true;
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+        } 
+    }
+    
 }

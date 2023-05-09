@@ -43,6 +43,11 @@ export default class Facingb extends PlayerState {
 	//Level5
 	protected elevator: Boolean = false;
 
+	//Level6
+	protected entrancedoor: Boolean = false;
+	protected clockl2: Boolean = false;
+	protected notel1: Boolean = false;
+
 	public onEnter(options: Record<string, any>): void {
 		if(options) {
 			this.whatLevel = options.whatLevel;
