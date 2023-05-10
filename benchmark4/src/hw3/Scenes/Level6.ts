@@ -28,6 +28,7 @@ import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export const Level6Events = {
     DIALOGUEHIDE: "DIALOGUEHIDE",
+    LEVELEND: "LEVELEND",
     //Facing F
     CLOCK1: "CLOCK1",
     LOCKEDCABINET: "LOCKEDCABINET",
@@ -113,6 +114,9 @@ export default class Level6 extends HW3Level {
     public static readonly CLOCKCABINET_KEY = "CLOCKCABINET";
     public static readonly CLOCKCABINET_PATH = "Level6_assets/ClockCabinet.png";
 
+    public static readonly CLOSING_KEY = "CLOSING";
+    public static readonly CLOSING_PATH = "Level6_assets/closing1.png";
+
     protected background: Layer;
     public ui: Layer;
     public bg: HW3AnimatedSprite;
@@ -145,6 +149,8 @@ export default class Level6 extends HW3Level {
     public board2: Sprite;
     //FacingB
     public note1: Sprite;
+
+    public closer: Sprite;
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
@@ -185,6 +191,7 @@ export default class Level6 extends HW3Level {
         this.load.image(Level6.BOARD2_KEY, Level6.BOARD2_PATH);
         this.load.image(Level6.NOTE1_KEY, Level6.NOTE1_PATH);
         this.load.image(Level6.CLOCKCABINET_KEY, Level6.CLOCKCABINET_PATH);
+        this.load.image(Level6.CLOSING_KEY, Level6.CLOSING_PATH);
     }
 
     /**
@@ -198,6 +205,8 @@ export default class Level6 extends HW3Level {
         this.emitter.fireEvent(LevelEvents.LEVEL_6);
         //Subscribe to event
         this.receiver.subscribe(Level6Events.DIALOGUEHIDE);
+        this.receiver.subscribe(Level6Events.LEVELEND);
+
         //FF
         this.receiver.subscribe(Level6Events.CLOCK1);
         this.receiver.subscribe(Level6Events.WINDOW);
@@ -522,6 +531,11 @@ export default class Level6 extends HW3Level {
         this.beakerDarkRed.position.set(350, 380);
         this.beakerDarkRed.scale = new Vec2(0.25, 0.25);
         this.beakerDarkRed.visible = false;
+
+        this.closer = this.add.sprite(Level6.CLOSING_KEY, HW3Layers.PRIMARY);
+        this.closer.position.set(345, 400);
+        this.closer.scale = new Vec2(0.24, 0.25);
+        this.closer.visible = false;
     }
 
     protected handleLevelStart(event: GameEvent): void {
@@ -538,10 +552,15 @@ export default class Level6 extends HW3Level {
 
     //Handle general dialogue boxes without sprites
     protected handleDialogueHide(event: GameEvent): void {
-        if(this.dialogue.visible) {
+        if(this.dialogue.visible && !this.unlockedHatch) {
             this.dialogue.visible = false;
             this.line1.visible = false;
             this.line2.visible = false;
+        } else {
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+            this.line2.visible = false;
+            this.handleClosing();
         }
     }
     //FF
@@ -563,7 +582,7 @@ export default class Level6 extends HW3Level {
             this.line1.visible = true;
         }
     }
-    protected handleStaircase(event: GameEvent): void { //How to finish level
+    protected handleStaircase(event: GameEvent): void { 
         if (!this.dialogue.visible && !this.unlockedHatch && !this.hasCheckedStairs){
             this.hasCheckedStairs = true;
             this.dialogue.visible = true;
@@ -578,13 +597,12 @@ export default class Level6 extends HW3Level {
         } else if (!this.dialogue.visible && !this.unlockedHatch && this.hasCheckedStairs){
             const threeDigitCode = prompt("The hatch is locked with a three digit padlock:"); //3 digit combo: 5, 1, 8 
             if(threeDigitCode == "518" || threeDigitCode == "5 1 8"){
-                this.unlockedHatch == true;
+                this.unlockedHatch = true;
                 this.dialogue.visible = true;
                 const text1 = "I got it! Let's blow this popsicle stand.";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.visible = true;
-                this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END); //Level End
             } else {
                 this.dialogue.visible = true;
                 const text1 = "I guess I'll have to keep looking for a way out.";
@@ -718,6 +736,17 @@ export default class Level6 extends HW3Level {
             this.line1.visible = false;
         }
     }
+    protected handleClosing(): void {
+        this.closer.visible = true;
+    }
+    protected handleClosingHide(event: GameEvent): void {
+        if(this.lockedcabinet.visible) {
+            this.closer.visible = false;
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+        }
+    }
+
     //FR
     protected handleBoard1(event: GameEvent): void {
         if(!this.dialogue.visible && !this.board1.visible && !this.beakerButton) {
