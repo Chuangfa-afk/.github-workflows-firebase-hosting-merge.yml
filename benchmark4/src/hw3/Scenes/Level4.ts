@@ -591,7 +591,7 @@ export default class Level4 extends HW3Level {
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line1.visible = true;
-                this.goodjob.visible = true;
+                // this.goodjob.visible = true;
                 this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END);
             } 
             else if(this.hasRailing && this.checkedLadder) {
