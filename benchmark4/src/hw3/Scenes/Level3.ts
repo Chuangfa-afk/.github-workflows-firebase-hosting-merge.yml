@@ -95,6 +95,13 @@ export default class Level3 extends HW3Level {
     public static readonly RAT_KEY = "RAT";
     public static readonly RAT_PATH = "Level3_assets/rat.png";
 
+    public static readonly CHARGER_KEY = "CHARGER";
+    public static readonly CHARGER_PATH = "Level3_assets/charger.png";
+    
+    public static readonly LOCKERKEY_KEY = "LOCKERKEY";
+    public static readonly LOCKERKEY_PATH = "Level3_assets/Locker_key.png";
+
+
     protected background: Layer;
     public ui: Layer;
     public bg: HW3AnimatedSprite;
@@ -126,11 +133,17 @@ export default class Level3 extends HW3Level {
     //facingL
     public diploma: Sprite;
     public rat: Sprite;
+    public charger: Sprite;
+    public l_key: Sprite;
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
     public hasKey: Boolean = false;
     public pop_up: Boolean = false;
+    public pop_up2: Boolean = false;
+    public locker_key: Boolean = false;
+    public charger_access: Boolean = false;
+    public key_found: Boolean = false;
 
     public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, options);
@@ -149,6 +162,10 @@ export default class Level3 extends HW3Level {
         this.load.image(Level3.LOCKERS_KEY, Level3.LOCKERS_PATH);
         this.load.image(Level3.DIPLOMA_KEY, Level3.DIPLOMA_PATH);
         this.load.image(Level3.RAT_KEY, Level3.RAT_PATH);
+        this.load.image(Level3.CHARGER_KEY, Level3.CHARGER_PATH);
+        this.load.image(Level3.LOCKERKEY_KEY, Level3.LOCKERKEY_PATH);
+
+
     }
 
     /**
@@ -461,6 +478,16 @@ export default class Level3 extends HW3Level {
         this.narration.scale = new Vec2(0.5, 0.5);
         this.narration.color = new Color(0, 0, 0, 0.5);
         this.narration.visible = false;
+
+        this.charger = this.add.sprite(Level3.CHARGER_KEY, HW3Layers.PRIMARY);
+        this.charger.position.set(350, 400);
+        this.charger.scale = new Vec2(0.1, 0.1);
+        this.charger.visible = false;
+
+        this.l_key = this.add.sprite(Level3.LOCKERKEY_KEY, HW3Layers.PRIMARY);
+        this.l_key.position.set(350, 400);
+        this.l_key.scale = new Vec2(0.1, 0.1);
+        this.l_key.visible = false;
         
         
     }
@@ -504,7 +531,16 @@ export default class Level3 extends HW3Level {
     protected handleElevator(event: GameEvent): void {
         if (!this.dialogue.visible){
             this.dialogue.visible = true;
-            if(!this.hasId){
+            if (!this.charger_access){
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.INCORRECT_AUDIO_KEY, loop: false, holdReference: false});
+
+                const text1 = "The Elevator is DEAD. There must be a charger somewhere";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.visible = true;
+            }
+
+            else if(!this.hasId){
                 this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: MainMenu.INCORRECT_AUDIO_KEY, loop: false, holdReference: false});
 
                 const text1 = "[ACCESS DENIED] I really should've remembered my ID back at home...";
@@ -640,15 +676,32 @@ export default class Level3 extends HW3Level {
     }
 
     protected handleLockers(event: GameEvent): void {
-        if(!this.lockers.visible) {
-            this.lockers.visible = true;
-            this.dialogue.visible = true;
-            
-            const text1 = "All the lockers here are locked. (Why are they even in an office?)";
-            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
-            this.line1.textColor = Color.WHITE;
-            this.line1.fontSize = 30;
-            this.line1.visible = true;
+        if (!this.locker_key){
+
+            if(!this.lockers.visible) {
+                this.lockers.visible = true;
+                this.dialogue.visible = true;
+                
+                const text1 = "All the lockers here are locked. (Why are they even in an office?)";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.fontSize = 30;
+                this.line1.visible = true;
+                }
+            }
+        else{
+            if(!this.lockers.visible) {
+                this.charger.visible = true;
+                this.dialogue.visible = true;
+                this.charger_access = true;
+                this.lockers.visible = true;    
+                
+                const text1 = "I opened the Locker! there is a charger for the elevator!";
+                this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+                this.line1.textColor = Color.WHITE;
+                this.line1.fontSize = 30;
+                this.line1.visible = true;
+                }
         }
 
     }
@@ -657,6 +710,7 @@ export default class Level3 extends HW3Level {
             this.lockers.visible = false;
             this.dialogue.visible = false;
             this.line1.visible = false;
+            this.charger.visible = false;
         }
     }
 
@@ -728,13 +782,26 @@ export default class Level3 extends HW3Level {
                 this.line1.visible = true;
             }
         }
-        if (!this.dialogue.visible){
+
+        if (this.pop_up && this.pop_up2 && !this.key_found){
+            this.dialogue.visible = true;
+            this.l_key.visible = true;
+            const text1 = "Oh I found a key. It must be useful.";
+            this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
+            this.line1.textColor = Color.WHITE;
+            this.line1.visible = true;
+            this.locker_key = true;
+            this.key_found = true;
+        }
+        else if (!this.dialogue.visible){
             this.dialogue.visible = true;
             const text1 = "Why did I choose this profession...";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
+            this.pop_up2 = true;
         }
+
 
     }
     protected handleTrashHide(event: GameEvent): void {
@@ -742,6 +809,7 @@ export default class Level3 extends HW3Level {
             this.line1.visible = false;
             this.dialogue.visible = false;
             this.rat.visible = false;
+            this.l_key.visible = false;
         }
     }
     protected handleComputerl(event: GameEvent): void {
