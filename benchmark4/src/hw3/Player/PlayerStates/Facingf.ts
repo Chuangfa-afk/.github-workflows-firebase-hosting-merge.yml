@@ -53,6 +53,7 @@ export default class Facingf extends PlayerState {
 	protected clockl1: Boolean = false;
 	protected cabinet: Boolean = false;
 	protected window: Boolean = false;
+	protected endcheck: Boolean = false;
 
 	//Check what level you're on
 	protected whatLevel: number = -1;
@@ -391,6 +392,9 @@ export default class Facingf extends PlayerState {
 				this.window = true;
 				this.timer.start(100);
 			}
+			if(!this.clockl1 && !this.stairway && !this.window && !this.cabinet && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 0 && Input.getMousePressPosition().y < 800) && (Input.getMousePressPosition().x > 150 && Input.getMousePressPosition().x < 1050)) {
+				this.emitter.fireEvent(Level6Events.ENDCHECK);
+			}
 
 			if(this.timer.isStopped() && (this.clockl1 || this.stairway || this.window || this.cabinet) && Input.isMouseJustPressed()) { 
 				this.clockl1 = false;
@@ -399,6 +403,7 @@ export default class Facingf extends PlayerState {
 				this.window = false;
 				this.emitter.fireEvent(Level6Events.DIALOGUEHIDE);
 				this.emitter.fireEvent(Level6Events.LOCKEDCABINETHIDE);
+				//this.emitter.fireEvent();
 			}
 		}
 

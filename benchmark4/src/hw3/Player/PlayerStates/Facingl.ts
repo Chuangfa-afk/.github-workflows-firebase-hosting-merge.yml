@@ -396,10 +396,10 @@ export default class Facingl extends PlayerState {
 				this.finished(PlayerStates.FACINGF);
 			}
 
-			if(Input.isMouseJustPressed(0)) {
+			/*if(Input.isMouseJustPressed(0)) {
 				console.log(Input.getMousePressPosition().x);
 				console.log(Input.getMousePressPosition().y);
-			}
+			}*/
 
 			if(!this.beaker && !this.beaker1 && !this.beaker2 && !this.beaker3 && !this.beaker4 && !this.beaker5 && !this.trophy && !this.newtonscradle && !this.labsupplies && !this.databoard && !this.lowercabinets && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 441 && Input.getMousePressPosition().y < 525) && (Input.getMousePressPosition().x > 486 && Input.getMousePressPosition().x < 569)) {
 				this.emitter.fireEvent(Level6Events.BEAKER);

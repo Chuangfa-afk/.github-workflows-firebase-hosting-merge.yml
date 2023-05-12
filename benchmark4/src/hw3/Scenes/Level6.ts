@@ -19,6 +19,7 @@ import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import MainMenu from "./MainMenu";
 import { HW3Controls } from "../HW3Controls";
+import Facingf from "../Player/PlayerStates/Facingf";
 import Level1 from "./Level1";
 import Level2 from "./Level2";
 import Level3 from "./Level3";
@@ -36,6 +37,7 @@ export const Level6Events = {
     WINDOW: "WINDOW",
     STAIRCASE: "STAIRCASE",
     DATABOARD: "DATABOARD",
+    ENDCHECK: "ENDCHECK",
     //Facing L
     BEAKER: "BEAKER",
     BEAKER1: "BEAKER1",
@@ -154,6 +156,7 @@ export default class Level6 extends HW3Level {
 
     protected emitter: Emitter;
     public hasId: Boolean = false;
+    public atEnding: Boolean = false;
     protected hasCheckedStairs: Boolean = false;
     protected unlockedHatch: Boolean = false;
     protected openedCabinet: Boolean = false;
@@ -206,6 +209,7 @@ export default class Level6 extends HW3Level {
         //Subscribe to event
         this.receiver.subscribe(Level6Events.DIALOGUEHIDE);
         this.receiver.subscribe(Level6Events.LEVELEND);
+        this.receiver.subscribe(Level6Events.ENDCHECK);
 
         //FF
         this.receiver.subscribe(Level6Events.CLOCK1);
@@ -268,6 +272,10 @@ export default class Level6 extends HW3Level {
         switch (event.type) {
             case Level6Events.DIALOGUEHIDE: {
                 this.handleDialogueHide(event);
+                break;
+            }
+            case Level6Events.ENDCHECK: {
+                this.handleEndCheck();
                 break;
             }
             //FF
@@ -400,6 +408,10 @@ export default class Level6 extends HW3Level {
             case Level6Events.ENTRANCEDOOR: {
                 this.handleEntranceDoor(event);
                 break;
+            }
+            case Level6Events.LEVELEND: {
+                this.nextLevel = MainMenu;
+                this.sceneManager.changeToScene(this.nextLevel);
             }
 
             case HW3Events.LEVEL_START: {
@@ -736,14 +748,20 @@ export default class Level6 extends HW3Level {
             this.line1.visible = false;
         }
     }
-    protected handleClosing(): void {
-        this.closer.visible = true;
+    protected handleEndCheck(): void {
+        if (this.atEnding) {
+            this.handleClosing();
+        } 
     }
-    protected handleClosingHide(event: GameEvent): void {
-        if(this.lockedcabinet.visible) {
+    protected handleClosing(): void {
+        if (!this.atEnding) {
+            this.atEnding = true
+            this.closer.visible = true;
+        } else {
             this.closer.visible = false;
             this.dialogue.visible = false;
             this.line1.visible = false;
+            this.emitter.fireEvent(Level6Events.LEVELEND); //Level End
         }
     }
 

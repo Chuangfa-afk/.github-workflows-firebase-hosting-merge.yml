@@ -368,10 +368,10 @@ export default class Facingr extends PlayerState {
 				this.finished(PlayerStates.FACINGB);
 			}
 
-			if(Input.isMouseJustPressed(0)) {
+			/*if(Input.isMouseJustPressed(0)) {
 				console.log(Input.getMousePressPosition().x);
 				console.log(Input.getMousePressPosition().y);
-			}
+			}*/
 
 			if(!this.redbutton && !this.board1 && !this.window && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 461 && Input.getMousePressPosition().y < 788) && (Input.getMousePressPosition().x > 586 && Input.getMousePressPosition().x < 798)) {
 				this.emitter.fireEvent(Level6Events.REDBUTTON);

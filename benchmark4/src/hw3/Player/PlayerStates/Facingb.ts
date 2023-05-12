@@ -366,10 +366,10 @@ export default class Facingb extends PlayerState {
 				this.finished(PlayerStates.FACINGL);
 			}
 			
-			if(Input.isMouseJustPressed(0)) {
+			/*if(Input.isMouseJustPressed(0)) {
 				console.log(Input.getMousePressPosition().x);
 				console.log(Input.getMousePressPosition().y);
-			}
+			}*/
 
 			if(!this.entrancedoor && !this.clockl2 && !this.notel1 && Input.isMouseJustPressed(0) && (Input.getMousePressPosition().y > 182 && Input.getMousePressPosition().y < 707) && (Input.getMousePressPosition().x > 337 && Input.getMousePressPosition().x < 890)) {
 				this.emitter.fireEvent(Level6Events.ENTRANCEDOOR);
