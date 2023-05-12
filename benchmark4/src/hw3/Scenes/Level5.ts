@@ -27,6 +27,7 @@ import Level6 from "./Level6";
 
 export const Level5Events = {
     DIALOGUEHIDE: "DIALOGUEHIDE",
+    ENDCHECK: "ENDCHECK",
     //Facing F
     DOOR: "DOOR",
     LIGHT: "LIGHT",
@@ -70,6 +71,9 @@ export default class Level5 extends HW3Level {
     public static readonly WARNING_KEY = "WARNING";
     public static readonly WARNING_PATH = "Level5_assets/Warning.png";
 
+    public static readonly CLOSING2_KEY = "CLOSING2";
+    public static readonly CLOSING2_PATH = "Level5_assets/closing2.png";
+
     protected background: Layer;
     public ui: Layer;
     public bg: HW3AnimatedSprite;
@@ -83,6 +87,7 @@ export default class Level5 extends HW3Level {
     protected key: Sprite;
     protected wires: Sprite;
     protected warning: Sprite;
+    protected closing2: Sprite;
 
     //Check Booleans
     protected hasPliers: Boolean = false;
@@ -91,6 +96,8 @@ export default class Level5 extends HW3Level {
     protected powerUp: Boolean = false;
     protected canLeave: Boolean = false;
     protected canProgress: Boolean = false; //Has key and checked the door
+    protected canLeaveClick1: Boolean = false;
+    protected canLeaveClick2: Boolean = false;
 
     protected emitter: Emitter;
     public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
@@ -108,6 +115,7 @@ export default class Level5 extends HW3Level {
         this.load.image(Level5.KEY_KEY,Level5.KEY_PATH);
         this.load.image(Level5.WARNING_KEY, Level5.WARNING_PATH);
         this.load.image(Level5.WIRES_KEY, Level5.WIRES_PATH);
+        this.load.image(Level5.CLOSING2_KEY, Level5.CLOSING2_PATH);
     }
 
     /**
@@ -121,6 +129,7 @@ export default class Level5 extends HW3Level {
         this.emitter.fireEvent(LevelEvents.LEVEL_5);
         //Subscribe to event
         this.receiver.subscribe(Level5Events.DIALOGUEHIDE);
+        this.receiver.subscribe(Level5Events.ENDCHECK);
         //FF
         this.receiver.subscribe(Level5Events.DOOR);
         this.receiver.subscribe(Level5Events.LIGHT);
@@ -164,6 +173,13 @@ export default class Level5 extends HW3Level {
         switch (event.type) {
             case Level5Events.DIALOGUEHIDE: {
                 this.handleDialogueHide(event);
+                break;
+            }
+            case Level5Events.ENDCHECK: {
+                if (this.canLeaveClick2) {
+                    this.sceneManager.changeToScene(this.nextLevel);
+                    location.reload();
+                }
                 break;
             }
             //FF
@@ -240,7 +256,13 @@ export default class Level5 extends HW3Level {
                 break;
             }
             case HW3Events.LEVEL_END: {
-                this.sceneManager.changeToScene(this.nextLevel);
+                if(this.canLeaveClick2){
+                    this.nextLevel = Level1;
+                    this.sceneManager.changeToScene(this.nextLevel);
+                    //location.reload();
+                } else {
+
+                }
                 break;
             }
             // Default: Throw an error! No unhandled events allowed.
@@ -313,6 +335,11 @@ export default class Level5 extends HW3Level {
         this.pliers.position.set(350, 380);
         this.pliers.scale = new Vec2(0.325, 0.325);
         this.pliers.visible = false;
+
+        this.closing2 = this.add.sprite(Level5.CLOSING2_KEY, HW3Layers.PRIMARY);
+        this.closing2.position.set(350, 400);
+        this.closing2.scale = new Vec2(0.25, 0.25);
+        this.closing2.visible = false;
     }
 
     protected handleLevelStart(event: GameEvent): void {
@@ -461,6 +488,13 @@ export default class Level5 extends HW3Level {
             this.dialogue.visible = false;
             this.line1.visible = false;
             this.line2.visible = false;
+        } 
+        if(this.canLeaveClick1) {
+            this.dialogue.visible = false;
+            this.line1.visible = false;
+            this.line2.visible = false;
+            this.closing2.visible = true;
+            this.canLeaveClick2 = true;
         }
     }
 
@@ -562,19 +596,17 @@ export default class Level5 extends HW3Level {
                 this.canLeave = true;
             }
             else if(this.powerUp && this.canLeave) {
-                this.nextLevel = MainMenu;
-            
+                this.nextLevel = Level1;
                 const text1 = "Yeah, I'm outta here. This place gives me the creeps!";
-                const text2 = "I'm gonna find a new job somewhere else!";
+                const text2 = "I'm gonna dread coming back here tomorrow though.";
                 this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 465), text: text1});
                 this.line1.textColor = Color.WHITE;
                 this.line2 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text2});
                 this.line2.textColor = Color.WHITE;
                 this.line1.visible = true;
                 this.line2.visible = true;
-
-                this.emitter.fireEvent(HW3Events.PLAYER_ENTERED_LEVEL_END);
-                location.reload();
+                this.canLeaveClick1 = true;
+                this.emitter.fireEvent(HW3Events.LEVEL_END);
             }
         }
     }

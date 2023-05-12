@@ -334,6 +334,9 @@ export default class Facingb extends PlayerState {
 				this.elevator = true;
 				this.timer.start(100);
 			}
+			if (!this.elevator && Input.isMouseJustPressed() && (Input.getMousePressPosition().y > 0 && Input.getMousePressPosition().y < 800) && (Input.getMousePressPosition().x > 150 && Input.getMousePressPosition().x < 1050)) {
+				this.emitter.fireEvent(Level5Events.ENDCHECK);
+			}
 			if(this.timer.isStopped() && this.elevator && Input.isMouseJustPressed()) {
 				this.emitter.fireEvent(Level5Events.DIALOGUEHIDE);
 				this.elevator = false;

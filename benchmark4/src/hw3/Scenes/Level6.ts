@@ -426,6 +426,7 @@ export default class Level6 extends HW3Level {
             }
             case HW3Events.LEVEL_END: {
                 this.sceneManager.changeToScene(this.nextLevel);
+                location.reload();
                 break;
             }
             // Default: Throw an error! No unhandled events allowed.
@@ -762,6 +763,7 @@ export default class Level6 extends HW3Level {
             this.dialogue.visible = false;
             this.line1.visible = false;
             this.emitter.fireEvent(Level6Events.LEVELEND); //Level End
+            location.reload();
         }
     }
 

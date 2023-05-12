@@ -67,6 +67,9 @@ export default class Level1 extends HW3Level {
     public static readonly BACKGROUND_KEY = "BACKGROUND";
     public static readonly BACKGROUND_PATH = "Level1_assets/Level_1.json";
 
+    public static readonly INTRO_KEY = "INTRO";
+    public static readonly INTRO_PATH = "Level1_assets/intro1.png";
+
     public static readonly CLOCK1_KEY = "CLOCK1";
     public static readonly CLOCK1_PATH = "Level1_assets/clock1.png";
     public static readonly CLOCK2_KEY = "CLOCK2";
@@ -89,6 +92,7 @@ export default class Level1 extends HW3Level {
     public bg: HW3AnimatedSprite;
     public primary: Sprite;
     public clock2: Sprite;
+    public intro: Sprite;
     public key: Sprite;
     public dialogue: Rect;
     public narration: Rect;
@@ -124,6 +128,7 @@ export default class Level1 extends HW3Level {
         this.load.image(Level1.SIGN1_KEY, Level1.SIGN1_PATH);
         this.load.image(Level1.SIGN2_KEY, Level1.SIGN2_PATH);
         this.load.audio(Level1.MUSIC_KEY, Level1.MUSIC_PATH);
+        this.load.image(Level1.INTRO_KEY, Level1.INTRO_PATH);
     }
 
     /**
@@ -389,12 +394,17 @@ export default class Level1 extends HW3Level {
         this.sign2.position.set(350, 380);
         this.sign2.scale = new Vec2(0.25, 0.25);
         this.sign2.visible = false;
+
+        this.intro = this.add.sprite(Level1.INTRO_KEY, HW3Layers.PRIMARY);
+        this.intro.position.set(350, 400);
+        this.intro.scale = new Vec2(0.25, 0.25);
+        this.intro.visible = false;
     }
 
     protected handleLevelStart(event: GameEvent): void {
         this.narration.visible = true;
 
-        const text1 = "It's just another day at work.";
+        const text1 = "Here I am, back at work.";
         const text2 = "Shoot! I forgot my ID at home! It's too late to go back home now...";
         const text3 = "(Click to exit dialogue or select items and use A & D keys to go left and right.)"
         this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 465), text: text1});
@@ -626,7 +636,7 @@ export default class Level1 extends HW3Level {
         if(!this.dialogue.visible) {
             this.dialogue.visible = true;
 
-            const text1 = "I can't leave!";
+            const text1 = "I can't leave until after my shift!";
             this.line1 = <Label>this.add.uiElement(UIElementType.LABEL, HW3Layers.PRIMARY, {position: new Vec2(this.viewport.getCenter().x, 475), text: text1});
             this.line1.textColor = Color.WHITE;
             this.line1.visible = true;
