@@ -7,10 +7,11 @@
 ## Game Overview
 
 ### URL
-Experience Infinite Night: [Firebase URL](https://infinite-night.firebaseapp.com/benchmark1)
+Experience Infinite Night: [GAME URL](https://infinite-night.firebaseapp.com)
 
 ### Game Description
-In "Infinite Night", players are immersed in a unique environment that blends interactive elements and dynamic changes triggered by the player's actions. The game is designed to be an engaging, thought-provoking puzzle adventure, featuring a variety of techniques such as captivating environments and interactive gameplay to maintain player interest and curiosity.
+In "Infinite Night", players are immersed in a unique environment that blends interactive elements and dynamic changes triggered by the player's actions. The game is designed to be an engaging, thought-provoking puzzle adventure, featuring a variety of techniques such as captivating environments and interactive gameplay to maintain player interest and curiosity. 
+More Description: [Description URL](https://infinite-night.firebaseapp.com/benchmark1)
 
 ### Back Story
 Players take on the role of a janitor working the night shift in a mysterious, seemingly endless facility. As the night deepens, eerie events begin to unfold, challenging the player's perception of reality. A lurking, static enemy heightens the stakes, requiring constant interaction to avoid impending danger. Each room in the facility presents a new puzzle or mechanic, adding to the game's complexity and intrigue.
