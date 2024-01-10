@@ -1,40 +1,54 @@
-Game Name: Infinite Night
+# Infinite Night: A Mysterious Action-Adventure Puzzle Game
 
-Welcome to Infinite Night, a thrilling action-adventure game that will take you on a journey through a dark and mysterious world.
+## Introduction
 
-Firebase URL:
-https://infinite-night.firebaseapp.com/benchmark1
+"**Infinite Night**" invites players into a gripping, action-packed adventure set in a dark, enigmatic world. This 2D first-person point-and-click puzzle game combines challenging puzzles, immersive storytelling, and intriguing mechanics to deliver an unforgettable gaming experience.
 
+## Game Overview
 
-Game Description:
-Infinite Night" is designed to be a unique, 2D first-person point-and-click puzzle game. The game will feature interesting mechanics, challenging puzzles, and an engaging storyline that will keep players entertained and intrigued. The game will utilize a variety of techniques, such as immersive environments, interactive elements, and dynamic changes based on the player's actions.
+### URL
+Experience Infinite Night: [Firebase URL](https://infinite-night.firebaseapp.com/benchmark1)
 
-BACK STORY
-The player assumes the role of a night shift janitor working in a mysterious facility. As the night progresses, the janitor begins to question their own sanity as strange events unfold. A static enemy lurks in the shadows, forcing the player to constantly interact with it to avoid danger. The facility seems to have no end, resembling an infinite train, and each room within the facility features a different puzzle or mechanic that the player must solve to progress.
+### Game Description
+In "Infinite Night", players are immersed in a unique environment that blends interactive elements and dynamic changes triggered by the player's actions. The game is designed to be an engaging, thought-provoking puzzle adventure, featuring a variety of techniques such as captivating environments and interactive gameplay to maintain player interest and curiosity.
 
+### Back Story
+Players take on the role of a janitor working the night shift in a mysterious, seemingly endless facility. As the night deepens, eerie events begin to unfold, challenging the player's perception of reality. A lurking, static enemy heightens the stakes, requiring constant interaction to avoid impending danger. Each room in the facility presents a new puzzle or mechanic, adding to the game's complexity and intrigue.
 
-OBJECTIVE
-The player's objective is to navigate through the seemingly infinite facility, solve puzzles, and uncover the truth behind the events taking place. By interacting with the environment and overcoming challenges, the player will slowly unravel the story and reveal the identity of the enemy that is hunting them.
+### Objective
+The primary goal is to navigate through the facility, solving puzzles and uncovering the hidden truths behind the strange occurrences. Interaction with the environment and overcoming various obstacles allows the player to piece together the story and ultimately reveal the identity of the lurking enemy.
 
-GAMEPLAY
-The game will be presented in a 2D first-person perspective, with the player able to explore rooms and interact with various objects to solve puzzles. Each room will feature a different mechanic or challenge that must be completed to progress to the next area. The player will need to constantly interact with the static enemy to avoid danger, adding an element of tension and urgency to the gameplay.
+## Gameplay
 
-The puzzles will vary in difficulty and complexity, requiring the player to think critically and creatively to find solutions. Some puzzles may involve manipulating objects in the environment, while others may require the player to gather information or use their knowledge of the facility to solve problems. As the game progresses, the story will unfold through environmental clues, notes, and other narrative elements.
+"Infinite Night" offers a first-person perspective in a 2D environment. The gameplay revolves around exploring rooms and solving puzzles by interacting with objects. Each room introduces a new challenge or mechanic, requiring varied problem-solving approaches.
 
-How to Play:
-This game will be played using a mouse and keyboard. Once started, use the following:
+- **Puzzle Complexity**: Ranges from straightforward to complex, demanding both critical thinking and creativity.
+- **Interaction**: Engage with various objects, gather information, and apply facility knowledge to progress.
+- **Narrative Development**: The story unfolds through environmental clues, written notes, and other storytelling elements.
 
-Mouse Movement - Look around
-Left Mouse Button - Interact with objects
-Right Mouse Button - Inspect objects
-ESC - Pause the game and access the game menu
+### How to Play
 
-We might think about adding the key W,A,S,D to have more interaction but have not decided yet.
-W - Move Forward
-A - Strafe Left
-S - Move Backward
-D - Strafe Right
+- **Mouse Movement**: Look around.
+- **Left Mouse Button**: Interact with objects.
+- **Right Mouse Button**: Inspect objects.
+- **ESC Key**: Pause the game and access the menu.
 
+*Future Considerations*: Addition of WASD keys for enhanced interaction is under consideration.
 
-Credits:
-Infinite Night was created by Chuangfa Liang, Jack Manning, Isabella Misanes.
+- **W**: Move Forward.
+- **A**: Strafe Left.
+- **S**: Move Backward.
+- **D**: Strafe Right.
+
+## Credits
+
+Infinite Night is the brainchild of a creative team:
+
+- Chuangfa Liang
+- Jack Manning
+- Isabella Misanes
+
+---
+
+Join us in this enigmatic journey through "Infinite Night" and unravel the mysteries that lie within the infinite facility.
+
